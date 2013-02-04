@@ -37,7 +37,7 @@ Edit your Podfile and add `SocialAccounts`:
 ``` bash
 $ edit Podfile
 platform :ios, '5.0'
-pod 'SocialAccounts', '~> 0.0.1'
+pod 'SocialAccounts', :head
 ```
 
 Install into your Xcode project:
