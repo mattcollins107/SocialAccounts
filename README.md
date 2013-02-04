@@ -23,7 +23,7 @@ If you don't have CocoaPods installed, check section "Installation" below.
 
 ## Installation
 
-The recommended approach for installating SocialAccounts is via the [CocoaPods](http://cocoapods.org/) package manager, as it provides flexible dependency management and dead simple installation.
+The recommended approach for installing SocialAccounts is via the [CocoaPods](http://cocoapods.org/) package manager, as it provides flexible dependency management and dead simple installation.
 
 Install CocoaPods if not already available:
 
