@@ -7,8 +7,13 @@ Pod::Spec.new do |s|
   s.author   = { 'Adar Porat' => 'adar.porat@gmail.com' }
   s.source   = { :git => 'https://github.com/aporat/SocialAccounts.git' }
   s.platform = :ios
-  s.source_files = 'src/*.{h,m}'
-  s.clean_paths = "Classes", "*.{plist,pch,md,m,xcodeproj}", "SampleApp"
-  s.frameworks = 'QuartzCore', 'AudioToolbox', 'Security'
+  
+  s.source_files = 'SocialAccounts'
+  s.resources = "SocialAccounts/SocialAccounts.bundle"
+
+  s.ios.frameworks = 'Accounts', 'Security'
+  s.ios.deployment_target = '5.0'
+  
   s.requires_arc = true
+
 end
