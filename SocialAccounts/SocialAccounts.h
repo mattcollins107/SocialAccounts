@@ -26,4 +26,10 @@
     #import "SOAccountCredential.h"
     #import "SOUser.h"
 
+    #import "SOInstagramUser.h"
+    #import "SOTwitterUser.h"
+    #import "SOFacebookUser.h"
+    #import "SOTumblrUser.h"
+    #import "SOTumblrBlog.h"
+
 #endif /* _SOCIALACCOUNTS_ */

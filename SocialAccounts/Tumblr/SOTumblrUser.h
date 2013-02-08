@@ -14,8 +14,15 @@
 // limitations under the License.
 //
 
+#import <Foundation/Foundation.h>
 #import "SOUser.h"
 
-@implementation SOUser
+@interface SOTumblrUser : NSObject <SOUser>
+
+@property (nonatomic, readonly, strong) NSString *userId;
+@property (nonatomic, readonly, strong) NSString *username;
+@property (nonatomic, readonly, strong) NSString *fullname;
+@property (nonatomic, readonly, strong) NSString *profilePicture;
+@property (nonatomic, readonly, strong) NSArray *blogs;
 
 @end

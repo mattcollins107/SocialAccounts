@@ -15,16 +15,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "SOUser.h"
 
-@protocol SOUser <NSObject>
-
-- (id)initWithDictionary:(NSDictionary*)dictionary;
+@interface SOFacebookUser : NSObject <SOUser>
 
 @property (nonatomic, readonly, strong) NSString *userId;
 @property (nonatomic, readonly, strong) NSString *username;
 @property (nonatomic, readonly, strong) NSString *fullname;
 @property (nonatomic, readonly, strong) NSString *profilePicture;
-
-
 
 @end

@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		531D46FD16C529D9008DC7BF /* SOFacebookUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 531D46F116C529D9008DC7BF /* SOFacebookUser.m */; };
+		531D46FE16C529D9008DC7BF /* SOInstagramUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 531D46F416C529D9008DC7BF /* SOInstagramUser.m */; };
+		531D46FF16C529D9008DC7BF /* SOTumblrBlog.m in Sources */ = {isa = PBXBuildFile; fileRef = 531D46F716C529D9008DC7BF /* SOTumblrBlog.m */; };
+		531D470016C529D9008DC7BF /* SOTumblrUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 531D46F916C529D9008DC7BF /* SOTumblrUser.m */; };
+		531D470116C529D9008DC7BF /* SOTwitterUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 531D46FC16C529D9008DC7BF /* SOTwitterUser.m */; };
 		5340E82116BED59300C53EF5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5340E81816BED59300C53EF5 /* AppDelegate.m */; };
 		5340E82216BED59300C53EF5 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5340E81916BED59300C53EF5 /* Default-568h@2x.png */; };
 		5340E82316BED59300C53EF5 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 5340E81A16BED59300C53EF5 /* Default.png */; };
@@ -40,6 +45,17 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		531D46F016C529D9008DC7BF /* SOFacebookUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOFacebookUser.h; sourceTree = "<group>"; };
+		531D46F116C529D9008DC7BF /* SOFacebookUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOFacebookUser.m; sourceTree = "<group>"; };
+		531D46F316C529D9008DC7BF /* SOInstagramUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOInstagramUser.h; sourceTree = "<group>"; };
+		531D46F416C529D9008DC7BF /* SOInstagramUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOInstagramUser.m; sourceTree = "<group>"; };
+		531D46F616C529D9008DC7BF /* SOTumblrBlog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOTumblrBlog.h; sourceTree = "<group>"; };
+		531D46F716C529D9008DC7BF /* SOTumblrBlog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOTumblrBlog.m; sourceTree = "<group>"; };
+		531D46F816C529D9008DC7BF /* SOTumblrUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOTumblrUser.h; sourceTree = "<group>"; };
+		531D46F916C529D9008DC7BF /* SOTumblrUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOTumblrUser.m; sourceTree = "<group>"; };
+		531D46FB16C529D9008DC7BF /* SOTwitterUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOTwitterUser.h; sourceTree = "<group>"; };
+		531D46FC16C529D9008DC7BF /* SOTwitterUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOTwitterUser.m; sourceTree = "<group>"; };
+		531D470216C529EB008DC7BF /* SOUser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SOUser.h; path = ../SocialAccounts/SOUser.h; sourceTree = "<group>"; };
 		5340E81716BED59300C53EF5 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = SocialAccountsSample/AppDelegate.h; sourceTree = SOURCE_ROOT; };
 		5340E81816BED59300C53EF5 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = SocialAccountsSample/AppDelegate.m; sourceTree = SOURCE_ROOT; };
 		5340E81916BED59300C53EF5 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "SocialAccountsSample/Default-568h@2x.png"; sourceTree = SOURCE_ROOT; };
@@ -108,9 +124,55 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		531D46EF16C529D9008DC7BF /* Facebook */ = {
+			isa = PBXGroup;
+			children = (
+				531D46F016C529D9008DC7BF /* SOFacebookUser.h */,
+				531D46F116C529D9008DC7BF /* SOFacebookUser.m */,
+			);
+			name = Facebook;
+			path = ../SocialAccounts/Facebook;
+			sourceTree = "<group>";
+		};
+		531D46F216C529D9008DC7BF /* Instagram */ = {
+			isa = PBXGroup;
+			children = (
+				531D46F316C529D9008DC7BF /* SOInstagramUser.h */,
+				531D46F416C529D9008DC7BF /* SOInstagramUser.m */,
+			);
+			name = Instagram;
+			path = ../SocialAccounts/Instagram;
+			sourceTree = "<group>";
+		};
+		531D46F516C529D9008DC7BF /* Tumblr */ = {
+			isa = PBXGroup;
+			children = (
+				531D46F616C529D9008DC7BF /* SOTumblrBlog.h */,
+				531D46F716C529D9008DC7BF /* SOTumblrBlog.m */,
+				531D46F816C529D9008DC7BF /* SOTumblrUser.h */,
+				531D46F916C529D9008DC7BF /* SOTumblrUser.m */,
+			);
+			name = Tumblr;
+			path = ../SocialAccounts/Tumblr;
+			sourceTree = "<group>";
+		};
+		531D46FA16C529D9008DC7BF /* Twitter */ = {
+			isa = PBXGroup;
+			children = (
+				531D46FB16C529D9008DC7BF /* SOTwitterUser.h */,
+				531D46FC16C529D9008DC7BF /* SOTwitterUser.m */,
+			);
+			name = Twitter;
+			path = ../SocialAccounts/Twitter;
+			sourceTree = "<group>";
+		};
 		5340E82E16BED75300C53EF5 /* SocialAccounts */ = {
 			isa = PBXGroup;
 			children = (
+				531D46EF16C529D9008DC7BF /* Facebook */,
+				531D46F216C529D9008DC7BF /* Instagram */,
+				531D46F516C529D9008DC7BF /* Tumblr */,
+				531D46FA16C529D9008DC7BF /* Twitter */,
 				538E656016BF346B005B6350 /* GTMHTTPFetcher */,
 				538E652A16BF33C9005B6350 /* GTMOAuth */,
 				538E653216BF33C9005B6350 /* GTMOAuth2 */,
@@ -124,6 +186,7 @@
 				5340E85116BEE7A500C53EF5 /* SocialAccounts.h */,
 				5340E84F16BEE7A500C53EF5 /* SOAccountType.h */,
 				5340E85016BEE7A500C53EF5 /* SOAccountType.m */,
+				531D470216C529EB008DC7BF /* SOUser.h */,
 			);
 			name = SocialAccounts;
 			sourceTree = "<group>";
@@ -316,6 +379,11 @@
 				538E656716BF346B005B6350 /* GTMHTTPFetcher.m in Sources */,
 				538E656816BF346B005B6350 /* GTMHTTPFetcherService.m in Sources */,
 				538E656916BF346B005B6350 /* GTMHTTPFetchHistory.m in Sources */,
+				531D46FD16C529D9008DC7BF /* SOFacebookUser.m in Sources */,
+				531D46FE16C529D9008DC7BF /* SOInstagramUser.m in Sources */,
+				531D46FF16C529D9008DC7BF /* SOTumblrBlog.m in Sources */,
+				531D470016C529D9008DC7BF /* SOTumblrUser.m in Sources */,
+				531D470116C529D9008DC7BF /* SOTwitterUser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

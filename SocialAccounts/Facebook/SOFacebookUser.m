@@ -14,17 +14,21 @@
 // limitations under the License.
 //
 
-#import <Foundation/Foundation.h>
+#import "SOFacebookUser.h"
 
-@protocol SOUser <NSObject>
+@implementation SOFacebookUser
 
-- (id)initWithDictionary:(NSDictionary*)dictionary;
-
-@property (nonatomic, readonly, strong) NSString *userId;
-@property (nonatomic, readonly, strong) NSString *username;
-@property (nonatomic, readonly, strong) NSString *fullname;
-@property (nonatomic, readonly, strong) NSString *profilePicture;
-
-
+- (id)initWithDictionary:(NSDictionary*)dictionary
+{
+    self = [self init];
+    if (self) {
+        _userId = [NSString stringWithFormat:@"%@", [dictionary objectForKey:@"id"]];
+        _username = @"";
+        _fullname = [dictionary objectForKey:@"name"];
+        _profilePicture = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture", [dictionary objectForKey:@"id"]];
+    }
+    
+    return self;
+}
 
 @end
