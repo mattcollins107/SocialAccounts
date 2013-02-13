@@ -11,13 +11,7 @@ SocialAccounts is an iOS framework that provides an easy way to manage social ne
 
 ## Demo
 
-First, you need to install dependencies using [CocoaPods](http://cocoapods.org/) package manager in the demo project:
-
-``` bash
-$ pod install
-```
-
-After that, build and run the `SocialAccountsExample` project in Xcode to see `SocialAccounts` in action.
+Build and run the `SocialAccountsExample` project in Xcode to see `SocialAccounts` in action.
 
 If you don't have CocoaPods installed, check section "Installation" below.
 
@@ -51,7 +45,7 @@ Add `#include "SocialAccounts.h"` to the top of classes that will use it.
 
 ## Example Usage
 
-### Saving & Loading Accounts
+### Saving & Loading Accounts from the Account Store
 
 
 ``` objective-c
