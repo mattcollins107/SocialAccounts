@@ -14,18 +14,10 @@
 // limitations under the License.
 //
 
-#import <Foundation/Foundation.h>
+#import "AFHTTPClient.h"
 
-@interface SOTumblrBlog : NSObject
+@interface SOTumblrAPIClient : AFHTTPClient
 
-- (id)initWithDictionary:(NSDictionary*)dictionary;
-
-@property (nonatomic, readonly, strong) NSString *userId;
-@property (nonatomic, readonly, strong) NSString *name;
-@property (nonatomic, readonly, strong) NSString *title;
-@property (nonatomic, readonly, strong) NSString *url;
-@property (nonatomic, readonly, strong) NSNumber *followers;
-@property (nonatomic, readonly, strong) NSString *profilePicture;
-@property (nonatomic, readonly, assign) BOOL primary;
++ (SOTumblrAPIClient *)sharedClient;
 
 @end

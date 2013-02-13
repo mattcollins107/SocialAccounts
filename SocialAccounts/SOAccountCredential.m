@@ -39,11 +39,23 @@
     return self;
 }
 
+- (id)initWithSessionKey:(NSString*)sessionKey CSRFToken:(NSString*)csrfToken {
+    
+    self.sessionKey = sessionKey;
+    self.csrfToken = csrfToken;
+    
+    self.credentialType = SOAccountCredentialTypeSession;
+    
+    return self;
+}
+
 - (NSDictionary*)info {
     if (self.credentialType==SOAccountCredentialTypeOAuth2) {
         return @{@"access_token": self.oauthToken, @"scope" : self.scope};
-    } else if (self.credentialType==SOAccountCredentialTypeOAuth1) {
+    } else if (self.credentialType==SOAccountCredentialTypeOAuth1 && self.oauth1Token!=nil && self.oauth1Secret!=nil) {
         return @{@"oauth_token": self.oauth1Token, @"oauth_token_secret" : self.oauth1Secret};
+    } else if (self.credentialType==SOAccountCredentialTypeSession) {
+        return @{@"session_key": self.sessionKey, @"csrf_token" : self.csrfToken};
     }
     
     return [NSDictionary dictionary];

@@ -250,7 +250,7 @@ finishedRefreshWithFetcher:(GTMHTTPFetcher *)fetcher
 - (void)setKeysForResponseDictionary:(NSDictionary *)dict {
   if (dict == nil) return;
 
-  NSLog(@"keys set ----------------------------\n%@", dict);
+ // NSLog(@"keys set ----------------------------\n%@", dict);
 
   // If a new code or access token is being set, remove the old expiration
   NSString *newCode = [dict objectForKey:kOAuth2CodeKey];

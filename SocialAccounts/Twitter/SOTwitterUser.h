@@ -15,17 +15,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "SOUser.h"
 
-@interface SOTumblrBlog : NSObject
-
-- (id)initWithDictionary:(NSDictionary*)dictionary;
+@interface SOTwitterUser : NSObject <SOUser>
 
 @property (nonatomic, readonly, strong) NSString *userId;
-@property (nonatomic, readonly, strong) NSString *name;
-@property (nonatomic, readonly, strong) NSString *title;
-@property (nonatomic, readonly, strong) NSString *url;
-@property (nonatomic, readonly, strong) NSNumber *followers;
+@property (nonatomic, readonly, strong) NSString *username;
+@property (nonatomic, readonly, strong) NSString *fullname;
 @property (nonatomic, readonly, strong) NSString *profilePicture;
-@property (nonatomic, readonly, assign) BOOL primary;
 
 @end

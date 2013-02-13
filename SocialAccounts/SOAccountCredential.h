@@ -25,6 +25,8 @@ typedef enum {
 
 @interface SOAccountCredential : ACAccountCredential
 
+- (id)initWithSessionKey:(NSString*)sessionKey CSRFToken:(NSString*)csrfToken;
+
 @property (nonatomic, assign) SOAccountCredentialType credentialType;
 
 // All credentials 
@@ -34,6 +36,10 @@ typedef enum {
 // This property is only valid for OAuth1 credentials
 @property (copy, NS_NONATOMIC_IOSONLY) NSString *oauth1Token;
 @property (copy, NS_NONATOMIC_IOSONLY) NSString *oauth1Secret;
+
+// This property is only valid for session credentials
+@property (copy, NS_NONATOMIC_IOSONLY) NSString *sessionKey;
+@property (copy, NS_NONATOMIC_IOSONLY) NSString *csrfToken;
 
 
 // This property is only valid for OAuth2 credentials

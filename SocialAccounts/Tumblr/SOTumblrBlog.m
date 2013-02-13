@@ -22,13 +22,14 @@
 {
     self = [self init];
     if (self) {
-        _blogId = [[[dictionary objectForKey:@"url"] stringByReplacingOccurrencesOfString:@"http://" withString:@""] stringByReplacingOccurrencesOfString:@"/" withString:@""];
+        _userId = [[[dictionary objectForKey:@"url"] stringByReplacingOccurrencesOfString:@"http://" withString:@""] stringByReplacingOccurrencesOfString:@"/" withString:@""];
         _name = [dictionary objectForKey:@"name"];
         _title = [dictionary objectForKey:@"title"];
         _url = [dictionary objectForKey:@"url"];
         _followers = [dictionary objectForKey:@"followers"];
         _primary = [[dictionary objectForKey:@"primary"] boolValue];
-    }
+        _profilePicture = [NSString stringWithFormat:@"http:/api.tumblr.com/v2/blog/%@/avatar", _userId];
+   }
     
     return self;
 }

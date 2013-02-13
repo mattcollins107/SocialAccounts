@@ -11,6 +11,8 @@ Pod::Spec.new do |s|
   s.source_files = 'SocialAccounts'
   s.resources = "SocialAccounts/SocialAccounts.bundle"
 
+  s.dependency 'AFNetworking', '>= 0.9'
+
   s.ios.frameworks = 'Accounts', 'Security'
   s.ios.deployment_target = '5.0'
   

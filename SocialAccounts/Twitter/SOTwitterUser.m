@@ -14,30 +14,21 @@
 // limitations under the License.
 //
 
-#import "SOTumblrUser.h"
-#import "SOTumblrBlog.h"
+#import "SOTwitterUser.h"
 
-@implementation SOTumblrUser
+@implementation SOTwitterUser
 
 - (id)initWithDictionary:(NSDictionary*)dictionary
 {
     self = [self init];
     if (self) {
-        _userId = [dictionary objectForKey:@"name"];
-        _username = [dictionary objectForKey:@"name"];
+        _userId = [NSString stringWithFormat:@"%@", [dictionary objectForKey:@"id"]];
+        _username = [dictionary objectForKey:@"screen_name"];
         _fullname = [dictionary objectForKey:@"name"];
-        _profilePicture = [NSString stringWithFormat:@"http:/api.tumblr.com/v2/blog/%@/avatar", [dictionary objectForKey:@"name"]];
-        
-        NSMutableArray* blogs = [NSMutableArray array];
-        for (NSDictionary* blogDict in [dictionary objectForKey:@"blogs"]) {
-            [blogs addObject:[[SOTumblrBlog alloc] initWithDictionary:blogDict]];
-        }
-        
-        _blogs = blogs;
+        _profilePicture = [NSString stringWithFormat:@"https://api.twitter.com/1/users/profile_image/%@", [dictionary objectForKey:@"screen_name"]];
     }
     
     return self;
 }
-
 
 @end

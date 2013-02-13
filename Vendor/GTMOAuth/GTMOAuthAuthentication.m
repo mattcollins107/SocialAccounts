@@ -443,7 +443,7 @@ static NSString *const kUserEmailIsVerifiedKey    = @"isVerified";
 
 - (void)setKeysForResponseDictionary:(NSDictionary *)dict {
     
-    NSLog(@"keys set ----------------------------\n%@", dict);
+ //   NSLog(@"keys set ----------------------------\n%@", dict);
 
   NSString *token = [dict objectForKey:kOAuthTokenKey];
   if (token) {
@@ -479,6 +479,8 @@ static NSString *const kUserEmailIsVerifiedKey    = @"isVerified";
   if (verified) {
     [self setUserEmailIsVerified:verified];
   }
+    
+  [self setHasAccessToken:YES];
 }
 
 - (void)setKeysForResponseData:(NSData *)data {
