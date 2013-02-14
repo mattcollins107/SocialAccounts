@@ -17,6 +17,7 @@
 #import <Foundation/Foundation.h>
 #import <Accounts/AccountsDefines.h>
 #import <Accounts/ACAccountType.h>
+#import <UIKit/UIKit.h>
 
 // The identifiers for supported system account types are listed here:
 ACCOUNTS_EXTERN NSString * const SOAccountTypeIdentifierTwitter;
