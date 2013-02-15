@@ -14,17 +14,10 @@
 // limitations under the License.
 //
 
-#import <UIKit/UIKit.h>
-#import "SocialAccounts.h"
-#import "InstagramLoginViewController.h"
+#import "GTMOAuth2ViewControllerTouch.h"
 
-@class GTMOAuth2Authentication;
+@interface InstagramLoginViewController : GTMOAuth2ViewControllerTouch
 
-@interface ViewController : UIViewController
-
-@property (nonatomic, strong) GTMOAuth2Authentication* auth;
-@property (nonatomic, strong) InstagramLoginViewController* loginViewController;
-
-@property (nonatomic, strong) IBOutlet UILabel* accountLabel;
+@property (nonatomic, strong) UIActivityIndicatorView* activityIndicator;
 
 @end

@@ -16,6 +16,15 @@
 
 #import "ViewController.h"
 #import <Accounts/Accounts.h>
+#import "InstagramLoginViewController.h"
+#import "SocialAccounts.h"
+
+
+#warning get instagram oauth app to run this example
+#define kInstagramRedirectURI @"http://www.google.com/OAuthCallback"
+#define kInstagramClientID @"<FILL IN YOUR CLIENT ID HERE>"
+#define kInstagramClientKey @"<FILL IN YOUR CLIENT SECRET HERE>"
+
 
 @interface ViewController ()
 
@@ -27,30 +36,114 @@
 {
     [super viewDidLoad];
 
-    NSLog(@"%@", SOAccountTypeIdentifierInstagram);
-    
-    SOAccountStore* store = [[SOAccountStore alloc] init];
-    [store clearStore];
-    
-    SOAccountType* type = [store accountTypeWithAccountTypeIdentifier:SOAccountTypeIdentifierInstagram];
-    
-    SOAccount* account = [[SOAccount alloc] initWithAccountType:type];
-    
-    account.username = @"john";
-    SOAccountCredential* credential = [[SOAccountCredential alloc] initWithOAuth2Token:@"2342341.b6fw422.b8f5ffs9sjqljq7a70e788884b67c" refreshToken:nil expiryDate:nil];
-    credential.scope = @"relationships";
-    account.credential = credential;
-    
-    [store saveAccount:account withCompletionHandler:^(BOOL success, NSError *error) {
-        NSLog(@"Saved Account");
-        NSLog(@"%@", [account description]);
-    }];
-    
-    
-    for (SOAccount* account in store.accounts) {
-        NSLog(@"loaded account %@", account.credential.oauthToken);
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Login" style:UIBarButtonItemStyleBordered target:self action:@selector(doLogin)];
+
+}
+
+- (GTMOAuth2Authentication *)auth {
+    if (_auth==nil) {
+        NSURL *tokenURL = [NSURL URLWithString:@"https://api.instagram.com/oauth/access_token"];
+        
+        _auth = [GTMOAuth2Authentication authenticationWithServiceProvider:SOAccountTypeIdentifierInstagram
+                                                                  tokenURL:tokenURL
+                                                               redirectURI:kInstagramRedirectURI
+                                                                  clientID:kInstagramClientID
+                                                              clientSecret:kInstagramClientKey];
+        self.auth.scope = @"relationships";
     }
     
+    return _auth;
+}
+
+
+- (InstagramLoginViewController*)loginViewController {
+    NSURL *authURL = [NSURL URLWithString:@"https://instagram.com/oauth/authorize"];
+   
+    InstagramLoginViewController* vc = [InstagramLoginViewController controllerWithAuthentication:self.auth
+                                                                                 authorizationURL:authURL
+                                                                                 keychainItemName:SOAccountTypeIdentifierInstagram completionHandler:^(GTMOAuth2ViewControllerTouch *viewController, GTMOAuth2Authentication *auth, NSError *error) {
+                                                                                     
+                                                                                     if (error!=nil) {
+                                                                                         NSString* errorMessage = nil;
+                                                                                         NSString* errorData = [error.userInfo objectForKey:NSLocalizedRecoverySuggestionErrorKey];
+                                                                                         
+                                                                                         if (errorData!=nil) {
+                                                                                             NSError* error;
+                                                                                             NSDictionary* json = [NSJSONSerialization JSONObjectWithData:[errorData dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:&error];
+                                                                                             if (json!=nil && error==nil) {
+                                                                                                 NSDictionary* errorMeta = [json objectForKey:@"meta"];
+                                                                                                 if (errorMeta!=nil) {
+                                                                                                     errorMessage = [errorMeta objectForKey:@"error_message"];
+                                                                                                 }
+                                                                                             }
+                                                                                         }
+                                                                                         
+                                                                                         dispatch_async(dispatch_get_main_queue(), ^{
+                                                                                             [self didLoginFailed:errorMessage];
+                                                                                         });
+                                                                                         
+                                                                                         
+                                                                                     } else {
+                                                                                         dispatch_async(dispatch_get_main_queue(), ^{
+                                                                                             [self didLogin];
+                                                                                         });
+                                                                                     }
+                                                                                     
+                                                                                 }];
+    
+    _loginViewController =  vc;
+    
+    
+    __weak id loginController = _loginViewController;
+    _loginViewController.popViewBlock = ^{
+        [loginController dismissModalViewControllerAnimated:YES];
+    };
+    
+    
+    NSString *html = @"<html><body bgcolor=white><div align=center style='font-family:Arial'>Loading sign-in page...</div></body></html>";
+    _loginViewController.initialHTMLString = html;
+    
+    
+    return _loginViewController;
+}
+
+-(void)doLogin {
+    UINavigationController* navController = [[UINavigationController alloc] initWithRootViewController:self.loginViewController];
+    [self presentModalViewController:navController animated:YES];
+}
+
+- (void)didLogin
+{
+    SOAccountStore* store = [[SOAccountStore alloc] init];
+
+    [[SOInstagramAPIClient sharedClient] getPath:@"users/self" parameters:@{@"access_token" : self.auth.accessToken} success:^(AFHTTPRequestOperation *operation, NSDictionary* response) {
+        NSDictionary* profile = [response valueForKeyPath:@"data"];
+        
+        SOAccountType* accountType = [store accountTypeWithAccountTypeIdentifier:SOAccountTypeIdentifierInstagram];
+        SOAccount* account = [[SOAccount alloc] initWithAccountType:accountType];
+        account.username = [profile objectForKey:@"username"];
+        SOAccountCredential* credential = [[SOAccountCredential alloc] initWithOAuth2Token:self.auth.accessToken refreshToken:nil expiryDate:nil];
+        credential.scope = self.auth.scope;
+        account.credential = credential;
+        
+        [store saveAccount:account withCompletionHandler:^(BOOL success, NSError *error) {
+            
+            self.accountLabel.text = account.identifier;
+            NSLog(@"Saved account %@", account.identifier);
+   
+            
+        }];
+        
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                
+    }];
+
+}
+
+- (void)didLoginFailed:(NSString*)error
+{
+
 }
 
 - (void)didReceiveMemoryWarning
