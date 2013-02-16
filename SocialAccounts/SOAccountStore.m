@@ -63,6 +63,10 @@
         [info setObject:[NSNumber numberWithInteger:SOAccountCredentialTypeOAuth1] forKey:@"credential.type"];
         [info setObject:account.credential.oauth1Token forKey:@"credential.oauthToken"];
         [info setObject:account.credential.oauth1Secret forKey:@"credential.oauthTokenSecret"];
+    } else if (account.credential.credentialType==SOAccountCredentialTypeSession) {
+        [info setObject:[NSNumber numberWithInteger:SOAccountCredentialTypeSession] forKey:@"credential.type"];
+        [info setObject:account.credential.sessionKey forKey:@"credential.sessionKey"];
+        [info setObject:account.credential.csrfToken forKey:@"credential.csrfToken"];
     }
     
     [self setDictionary:info forKey:account.identifier];
@@ -147,6 +151,7 @@
     
     accountType = [[SOAccountType alloc] init];
     accountType.identifier = SOAccountTypeIdentifierFoursquare;
+    accountType.accountTypeDescription = @"Foursquare";
     [array addObject:accountType];
     
     accountType = [[SOAccountType alloc] init];
