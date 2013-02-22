@@ -25,6 +25,7 @@
     #import "SOAccount.h"
     #import "SOAccountCredential.h"
     #import "SOUser.h"
+    #import "SOOAuth2ViewController.h"
 
     #import "SOInstagramAPIClient.h"
     #import "SOInstagramUser.h"

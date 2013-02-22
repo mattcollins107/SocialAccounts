@@ -16,14 +16,13 @@
 
 #import "ViewController.h"
 #import <Accounts/Accounts.h>
-#import "InstagramLoginViewController.h"
 #import "SocialAccounts.h"
 
 
 #warning get instagram oauth app to run this example
-#define kInstagramRedirectURI @"http://www.google.com/OAuthCallback"
 #define kInstagramClientID @"<FILL IN YOUR CLIENT ID HERE>"
 #define kInstagramClientKey @"<FILL IN YOUR CLIENT SECRET HERE>"
+#define kInstagramRedirectURI @"http://www.google.com/OAuthCallback"
 
 
 @interface ViewController ()
@@ -38,6 +37,16 @@
 
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Login" style:UIBarButtonItemStyleBordered target:self action:@selector(doLogin)];
 
+    /*
+    SOAccountStore* store = [[SOAccountStore alloc] init];
+
+    NSDictionary* instagramSettings = @{SOOAuth2ClientID: kInstagramClientID, SOOAuth2ClientSecret: kInstagramClientKey, SOOAuth2RedirectURI: kInstagramRedirectURI};
+    
+    SOAccountType* accountType = [store accountTypeWithAccountTypeIdentifier:SOAccountTypeIdentifierInstagram];
+    [store requestAccessToAccountsWithType:accountType options:instagramSettings completion:^(BOOL success, NSError *error) {
+        
+    }];
+     */
 }
 
 - (GTMOAuth2Authentication *)auth {
@@ -56,11 +65,10 @@
 }
 
 
-- (InstagramLoginViewController*)loginViewController {
-    NSURL *authURL = [NSURL URLWithString:@"https://instagram.com/oauth/authorize"];
+- (SOOAuth2ViewController*)loginViewController {
    
-    InstagramLoginViewController* vc = [InstagramLoginViewController controllerWithAuthentication:self.auth
-                                                                                 authorizationURL:authURL
+    SOOAuth2ViewController* vc = [SOOAuth2ViewController controllerWithAuthentication:self.auth
+                                                                                 authorizationURL:[NSURL URLWithString:@"https://instagram.com/oauth/authorize"]
                                                                                  keychainItemName:SOAccountTypeIdentifierInstagram completionHandler:^(GTMOAuth2ViewControllerTouch *viewController, GTMOAuth2Authentication *auth, NSError *error) {
                                                                                      
                                                                                      if (error!=nil) {
@@ -92,7 +100,10 @@
                                                                                  }];
     
     _loginViewController =  vc;
-    
+
+    SOAccountStore* store = [[SOAccountStore alloc] init];
+    SOAccountType* accountType = [store accountTypeWithAccountTypeIdentifier:SOAccountTypeIdentifierInstagram];
+    vc.accountType = accountType;
     
     __weak id loginController = _loginViewController;
     _loginViewController.popViewBlock = ^{

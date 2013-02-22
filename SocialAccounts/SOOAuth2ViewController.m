@@ -14,9 +14,9 @@
 // limitations under the License.
 //
 
-#import "InstagramLoginViewController.h"
+#import "SOOAuth2ViewController.h"
 
-@implementation InstagramLoginViewController
+@implementation SOOAuth2ViewController
 
 
 - (void)viewDidLoad {
@@ -30,10 +30,9 @@
     for (NSHTTPCookie *cookie in cookies) {
         [cookieStorage deleteCookie:cookie];
     }
-
-
-    self.title = NSLocalizedString(@"Login to Instagram", @"");
-
+    
+    self.title = [NSString stringWithFormat:NSLocalizedString(@"Login to %@", @""), self.accountType.accountTypeDescription];
+    
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(pushIndexView)];
     
     CGRect frame = CGRectMake(0.0, 0.0, 25.0, 25.0);

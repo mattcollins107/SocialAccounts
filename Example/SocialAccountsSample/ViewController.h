@@ -16,14 +16,13 @@
 
 #import <UIKit/UIKit.h>
 #import "SocialAccounts.h"
-#import "InstagramLoginViewController.h"
 
 @class GTMOAuth2Authentication;
 
 @interface ViewController : UIViewController
 
 @property (nonatomic, strong) GTMOAuth2Authentication* auth;
-@property (nonatomic, strong) InstagramLoginViewController* loginViewController;
+@property (nonatomic, strong) SOOAuth2ViewController* loginViewController;
 
 @property (nonatomic, strong) IBOutlet UILabel* accountLabel;
 

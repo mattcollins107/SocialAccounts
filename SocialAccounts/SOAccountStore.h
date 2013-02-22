@@ -18,6 +18,17 @@
 #import "SOAccountType.h"
 #import "SOAccount.h"
 
+// Options dictionary keys for OAuth2 service providers
+ACCOUNTS_EXTERN NSString * const SOOAuth2ClientID;            // Your OAuth2 Client ID, as it appears on the service provider website. (required)
+ACCOUNTS_EXTERN NSString * const SOOAuth2ClientSecret;            // Your OAuth2 Client Secret, as it appears on the service provider website. (required)
+ACCOUNTS_EXTERN NSString * const SOOAuth2RedirectURI;            // Your OAuth2 Redirect URI, as it appears on the service provider website. (required)
+
+// Options dictionary keys for OAuth1 service providers
+ACCOUNTS_EXTERN NSString * const SOOAuth1ClientID;            // Your OAuth1 Client ID, as it appears on the service provider website. (required)
+ACCOUNTS_EXTERN NSString * const SOOAuth1ClientSecret;            // Your OAuth1 Client Secret, as it appears on the service provider website. (required)
+ACCOUNTS_EXTERN NSString * const SOOAuth1RedirectURI;            // Your OAuth1 Redirect URI, as it appears on the service provider website. (required)
+
+
 typedef void(^SOAccountStoreSaveCompletionHandler)(BOOL success, NSError *error);
 
 @interface SOAccountStore : NSObject
@@ -43,6 +54,16 @@ typedef void(^SOAccountStoreSaveCompletionHandler)(BOOL success, NSError *error)
 // Removes the account from the account database
 - (void)removeAccount:(SOAccount *)account withCompletionHandler:(SOAccountStoreSaveCompletionHandler)completionHandler;
 
+// Obtains permission, if necessary, from the user to access protected properties, and utilize accounts
+// of a particular type in protected operations, for example OAuth signing. The completion handler for
+// this method is called on an arbitrary queue.
+// Certain account types (such as Facebook) require an options dictionary. A list of the required keys
+// appears at the top of this file. This method will throw an NSInvalidArgumentException if the options
+// dictionary is not provided for such account types. Conversely, if the account type does not require
+// an options dictionary, the options parameter must be nil.
+- (void)requestAccessToAccountsWithType:(SOAccountType *)accountType
+                                options:(NSDictionary *)options
+                             completion:(SOAccountStoreSaveCompletionHandler)completion;
 
 // Clears the account database, including any saved accounts
 - (void)clearStore;

@@ -17,6 +17,17 @@
 #import "SOAccountStore.h"
 #import <Security/Security.h>
 
+// Options dictionary keys for OAuth2 service providers
+NSString * const SOOAuth2ClientID = @"com.socialaccounts.oauth2.client_id";
+NSString * const SOOAuth2ClientSecret = @"com.socialaccounts.oauth2.client_secret";
+NSString * const SOOAuth2RedirectURI = @"com.socialaccounts.oauth2.redirect_uri";
+
+// Options dictionary keys for OAuth1 service providers
+NSString * const SOOAuth1ClientID = @"com.socialaccounts.oauth1.client_id";
+NSString * const SOOAuth1ClientSecret = @"com.socialaccounts.oauth1.client_secret";
+NSString * const SOOAuth1RedirectURI = @"com.socialaccounts.oauth1.redirect_uri";
+
+
 @interface SOAccountStore ()
 
 @property(nonatomic, copy) SOAccountStoreSaveCompletionHandler saveAccountHandler;
@@ -182,6 +193,15 @@
     }
     
     return nil;
+}
+
+- (void)requestAccessToAccountsWithType:(SOAccountType *)accountType
+                                options:(NSDictionary *)options
+                             completion:(SOAccountStoreSaveCompletionHandler)completion {
+  
+    @throw[NSException exceptionWithName:NSInvalidArgumentException
+                                      reason:@"accountType is not valid"
+                                    userInfo:nil];
 }
 
 - (void)clearStore {

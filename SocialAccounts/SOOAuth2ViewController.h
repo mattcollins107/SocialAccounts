@@ -15,9 +15,11 @@
 //
 
 #import "GTMOAuth2ViewControllerTouch.h"
+#import "SOAccountType.h"
 
-@interface InstagramLoginViewController : GTMOAuth2ViewControllerTouch
+@interface SOOAuth2ViewController : GTMOAuth2ViewControllerTouch
 
 @property (nonatomic, strong) UIActivityIndicatorView* activityIndicator;
+@property (nonatomic, strong) SOAccountType* accountType;
 
 @end

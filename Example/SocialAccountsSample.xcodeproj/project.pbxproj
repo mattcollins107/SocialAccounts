@@ -34,7 +34,7 @@
 		530E0CB516CB3D9A0048AAEE /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 530E0CAA16CB3D9A0048AAEE /* AFURLConnectionOperation.m */; };
 		530E0CB616CB3D9A0048AAEE /* AFXMLRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 530E0CAC16CB3D9A0048AAEE /* AFXMLRequestOperation.m */; };
 		530E0CB716CB3D9A0048AAEE /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 530E0CAE16CB3D9A0048AAEE /* UIImageView+AFNetworking.m */; };
-		530E106116CDB84A0048AAEE /* InstagramLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 530E106016CDB84A0048AAEE /* InstagramLoginViewController.m */; };
+		53332B8B16D4515800A860BA /* SOOAuth2ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53332B8A16D4515800A860BA /* SOOAuth2ViewController.m */; };
 		5340E82116BED59300C53EF5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5340E81816BED59300C53EF5 /* AppDelegate.m */; };
 		5340E82216BED59300C53EF5 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5340E81916BED59300C53EF5 /* Default-568h@2x.png */; };
 		5340E82316BED59300C53EF5 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 5340E81A16BED59300C53EF5 /* Default.png */; };
@@ -119,8 +119,8 @@
 		530E0CAC16CB3D9A0048AAEE /* AFXMLRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFXMLRequestOperation.m; sourceTree = "<group>"; };
 		530E0CAD16CB3D9A0048AAEE /* UIImageView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+AFNetworking.h"; sourceTree = "<group>"; };
 		530E0CAE16CB3D9A0048AAEE /* UIImageView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+AFNetworking.m"; sourceTree = "<group>"; };
-		530E105F16CDB84A0048AAEE /* InstagramLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InstagramLoginViewController.h; path = SocialAccountsSample/InstagramLoginViewController.h; sourceTree = SOURCE_ROOT; };
-		530E106016CDB84A0048AAEE /* InstagramLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InstagramLoginViewController.m; path = SocialAccountsSample/InstagramLoginViewController.m; sourceTree = SOURCE_ROOT; };
+		53332B8916D4515800A860BA /* SOOAuth2ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOOAuth2ViewController.h; sourceTree = "<group>"; };
+		53332B8A16D4515800A860BA /* SOOAuth2ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOOAuth2ViewController.m; sourceTree = "<group>"; };
 		5340E81716BED59300C53EF5 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = SocialAccountsSample/AppDelegate.h; sourceTree = SOURCE_ROOT; };
 		5340E81816BED59300C53EF5 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = SocialAccountsSample/AppDelegate.m; sourceTree = SOURCE_ROOT; };
 		5340E81916BED59300C53EF5 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "SocialAccountsSample/Default-568h@2x.png"; sourceTree = SOURCE_ROOT; };
@@ -201,6 +201,8 @@
 				530E0C7316CB3D0F0048AAEE /* SOAccount.m */,
 				530E0C7416CB3D0F0048AAEE /* SOAccountCredential.h */,
 				530E0C7516CB3D0F0048AAEE /* SOAccountCredential.m */,
+				53332B8916D4515800A860BA /* SOOAuth2ViewController.h */,
+				53332B8A16D4515800A860BA /* SOOAuth2ViewController.m */,
 				530E0C7616CB3D0F0048AAEE /* SOAccountStore.h */,
 				530E0C7716CB3D0F0048AAEE /* SOAccountStore.m */,
 				530E0C7816CB3D0F0048AAEE /* SOAccountType.h */,
@@ -389,8 +391,6 @@
 		53B5BE6E16B4609200D2EBB1 /* SocialAccountsSample */ = {
 			isa = PBXGroup;
 			children = (
-				530E105F16CDB84A0048AAEE /* InstagramLoginViewController.h */,
-				530E106016CDB84A0048AAEE /* InstagramLoginViewController.m */,
 				5340E81716BED59300C53EF5 /* AppDelegate.h */,
 				5340E81816BED59300C53EF5 /* AppDelegate.m */,
 				5340E81F16BED59300C53EF5 /* ViewController.h */,
@@ -523,7 +523,7 @@
 				530E0CB516CB3D9A0048AAEE /* AFURLConnectionOperation.m in Sources */,
 				530E0CB616CB3D9A0048AAEE /* AFXMLRequestOperation.m in Sources */,
 				530E0CB716CB3D9A0048AAEE /* UIImageView+AFNetworking.m in Sources */,
-				530E106116CDB84A0048AAEE /* InstagramLoginViewController.m in Sources */,
+				53332B8B16D4515800A860BA /* SOOAuth2ViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
