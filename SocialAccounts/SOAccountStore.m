@@ -357,6 +357,4 @@ NSString * const SOOAuth1RedirectURI = @"com.socialaccounts.oauth1.redirect_uri"
 	return nil;
 }
 
-
-
 @end

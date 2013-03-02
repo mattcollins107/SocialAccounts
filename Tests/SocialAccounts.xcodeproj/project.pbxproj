@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		530789E516E2C6F400B9AEA2 /* SOSessionAuthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 530789DF16E2C6F400B9AEA2 /* SOSessionAuthViewController.m */; };
+		530789E616E2C6F400B9AEA2 /* SOOAuth1ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 530789E116E2C6F400B9AEA2 /* SOOAuth1ViewController.m */; };
+		530789E716E2C6F400B9AEA2 /* SOOAuth2ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 530789E316E2C6F400B9AEA2 /* SOOAuth2ViewController.m */; };
 		530E0DEA16CCA19E0048AAEE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 530E0DE916CCA19E0048AAEE /* Foundation.framework */; };
 		530E0DF916CCA19F0048AAEE /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 530E0DF816CCA19F0048AAEE /* SenTestingKit.framework */; };
 		530E0DFB16CCA19F0048AAEE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 530E0DFA16CCA19F0048AAEE /* UIKit.framework */; };
@@ -122,6 +125,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		530789DF16E2C6F400B9AEA2 /* SOSessionAuthViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOSessionAuthViewController.m; sourceTree = "<group>"; };
+		530789E016E2C6F400B9AEA2 /* SOSessionAuthViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOSessionAuthViewController.h; sourceTree = "<group>"; };
+		530789E116E2C6F400B9AEA2 /* SOOAuth1ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOOAuth1ViewController.m; sourceTree = "<group>"; };
+		530789E216E2C6F400B9AEA2 /* SOOAuth1ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOOAuth1ViewController.h; sourceTree = "<group>"; };
+		530789E316E2C6F400B9AEA2 /* SOOAuth2ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOOAuth2ViewController.m; sourceTree = "<group>"; };
+		530789E416E2C6F400B9AEA2 /* SOOAuth2ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOOAuth2ViewController.h; sourceTree = "<group>"; };
 		530E0DE616CCA19E0048AAEE /* libSocialAccounts.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSocialAccounts.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		530E0DE916CCA19E0048AAEE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		530E0DED16CCA19E0048AAEE /* SocialAccounts-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "SocialAccounts-Prefix.pch"; path = "../SocialAccounts/SocialAccounts-Prefix.pch"; sourceTree = "<group>"; };
@@ -321,6 +330,12 @@
 				530E0F6816CCA45D0048AAEE /* SocialAccounts.bundle */,
 				530E0F6916CCA45D0048AAEE /* SocialAccounts.h */,
 				530E0F6A16CCA45D0048AAEE /* SOUser.h */,
+				530789DF16E2C6F400B9AEA2 /* SOSessionAuthViewController.m */,
+				530789E016E2C6F400B9AEA2 /* SOSessionAuthViewController.h */,
+				530789E116E2C6F400B9AEA2 /* SOOAuth1ViewController.m */,
+				530789E216E2C6F400B9AEA2 /* SOOAuth1ViewController.h */,
+				530789E316E2C6F400B9AEA2 /* SOOAuth2ViewController.m */,
+				530789E416E2C6F400B9AEA2 /* SOOAuth2ViewController.h */,
 				530E0F6B16CCA45D0048AAEE /* Tumblr */,
 				530E0F7216CCA45D0048AAEE /* Twitter */,
 			);
@@ -611,6 +626,9 @@
 				530E103D16CCA45D0048AAEE /* GTMOAuth2Authentication.m in Sources */,
 				530E103F16CCA45D0048AAEE /* GTMOAuth2SignIn.m in Sources */,
 				530E104116CCA45D0048AAEE /* GTMOAuth2ViewControllerTouch.m in Sources */,
+				530789E516E2C6F400B9AEA2 /* SOSessionAuthViewController.m in Sources */,
+				530789E616E2C6F400B9AEA2 /* SOOAuth1ViewController.m in Sources */,
+				530789E716E2C6F400B9AEA2 /* SOOAuth2ViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -14,9 +14,9 @@
 // limitations under the License.
 //
 
-#import "SOOAuth2ViewController.h"
+#import "SOOAuth1ViewController.h"
 
-@implementation SOOAuth2ViewController
+@implementation SOOAuth1ViewController
 
 
 - (void)viewDidLoad {
@@ -45,11 +45,11 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(viewDidStartLoad)
-                                                 name:kGTMOAuth2WebViewStartedLoading object:nil];
+                                                 name:kGTMOAuthWebViewStartedLoading object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(viewDidFinishLoad)
-                                                 name:kGTMOAuth2WebViewStoppedLoading object:nil];
+                                                 name:kGTMOAuthWebViewStoppedLoading object:nil];
     
 }
 

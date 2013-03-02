@@ -14,9 +14,9 @@
 // limitations under the License.
 //
 
-#import "SOOAuth2ViewController.h"
+#import "SOSessionAuthViewController.h"
 
-@implementation SOOAuth2ViewController
+@implementation SOSessionAuthViewController
 
 
 - (void)viewDidLoad {
@@ -28,6 +28,7 @@
     NSArray *cookies =  [cookieStorage cookies];
     
     for (NSHTTPCookie *cookie in cookies) {
+        NSLog(cookie.name);
         [cookieStorage deleteCookie:cookie];
     }
     
@@ -43,30 +44,49 @@
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.activityIndicator];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(viewDidStartLoad)
-                                                 name:kGTMOAuth2WebViewStartedLoading object:nil];
+    self.webView = [[UIWebView alloc] initWithFrame:self.view.frame];
+    [self.view addSubview:self.webView];
+    self.webView.delegate = self;
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(viewDidFinishLoad)
-                                                 name:kGTMOAuth2WebViewStoppedLoading object:nil];
+    
+    // the app may prefer some html other than blank white to be displayed
+    // before the sign-in web page loads
+    NSString *html = self.initialHTMLString;
+    if ([html length] > 0) {
+        [[self webView] loadHTMLString:html baseURL:nil];
+    }
+    
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.loginUrl];
+    [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
+    
+    [self.webView loadRequest:request];
+    [self.webView setScalesPageToFit:YES];
     
 }
+
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
+    
+    [self pushIndexView];
+}
+
+
+- (void)pushIndexView {
+    [self dismissModalViewControllerAnimated:YES];
+}
+
+
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)viewDidStartLoad {
+- (void)webViewDidStartLoad:(UIWebView *)webView {
     [self.activityIndicator startAnimating];
+    
 }
 
-- (void)viewDidFinishLoad {
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
     [self.activityIndicator stopAnimating];
-}
-
-- (void)pushIndexView {
-    [self dismissModalViewControllerAnimated:YES];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
