@@ -21,7 +21,8 @@
 - (id)initWithOAuth2Token:(NSString *)token
              refreshToken:(NSString *)refreshToken
                expiryDate:(NSDate *)expiryDate {
-    self = [super initWithOAuth2Token:token refreshToken:refreshToken expiryDate:expiryDate];
+    self = [super init];
+    self.oauthToken = token;
     
     self.credentialType = SOAccountCredentialTypeOAuth2;
     

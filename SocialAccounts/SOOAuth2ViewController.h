@@ -15,9 +15,10 @@
 //
 
 #import "GTMOAuth2ViewControllerTouch.h"
+#import "SOAccountStore.h"
 #import "SOAccountType.h"
 
-@interface SOOAuth2ViewController : GTMOAuth2ViewControllerTouch
+@interface SOOAuth2ViewController : GTMOAuth2ViewControllerTouch <SOBaseAuthController>
 
 @property (nonatomic, strong) UIActivityIndicatorView* activityIndicator;
 @property (nonatomic, strong) SOAccountType* accountType;

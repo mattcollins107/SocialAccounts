@@ -14,9 +14,10 @@
 // limitations under the License.
 //
 
+#import "SOAccountStore.h"
 #import "SOAccountType.h"
 
-@interface SOSessionAuthViewController : UIViewController <UIWebViewDelegate>
+@interface SOSessionAuthViewController : UIViewController <SOBaseAuthController, UIWebViewDelegate>
 
 @property (nonatomic, strong) UIActivityIndicatorView* activityIndicator;
 @property (nonatomic, strong) SOAccountType* accountType;

@@ -31,6 +31,15 @@ ACCOUNTS_EXTERN NSString * const SOOAuth1RedirectURI;            // Your OAuth1 
 
 typedef void(^SOAccountStoreSaveCompletionHandler)(BOOL success, NSError *error);
 
+@protocol SOBaseAuthController <NSObject>
+
+@property (nonatomic, copy) void (^popViewBlock)(void);
+@property (nonatomic, copy) NSString *initialHTMLString;
+
+- (void)dismissModalViewControllerAnimated:(BOOL)animated;
+
+@end
+
 @interface SOAccountStore : NSObject
 
 @property (readonly, strong) NSArray* accountTypes;
