@@ -38,9 +38,15 @@
     #import "SOFacebookAPIClient.h"
     #import "SOFacebookUser.h"
 
+    #import "SOFoursquareAPIClient.h"
+    #import "SOFoursquareUser.h"
+
     #import "SOTumblrAPIClient.h"
     #import "SOTumblrUser.h"
     #import "SOTumblrBlog.h"
+
+    #import "SOFiveHundredspxAPIClient.h"
+    #import "SOFiveHundredspxUser.h"
 
     #import "SODribbbleAPIClient.h"
     #import "SODribbbleUser.h"
