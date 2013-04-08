@@ -28,6 +28,7 @@ ACCOUNTS_EXTERN NSString * const SOAccountTypeIdentifierPinterest;
 ACCOUNTS_EXTERN NSString * const SOAccountTypeIdentifierFacebook;
 ACCOUNTS_EXTERN NSString * const SOAccountTypeIdentifierFoursquare;
 ACCOUNTS_EXTERN NSString * const SOAccountTypeIdentifierDribbble;
+ACCOUNTS_EXTERN NSString * const SOAccountTypeIdentifierGithub;
 
 @interface SOAccountType : ACAccountType
 

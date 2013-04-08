@@ -24,6 +24,7 @@ NSString * const SOAccountTypeIdentifierPinterest = @"com.apple.pinterest";
 NSString * const SOAccountTypeIdentifierFacebook = @"com.apple.facebook";
 NSString * const SOAccountTypeIdentifierFoursquare = @"com.apple.foursquare";
 NSString * const SOAccountTypeIdentifierDribbble = @"com.apple.dribbble";
+NSString * const SOAccountTypeIdentifierGithub = @"com.apple.github";
 
 @implementation SOAccountType
 

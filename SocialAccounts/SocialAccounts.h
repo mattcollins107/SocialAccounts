@@ -54,4 +54,7 @@
     #import "SOPinterestAPIClient.h"
     #import "SOPinterestUser.h"
 
+    #import "SOGithubAPIClient.h"
+    #import "SOGithubUser.h"
+
 #endif /* _SOCIALACCOUNTS_ */

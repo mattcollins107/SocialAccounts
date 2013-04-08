@@ -100,6 +100,12 @@
 		530E105616CCA4BA0048AAEE /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 530E104C16CCA4B50048AAEE /* SystemConfiguration.framework */; };
 		530E105716CCA4BA0048AAEE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 530E104D16CCA4B50048AAEE /* UIKit.framework */; };
 		530E105816CCA4BA0048AAEE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 530E104E16CCA4B50048AAEE /* CoreGraphics.framework */; };
+		536CE23917124561005CA828 /* SOGithubAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 536CE23617124561005CA828 /* SOGithubAPIClient.m */; };
+		536CE23A17124561005CA828 /* SOGithubUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 536CE23817124561005CA828 /* SOGithubUser.m */; };
+		536CE24717124593005CA828 /* SOFoursquareAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 536CE24417124593005CA828 /* SOFoursquareAPIClient.m */; };
+		536CE24817124593005CA828 /* SOFoursquareUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 536CE24617124593005CA828 /* SOFoursquareUser.m */; };
+		536CE263171245B3005CA828 /* SOFiveHundredspxAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 536CE260171245B3005CA828 /* SOFiveHundredspxAPIClient.m */; };
+		536CE264171245B3005CA828 /* SOFiveHundredspxUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 536CE262171245B3005CA828 /* SOFiveHundredspxUser.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -222,6 +228,18 @@
 		530E104C16CCA4B50048AAEE /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		530E104D16CCA4B50048AAEE /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		530E104E16CCA4B50048AAEE /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		536CE23517124561005CA828 /* SOGithubAPIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOGithubAPIClient.h; sourceTree = "<group>"; };
+		536CE23617124561005CA828 /* SOGithubAPIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOGithubAPIClient.m; sourceTree = "<group>"; };
+		536CE23717124561005CA828 /* SOGithubUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOGithubUser.h; sourceTree = "<group>"; };
+		536CE23817124561005CA828 /* SOGithubUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOGithubUser.m; sourceTree = "<group>"; };
+		536CE24317124593005CA828 /* SOFoursquareAPIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOFoursquareAPIClient.h; sourceTree = "<group>"; };
+		536CE24417124593005CA828 /* SOFoursquareAPIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOFoursquareAPIClient.m; sourceTree = "<group>"; };
+		536CE24517124593005CA828 /* SOFoursquareUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOFoursquareUser.h; sourceTree = "<group>"; };
+		536CE24617124593005CA828 /* SOFoursquareUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOFoursquareUser.m; sourceTree = "<group>"; };
+		536CE25F171245B3005CA828 /* SOFiveHundredspxAPIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOFiveHundredspxAPIClient.h; sourceTree = "<group>"; };
+		536CE260171245B3005CA828 /* SOFiveHundredspxAPIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOFiveHundredspxAPIClient.m; sourceTree = "<group>"; };
+		536CE261171245B3005CA828 /* SOFiveHundredspxUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOFiveHundredspxUser.h; sourceTree = "<group>"; };
+		536CE262171245B3005CA828 /* SOFiveHundredspxUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOFiveHundredspxUser.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -315,6 +333,9 @@
 		530E0F4B16CCA45C0048AAEE /* SocialAccounts */ = {
 			isa = PBXGroup;
 			children = (
+				536CE25E171245B3005CA828 /* FiveHundredspx */,
+				536CE24217124593005CA828 /* Foursquare */,
+				536CE23417124561005CA828 /* Github */,
 				530E0F4C16CCA45C0048AAEE /* Dribbble */,
 				530E0F5116CCA45C0048AAEE /* Facebook */,
 				530E0F5616CCA45C0048AAEE /* Instagram */,
@@ -490,6 +511,39 @@
 			path = GTMOAuth2;
 			sourceTree = "<group>";
 		};
+		536CE23417124561005CA828 /* Github */ = {
+			isa = PBXGroup;
+			children = (
+				536CE23517124561005CA828 /* SOGithubAPIClient.h */,
+				536CE23617124561005CA828 /* SOGithubAPIClient.m */,
+				536CE23717124561005CA828 /* SOGithubUser.h */,
+				536CE23817124561005CA828 /* SOGithubUser.m */,
+			);
+			path = Github;
+			sourceTree = "<group>";
+		};
+		536CE24217124593005CA828 /* Foursquare */ = {
+			isa = PBXGroup;
+			children = (
+				536CE24317124593005CA828 /* SOFoursquareAPIClient.h */,
+				536CE24417124593005CA828 /* SOFoursquareAPIClient.m */,
+				536CE24517124593005CA828 /* SOFoursquareUser.h */,
+				536CE24617124593005CA828 /* SOFoursquareUser.m */,
+			);
+			path = Foursquare;
+			sourceTree = "<group>";
+		};
+		536CE25E171245B3005CA828 /* FiveHundredspx */ = {
+			isa = PBXGroup;
+			children = (
+				536CE25F171245B3005CA828 /* SOFiveHundredspxAPIClient.h */,
+				536CE260171245B3005CA828 /* SOFiveHundredspxAPIClient.m */,
+				536CE261171245B3005CA828 /* SOFiveHundredspxUser.h */,
+				536CE262171245B3005CA828 /* SOFiveHundredspxUser.m */,
+			);
+			path = FiveHundredspx;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -629,6 +683,12 @@
 				530789E516E2C6F400B9AEA2 /* SOSessionAuthViewController.m in Sources */,
 				530789E616E2C6F400B9AEA2 /* SOOAuth1ViewController.m in Sources */,
 				530789E716E2C6F400B9AEA2 /* SOOAuth2ViewController.m in Sources */,
+				536CE23917124561005CA828 /* SOGithubAPIClient.m in Sources */,
+				536CE23A17124561005CA828 /* SOGithubUser.m in Sources */,
+				536CE24717124593005CA828 /* SOFoursquareAPIClient.m in Sources */,
+				536CE24817124593005CA828 /* SOFoursquareUser.m in Sources */,
+				536CE263171245B3005CA828 /* SOFiveHundredspxAPIClient.m in Sources */,
+				536CE264171245B3005CA828 /* SOFiveHundredspxUser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

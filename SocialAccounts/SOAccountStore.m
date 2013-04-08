@@ -67,13 +67,17 @@ NSString * const SOOAuth1RedirectURI = @"com.socialaccounts.oauth1.redirect_uri"
     [info setObject:account.username forKey:@"username"];
     
     if (account.credential.credentialType==SOAccountCredentialTypeOAuth2) {
-        [info setObject:[NSNumber numberWithInteger:SOAccountCredentialTypeOAuth2] forKey:@"credential.type"];
-        [info setObject:account.credential.oauthToken forKey:@"credential.oauthToken"];
-        [info setObject:account.credential.scope forKey:@"credential.scope"];
+        if (account.credential.oauthToken!=nil && account.credential.scope!=nil) {
+            [info setObject:[NSNumber numberWithInteger:SOAccountCredentialTypeOAuth2] forKey:@"credential.type"];
+            [info setObject:account.credential.oauthToken forKey:@"credential.oauthToken"];
+            [info setObject:account.credential.scope forKey:@"credential.scope"];
+        }
     } else if (account.credential.credentialType==SOAccountCredentialTypeOAuth1) {
-        [info setObject:[NSNumber numberWithInteger:SOAccountCredentialTypeOAuth1] forKey:@"credential.type"];
-        [info setObject:account.credential.oauth1Token forKey:@"credential.oauthToken"];
-        [info setObject:account.credential.oauth1Secret forKey:@"credential.oauthTokenSecret"];
+        if (account.credential.oauth1Token!=nil && account.credential.oauth1Secret!=nil) {
+            [info setObject:[NSNumber numberWithInteger:SOAccountCredentialTypeOAuth1] forKey:@"credential.type"];
+            [info setObject:account.credential.oauth1Token forKey:@"credential.oauthToken"];
+            [info setObject:account.credential.oauth1Secret forKey:@"credential.oauthTokenSecret"];
+        }
     } else if (account.credential.credentialType==SOAccountCredentialTypeSession) {
         [info setObject:[NSNumber numberWithInteger:SOAccountCredentialTypeSession] forKey:@"credential.type"];
         [info setObject:account.credential.sessionKey forKey:@"credential.sessionKey"];
@@ -143,7 +147,6 @@ NSString * const SOOAuth1RedirectURI = @"com.socialaccounts.oauth1.redirect_uri"
     accountType.accountTypeDescription = @"Instagram";
     [array addObject:accountType];
     
-    
     accountType = [[SOAccountType alloc] init];
     accountType.identifier = SOAccountTypeIdentifierFacebook;
     accountType.accountTypeDescription = @"Facebook";
@@ -154,7 +157,6 @@ NSString * const SOOAuth1RedirectURI = @"com.socialaccounts.oauth1.redirect_uri"
     accountType.accountTypeDescription = @"Twitter";
     [array addObject:accountType];
     
-    
     accountType = [[SOAccountType alloc] init];
     accountType.identifier = SOAccountTypeIdentifierTumblr;
     accountType.accountTypeDescription = @"Tumblr";
@@ -163,6 +165,11 @@ NSString * const SOOAuth1RedirectURI = @"com.socialaccounts.oauth1.redirect_uri"
     accountType = [[SOAccountType alloc] init];
     accountType.identifier = SOAccountTypeIdentifierFoursquare;
     accountType.accountTypeDescription = @"Foursquare";
+    [array addObject:accountType];
+    
+    accountType = [[SOAccountType alloc] init];
+    accountType.identifier = SOAccountTypeIdentifierGithub;
+    accountType.accountTypeDescription = @"Github";
     [array addObject:accountType];
     
     accountType = [[SOAccountType alloc] init];
