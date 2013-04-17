@@ -17,7 +17,7 @@
 #import <Foundation/Foundation.h>
 #import "SOUser.h"
 
-@interface SOGithubUser : NSObject <SOUser>
+@interface SOVineUser : NSObject <SOUser>
 
 @property (nonatomic, readonly, strong) NSString *userId;
 @property (nonatomic, readonly, strong) NSString *username;

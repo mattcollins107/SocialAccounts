@@ -52,6 +52,8 @@ NSString * const SOOAuth1RedirectURI = @"com.socialaccounts.oauth1.redirect_uri"
         credential.scope = [info objectForKey:@"credential.scope"];
     } else if (credentialType==SOAccountCredentialTypeOAuth1) {
         credential = [[SOAccountCredential alloc] initWithOAuthToken:[info objectForKey:@"credential.oauthToken"] tokenSecret:[info objectForKey:@"credential.oauthTokenSecret"]];
+    } else if (credentialType==SOAccountCredentialTypeSession) {
+        credential = [[SOAccountCredential alloc] initWithSessionKey:[info objectForKey:@"credential.sessionKey"] CSRFToken:[info objectForKey:@"credential.csrfToken"]];
     }
     
     account.credential = credential;
@@ -155,6 +157,11 @@ NSString * const SOOAuth1RedirectURI = @"com.socialaccounts.oauth1.redirect_uri"
     accountType = [[SOAccountType alloc] init];
     accountType.identifier = SOAccountTypeIdentifierTwitter;
     accountType.accountTypeDescription = @"Twitter";
+    [array addObject:accountType];
+    
+    accountType = [[SOAccountType alloc] init];
+    accountType.identifier = SOAccountTypeIdentifierVine;
+    accountType.accountTypeDescription = @"Vine";
     [array addObject:accountType];
     
     accountType = [[SOAccountType alloc] init];

@@ -14,18 +14,23 @@
 // limitations under the License.
 //
 
-#import "SOGithubUser.h"
+#import "SOVineUser.h"
 
-@implementation SOGithubUser
+@implementation SOVineUser
 
 - (id)initWithDictionary:(NSDictionary*)dictionary
 {
     self = [self init];
     if (self) {
-        _userId = [dictionary objectForKey:@"login"]; // [NSString stringWithFormat:@"%@", [dictionary objectForKey:@"id"]];
-        _username = [dictionary objectForKey:@"login"];
-        _fullname = [dictionary objectForKey:@"login"];
-        _profilePicture = [dictionary objectForKey:@"avatar_url"];
+        _userId = [NSString stringWithFormat:@"%@", [dictionary objectForKey:@"userId"]];
+        _username = [dictionary objectForKey:@"username"];
+        NSDictionary* userInfo = [dictionary objectForKey:@"user"];
+        
+        if ([userInfo objectForKey:@"location"]!=nil && [userInfo objectForKey:@"location"]!=(id)[NSNull null]) {
+            _fullname = [userInfo objectForKey:@"location"];
+        }
+        
+        _profilePicture = [[dictionary objectForKey:@"user"] objectForKey:@"avatarUrl"];
     }
     
     return self;

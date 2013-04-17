@@ -57,4 +57,7 @@
     #import "SOGithubAPIClient.h"
     #import "SOGithubUser.h"
 
+    #import "SOVineAPIClient.h"
+    #import "SOVineUser.h"
+
 #endif /* _SOCIALACCOUNTS_ */
