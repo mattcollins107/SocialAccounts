@@ -33,6 +33,7 @@
     }
     
     self.initialHTMLString = @"<html><body bgcolor=white><div align=center style='font-family:Arial'>Loading sign-in page...</div></body></html>";
+    self.webView.scalesPageToFit = YES;
 
     self.title = [NSString stringWithFormat:NSLocalizedString(@"Login to %@", @""), self.accountType.accountTypeDescription];
     

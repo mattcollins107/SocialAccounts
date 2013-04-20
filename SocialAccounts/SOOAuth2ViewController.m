@@ -37,6 +37,8 @@
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(pushIndexView)];
     
+    self.webView.scalesPageToFit = YES;
+
     CGRect frame = CGRectMake(0.0, 0.0, 25.0, 25.0);
     self.activityIndicator = [[UIActivityIndicatorView alloc] initWithFrame:frame];
     [self.activityIndicator sizeToFit];
