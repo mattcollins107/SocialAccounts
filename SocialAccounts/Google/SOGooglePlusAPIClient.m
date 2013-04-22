@@ -14,18 +14,18 @@
 // limitations under the License.
 //
 
-#import "SODribbbleAPIClient.h"
+#import "SOGooglePlusAPIClient.h"
 #import "AFJSONRequestOperation.h"
 
-static NSString * const kAFDribbbleAPIBaseURLString = @"http://api.dribbble.com/";
+static NSString * const kAFGooglePlusAPIBaseURLString = @"https://www.googleapis.com/plus/v1/";
 
-@implementation SODribbbleAPIClient
+@implementation SOGooglePlusAPIClient
 
-+ (SODribbbleAPIClient *)sharedClient {
-    static SODribbbleAPIClient *_sharedClient = nil;
++ (SOGooglePlusAPIClient *)sharedClient {
+    static SOGooglePlusAPIClient *_sharedClient = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _sharedClient = [[SODribbbleAPIClient alloc] initWithBaseURL:[NSURL URLWithString:kAFDribbbleAPIBaseURLString]];
+        _sharedClient = [[SOGooglePlusAPIClient alloc] initWithBaseURL:[NSURL URLWithString:kAFGooglePlusAPIBaseURLString]];
     });
     
     return _sharedClient;
@@ -43,17 +43,16 @@ static NSString * const kAFDribbbleAPIBaseURLString = @"http://api.dribbble.com/
     return self;
 }
 
-
 - (void)getPath:(NSString *)path
-      sessionId:(NSString *)sessionId
-      csrfToken:(NSString *)csrfToken
+         accessToken:(NSString*)bearer
      parameters:(NSDictionary *)parameters
         success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
 {
 	NSURLRequest *request = [self requestWithMethod:@"GET" path:path parameters:parameters];
     NSMutableURLRequest* urlRequest = [request mutableCopy];
-
+    NSString *authValue = [NSString stringWithFormat:@"Bearer %@", bearer];
+    [urlRequest setValue:authValue forHTTPHeaderField:@"Authorization"];
     
     AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:urlRequest success:success failure:failure];
     [self enqueueHTTPRequestOperation:operation];

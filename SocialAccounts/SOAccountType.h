@@ -30,6 +30,8 @@ ACCOUNTS_EXTERN NSString * const SOAccountTypeIdentifierFoursquare;
 ACCOUNTS_EXTERN NSString * const SOAccountTypeIdentifierDribbble;
 ACCOUNTS_EXTERN NSString * const SOAccountTypeIdentifierGithub;
 ACCOUNTS_EXTERN NSString * const SOAccountTypeIdentifierVine;
+ACCOUNTS_EXTERN NSString * const SOAccountTypeIdentifierGooglePlus;
+
 
 @interface SOAccountType : ACAccountType
 

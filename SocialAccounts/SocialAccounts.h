@@ -60,4 +60,7 @@
     #import "SOVineAPIClient.h"
     #import "SOVineUser.h"
 
+    #import "SOGooglePlusAPIClient.h"
+    #import "SOGooglePlusUser.h"
+
 #endif /* _SOCIALACCOUNTS_ */

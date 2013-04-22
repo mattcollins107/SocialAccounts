@@ -160,6 +160,11 @@ NSString * const SOOAuth1RedirectURI = @"com.socialaccounts.oauth1.redirect_uri"
     [array addObject:accountType];
     
     accountType = [[SOAccountType alloc] init];
+    accountType.identifier = SOAccountTypeIdentifierGooglePlus;
+    accountType.accountTypeDescription = @"Google Plus";
+    [array addObject:accountType];
+    
+    accountType = [[SOAccountType alloc] init];
     accountType.identifier = SOAccountTypeIdentifierVine;
     accountType.accountTypeDescription = @"Vine";
     [array addObject:accountType];
