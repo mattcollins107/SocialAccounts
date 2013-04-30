@@ -17,12 +17,16 @@
 #import "SOAccountStore.h"
 #import "SOAccountType.h"
 
-@interface SOSessionAuthViewController : UIViewController <SOBaseAuthController, UIWebViewDelegate>
+@interface SOSessionAuthViewController : UIViewController <SOBaseAuthController, UIWebViewDelegate> {
+    void (^completionBlock_)(NSDictionary *, NSError *);
+}
 
 @property (nonatomic, strong) UIActivityIndicatorView* activityIndicator;
 @property (nonatomic, strong) SOAccountType* accountType;
 @property (nonatomic, strong) UIWebView* webView;
 @property (nonatomic, strong) NSURL* loginUrl;
 @property (nonatomic, copy) NSString *initialHTMLString;
+
++ (id)controllerWithCompletionHandler:(void (^)(NSDictionary* info, NSError *error))handler;
 
 @end
