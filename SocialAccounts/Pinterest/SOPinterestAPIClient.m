@@ -38,11 +38,85 @@ static NSString * const kAFPinterestAPIBaseURLString = @"http://pinterest.com";
         return nil;
     }
     
-    [self registerHTTPOperationClass:[AFJSONRequestOperation class]];
-    [self setDefaultHeader:@"Accept" value:@"application/json"];
+    [self setDefaultHeader:@"Accept" value:@"text/html,application/xhtml+xml,application/xml"];
     
     return self;
 }
 
+- (void)getPath:(NSString *)path
+      sessionId:(NSString *)sessionId
+      csrfToken:(NSString *)csrfToken
+     parameters:(NSDictionary *)parameters
+        success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+        failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
+{
+	NSURLRequest *request = [self requestWithMethod:@"GET" path:path parameters:parameters];
+    NSMutableURLRequest* urlRequest = [request mutableCopy];
+
+    NSHTTPCookie *sessionCookie = [NSHTTPCookie cookieWithProperties:@{
+                                                    NSHTTPCookieDomain: @".pinterest.com",
+                                                      NSHTTPCookiePath: @"",
+                                                      NSHTTPCookieName: @"_pinterest_sess",
+                                                     NSHTTPCookieValue: sessionId}];
+    
+    NSHTTPCookie *csrfTokenCookie = [NSHTTPCookie cookieWithProperties:@{
+                                           NSHTTPCookieDomain: @".pinterest.com",
+                                             NSHTTPCookiePath: @"",
+                                             NSHTTPCookieName: @"csrftoken",
+                                            NSHTTPCookieValue: csrfToken}];
+    NSArray* cookies = [NSArray arrayWithObjects: sessionCookie, csrfTokenCookie, nil];
+    NSDictionary* headers = [NSHTTPCookie requestHeaderFieldsWithCookies:cookies];
+    [urlRequest setAllHTTPHeaderFields:headers];
+     
+    AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:urlRequest success:success failure:failure];
+    [self enqueueHTTPRequestOperation:operation];
+}
+
+- (void)postPath:(NSString *)path
+      sessionId:(NSString *)sessionId
+      csrfToken:(NSString *)csrfToken
+     parameters:(NSDictionary *)parameters
+        success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+        failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
+{
+	NSURLRequest *request = [self requestWithMethod:@"POST" path:path parameters:parameters];
+    NSMutableURLRequest* urlRequest = [request mutableCopy];
+    
+    NSHTTPCookie *sessionCookie = [NSHTTPCookie cookieWithProperties:@{
+                                                  NSHTTPCookieDomain: @".pinterest.com",
+                                                    NSHTTPCookiePath: @"",
+                                                    NSHTTPCookieName: @"_pinterest_sess",
+                                                   NSHTTPCookieValue: sessionId}];
+    
+    NSHTTPCookie *csrfTokenCookie = [NSHTTPCookie cookieWithProperties:@{
+                                                    NSHTTPCookieDomain: @".pinterest.com",
+                                                      NSHTTPCookiePath: @"",
+                                                      NSHTTPCookieName: @"csrftoken",
+                                                     NSHTTPCookieValue: csrfToken}];
+    NSArray* cookies = [NSArray arrayWithObjects: sessionCookie, csrfTokenCookie, nil];
+    NSDictionary* headers = [NSHTTPCookie requestHeaderFieldsWithCookies:cookies];
+    [urlRequest setAllHTTPHeaderFields:headers];
+    
+    [urlRequest setValue:csrfToken forHTTPHeaderField:@"X-CSRFToken"];
+    [urlRequest setValue:@"XMLHttpRequest" forHTTPHeaderField:@"X-Requested-With"];
+
+    
+    AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:urlRequest success:success failure:failure];
+    [self enqueueHTTPRequestOperation:operation];
+}
+
+
+- (AFHTTPRequestOperation *)HTTPRequestOperationWithRequest:(NSURLRequest *)urlRequest
+                                                    success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+                                                    failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
+{
+    
+    NSMutableURLRequest* request = [urlRequest mutableCopy];
+    [request setValue:@"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:20.0) Gecko/20100101 Firefox/20.0" forHTTPHeaderField:@"User-Agent"];
+    
+    AFHTTPRequestOperation* operation = [super HTTPRequestOperationWithRequest:request success:success failure:failure];
+    
+    return operation;
+}
 
 @end

@@ -15,13 +15,14 @@
 //
 
 #import "AFHTTPClient.h"
+#import "GTMOAuth2Authentication.h"
 
 @interface SOGooglePlusAPIClient : AFHTTPClient
 
 + (SOGooglePlusAPIClient *)sharedClient;
 
 - (void)getPath:(NSString *)path
-         accessToken:(NSString*)bearer
+         auth:(GTMOAuth2Authentication*)auth
      parameters:(NSDictionary *)parameters
         success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;

@@ -20,4 +20,20 @@
 
 + (SOPinterestAPIClient *)sharedClient;
 
+- (void)getPath:(NSString *)path
+      sessionId:(NSString *)sessionId
+      csrfToken:(NSString *)csrfToken
+     parameters:(NSDictionary *)parameters
+        success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+        failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
+
+
+- (void)postPath:(NSString *)path
+      sessionId:(NSString *)sessionId
+      csrfToken:(NSString *)csrfToken
+     parameters:(NSDictionary *)parameters
+        success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+        failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
+
+
 @end

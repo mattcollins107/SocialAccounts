@@ -44,18 +44,20 @@ static NSString * const kAFGooglePlusAPIBaseURLString = @"https://www.googleapis
 }
 
 - (void)getPath:(NSString *)path
-         accessToken:(NSString*)bearer
+         auth:(GTMOAuth2Authentication*)auth
      parameters:(NSDictionary *)parameters
         success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
 {
 	NSURLRequest *request = [self requestWithMethod:@"GET" path:path parameters:parameters];
     NSMutableURLRequest* urlRequest = [request mutableCopy];
-    NSString *authValue = [NSString stringWithFormat:@"Bearer %@", bearer];
-    [urlRequest setValue:authValue forHTTPHeaderField:@"Authorization"];
     
-    AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:urlRequest success:success failure:failure];
-    [self enqueueHTTPRequestOperation:operation];
+    [auth authorizeRequest:urlRequest completionHandler:^(NSError *error) {
+        AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:urlRequest success:success failure:failure];
+        [self enqueueHTTPRequestOperation:operation];
+    }];
+    
+    
 }
 
 
