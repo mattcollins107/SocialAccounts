@@ -43,6 +43,8 @@ typedef enum {
 
 
 // This property is only valid for OAuth2 credentials
+@property (copy, NS_NONATOMIC_IOSONLY) NSString *refreshToken;
+@property (copy, NS_NONATOMIC_IOSONLY) NSDate *expiryDate;
 @property (nonatomic, strong) NSString* scope;
 
 @end

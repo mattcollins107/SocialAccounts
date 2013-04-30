@@ -22,7 +22,10 @@
              refreshToken:(NSString *)refreshToken
                expiryDate:(NSDate *)expiryDate {
     self = [super init];
+
     self.oauthToken = token;
+    self.refreshToken = refreshToken;
+    self.expiryDate = expiryDate;
     
     self.credentialType = SOAccountCredentialTypeOAuth2;
     
@@ -30,8 +33,8 @@
 }
 
 - (id)initWithOAuthToken:(NSString *)token tokenSecret:(NSString *)secret {
-    self = [super initWithOAuthToken:token tokenSecret:secret];
-    
+    self = [super init];
+
     self.oauth1Token = token;
     self.oauth1Secret = secret;
     
@@ -41,7 +44,8 @@
 }
 
 - (id)initWithSessionKey:(NSString*)sessionKey CSRFToken:(NSString*)csrfToken {
-    
+    self = [super init];
+
     self.sessionKey = sessionKey;
     self.csrfToken = csrfToken;
     
@@ -52,7 +56,7 @@
 
 - (NSDictionary*)info {
     if (self.credentialType==SOAccountCredentialTypeOAuth2) {
-        return @{@"access_token": self.oauthToken, @"scope" : self.scope};
+        return @{@"access_token": self.oauthToken, @"scope" : self.scope };
     } else if (self.credentialType==SOAccountCredentialTypeOAuth1 && self.oauth1Token!=nil && self.oauth1Secret!=nil) {
         return @{@"oauth_token": self.oauth1Token, @"oauth_token_secret" : self.oauth1Secret};
     } else if (self.credentialType==SOAccountCredentialTypeSession) {

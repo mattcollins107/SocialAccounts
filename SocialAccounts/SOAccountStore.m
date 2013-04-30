@@ -50,6 +50,9 @@ NSString * const SOOAuth1RedirectURI = @"com.socialaccounts.oauth1.redirect_uri"
     if (credentialType==SOAccountCredentialTypeOAuth2) {
         credential = [[SOAccountCredential alloc] initWithOAuth2Token:[info objectForKey:@"credential.oauthToken"] refreshToken:nil expiryDate:nil];
         credential.scope = [info objectForKey:@"credential.scope"];
+        credential.refreshToken = [info objectForKey:@"credential.refreshToken"];
+        credential.expiryDate = [info objectForKey:@"credential.expiryDate"];
+        
     } else if (credentialType==SOAccountCredentialTypeOAuth1) {
         credential = [[SOAccountCredential alloc] initWithOAuthToken:[info objectForKey:@"credential.oauthToken"] tokenSecret:[info objectForKey:@"credential.oauthTokenSecret"]];
     } else if (credentialType==SOAccountCredentialTypeSession) {
@@ -73,6 +76,14 @@ NSString * const SOOAuth1RedirectURI = @"com.socialaccounts.oauth1.redirect_uri"
             [info setObject:[NSNumber numberWithInteger:SOAccountCredentialTypeOAuth2] forKey:@"credential.type"];
             [info setObject:account.credential.oauthToken forKey:@"credential.oauthToken"];
             [info setObject:account.credential.scope forKey:@"credential.scope"];
+            
+            if (account.credential.refreshToken!=nil) {
+                [info setObject:account.credential.refreshToken forKey:@"credential.refreshToken"];
+            }
+            
+            if (account.credential.expiryDate!=nil) {
+                [info setObject:account.credential.expiryDate forKey:@"credential.expiryDate"];
+            }
         }
     } else if (account.credential.credentialType==SOAccountCredentialTypeOAuth1) {
         if (account.credential.oauth1Token!=nil && account.credential.oauth1Secret!=nil) {
