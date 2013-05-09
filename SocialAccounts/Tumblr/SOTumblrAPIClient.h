@@ -15,9 +15,22 @@
 //
 
 #import "AFHTTPClient.h"
+#import "GTMOAuthAuthentication.h"
 
 @interface SOTumblrAPIClient : AFHTTPClient
 
 + (SOTumblrAPIClient *)sharedClient;
+
+- (void)getPath:(NSString *)path
+           auth:(GTMOAuthAuthentication*)auth
+     parameters:(NSDictionary *)parameters
+        success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+        failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
+
+- (void)postPath:(NSString *)path
+            auth:(GTMOAuthAuthentication*)auth
+      parameters:(NSDictionary *)parameters
+         success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
 
 @end

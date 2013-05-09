@@ -27,6 +27,9 @@ typedef enum {
 
 - (id)initWithSessionKey:(NSString*)sessionKey CSRFToken:(NSString*)csrfToken;
 
+- (id)initWithSessionKey:(NSString*)sessionKey authToken:(NSString*)authToken CSRFToken:(NSString*)csrfToken;
+
+
 @property (nonatomic, assign) SOAccountCredentialType credentialType;
 
 // All credentials 
@@ -39,6 +42,7 @@ typedef enum {
 
 // This property is only valid for session credentials
 @property (copy, NS_NONATOMIC_IOSONLY) NSString *sessionKey;
+@property (copy, NS_NONATOMIC_IOSONLY) NSString *authToken;
 @property (copy, NS_NONATOMIC_IOSONLY) NSString *csrfToken;
 
 

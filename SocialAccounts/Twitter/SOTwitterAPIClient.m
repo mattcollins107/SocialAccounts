@@ -43,4 +43,35 @@ static NSString * const kAFTwitterAPIBaseURLString = @"https://api.twitter.com/1
     return self;
 }
 
+- (void)getPath:(NSString *)path
+           auth:(GTMOAuthAuthentication*)auth
+     parameters:(NSDictionary *)parameters
+        success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+        failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
+{
+	NSURLRequest *request = [self requestWithMethod:@"GET" path:path parameters:parameters];
+    NSMutableURLRequest* urlRequest = [request mutableCopy];
+    
+    [auth authorizeRequest:urlRequest];
+    
+    AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:urlRequest success:success failure:failure];
+    [self enqueueHTTPRequestOperation:operation];
+}
+
+- (void)postPath:(NSString *)path
+           auth:(GTMOAuthAuthentication*)auth
+     parameters:(NSDictionary *)parameters
+        success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+        failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
+{
+	NSURLRequest *request = [self requestWithMethod:@"POST" path:path parameters:parameters];
+    NSMutableURLRequest* urlRequest = [request mutableCopy];
+    
+    [auth authorizeRequest:urlRequest];
+    
+    AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:urlRequest success:success failure:failure];
+    [self enqueueHTTPRequestOperation:operation];
+}
+
+
 @end

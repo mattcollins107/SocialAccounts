@@ -18,7 +18,7 @@
 
 #import "AFJSONRequestOperation.h"
 
-static NSString * const kAFPinterestAPIBaseURLString = @"http://pinterest.com";
+static NSString * const kAFPinterestAPIBaseURLString = @"http://pinterest.com/";
 
 @implementation SOPinterestAPIClient
 

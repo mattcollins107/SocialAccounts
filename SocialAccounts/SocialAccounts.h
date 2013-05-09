@@ -28,6 +28,7 @@
     #import "SOOAuth1ViewController.h"
     #import "SOOAuth2ViewController.h"
     #import "SOSessionAuthViewController.h"
+    #import "SOOAuth2ClientViewController.h"
 
     #import "SOInstagramAPIClient.h"
     #import "SOInstagramUser.h"
@@ -62,5 +63,8 @@
 
     #import "SOGooglePlusAPIClient.h"
     #import "SOGooglePlusUser.h"
+
+    #import "SOVotoAPIClient.h"
+    #import "SOVotoUser.h"
 
 #endif /* _SOCIALACCOUNTS_ */

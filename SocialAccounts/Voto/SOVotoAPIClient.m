@@ -14,19 +14,18 @@
 // limitations under the License.
 //
 
-#import "SOTumblrAPIClient.h"
-
+#import "SOVotoAPIClient.h"
 #import "AFJSONRequestOperation.h"
 
-static NSString * const kAFTumblrAPIBaseURLString = @"http://api.tumblr.com/v2/";
+static NSString * const kAFVotoAPIBaseURLString = @"https://votoapp.com/api/";
 
-@implementation SOTumblrAPIClient
+@implementation SOVotoAPIClient
 
-+ (SOTumblrAPIClient *)sharedClient {
-    static SOTumblrAPIClient *_sharedClient = nil;
++ (SOVotoAPIClient *)sharedClient {
+    static SOVotoAPIClient *_sharedClient = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _sharedClient = [[SOTumblrAPIClient alloc] initWithBaseURL:[NSURL URLWithString:kAFTumblrAPIBaseURLString]];
+        _sharedClient = [[SOVotoAPIClient alloc] initWithBaseURL:[NSURL URLWithString:kAFVotoAPIBaseURLString]];
     });
     
     return _sharedClient;
@@ -45,7 +44,7 @@ static NSString * const kAFTumblrAPIBaseURLString = @"http://api.tumblr.com/v2/"
 }
 
 - (void)getPath:(NSString *)path
-           auth:(GTMOAuthAuthentication*)auth
+    accessToken:(NSString*)accessToken
      parameters:(NSDictionary *)parameters
         success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
@@ -53,22 +52,8 @@ static NSString * const kAFTumblrAPIBaseURLString = @"http://api.tumblr.com/v2/"
 	NSURLRequest *request = [self requestWithMethod:@"GET" path:path parameters:parameters];
     NSMutableURLRequest* urlRequest = [request mutableCopy];
     
-    [auth authorizeRequest:urlRequest];
-    
-    AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:urlRequest success:success failure:failure];
-    [self enqueueHTTPRequestOperation:operation];
-}
-
-- (void)postPath:(NSString *)path
-            auth:(GTMOAuthAuthentication*)auth
-      parameters:(NSDictionary *)parameters
-         success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
-         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
-{
-	NSURLRequest *request = [self requestWithMethod:@"POST" path:path parameters:parameters];
-    NSMutableURLRequest* urlRequest = [request mutableCopy];
-    
-    [auth authorizeRequest:urlRequest];
+    NSString *authorization = [NSString stringWithFormat:@"OAuth %@",accessToken];
+    [urlRequest setValue:authorization forHTTPHeaderField:@"Authorization"];
     
     AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:urlRequest success:success failure:failure];
     [self enqueueHTTPRequestOperation:operation];

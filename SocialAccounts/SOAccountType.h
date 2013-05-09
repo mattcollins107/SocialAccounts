@@ -31,6 +31,7 @@ ACCOUNTS_EXTERN NSString * const SOAccountTypeIdentifierDribbble;
 ACCOUNTS_EXTERN NSString * const SOAccountTypeIdentifierGithub;
 ACCOUNTS_EXTERN NSString * const SOAccountTypeIdentifierVine;
 ACCOUNTS_EXTERN NSString * const SOAccountTypeIdentifierGooglePlus;
+ACCOUNTS_EXTERN NSString * const SOAccountTypeIdentifierVoto;
 
 
 @interface SOAccountType : ACAccountType

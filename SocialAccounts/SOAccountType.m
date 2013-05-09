@@ -27,6 +27,7 @@ NSString * const SOAccountTypeIdentifierDribbble = @"com.apple.dribbble";
 NSString * const SOAccountTypeIdentifierGithub = @"com.apple.github";
 NSString * const SOAccountTypeIdentifierVine = @"com.apple.vine";
 NSString * const SOAccountTypeIdentifierGooglePlus = @"com.apple.googleplus";
+NSString * const SOAccountTypeIdentifierVoto = @"com.apple.voto";
 
 @implementation SOAccountType
 

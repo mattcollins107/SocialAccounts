@@ -15,23 +15,15 @@
 //
 
 #import "AFHTTPClient.h"
-#import "GTMOAuthAuthentication.h"
 
-@interface SOTwitterAPIClient : AFHTTPClient
+@interface SOVotoAPIClient : AFHTTPClient
 
-+ (SOTwitterAPIClient *)sharedClient;
++ (SOVotoAPIClient *)sharedClient;
 
 - (void)getPath:(NSString *)path
-           auth:(GTMOAuthAuthentication*)auth
+           accessToken:(NSString*)accessToken
      parameters:(NSDictionary *)parameters
         success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
-
-- (void)postPath:(NSString *)path
-           auth:(GTMOAuthAuthentication*)auth
-     parameters:(NSDictionary *)parameters
-        success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
-        failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
-
 
 @end

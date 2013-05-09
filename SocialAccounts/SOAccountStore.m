@@ -42,6 +42,7 @@ NSString * const SOOAuth1RedirectURI = @"com.socialaccounts.oauth1.redirect_uri"
     SOAccountType* type = [self accountTypeWithAccountTypeIdentifier:[info objectForKey:@"type"]];
     SOAccount* account = [[SOAccount alloc] initWithAccountType:type];
     account.username = [info objectForKey:@"username"];
+    account.userId = [info objectForKey:@"user_id"];
     
     SOAccountCredential* credential;
     
@@ -56,7 +57,7 @@ NSString * const SOOAuth1RedirectURI = @"com.socialaccounts.oauth1.redirect_uri"
     } else if (credentialType==SOAccountCredentialTypeOAuth1) {
         credential = [[SOAccountCredential alloc] initWithOAuthToken:[info objectForKey:@"credential.oauthToken"] tokenSecret:[info objectForKey:@"credential.oauthTokenSecret"]];
     } else if (credentialType==SOAccountCredentialTypeSession) {
-        credential = [[SOAccountCredential alloc] initWithSessionKey:[info objectForKey:@"credential.sessionKey"] CSRFToken:[info objectForKey:@"credential.csrfToken"]];
+        credential = [[SOAccountCredential alloc] initWithSessionKey:[info objectForKey:@"credential.sessionKey"] authToken:[info objectForKey:@"credential.authToken"] CSRFToken:[info objectForKey:@"credential.csrfToken"]];
     }
     
     account.credential = credential;
@@ -69,7 +70,14 @@ NSString * const SOOAuth1RedirectURI = @"com.socialaccounts.oauth1.redirect_uri"
     
     NSMutableDictionary* info = [[NSMutableDictionary alloc] init];
     [info setObject:account.accountType.identifier forKey:@"type"];
-    [info setObject:account.username forKey:@"username"];
+    
+    if (account.userId!=nil) {
+        [info setObject:account.userId forKey:@"user_id"];
+    }
+    
+    if (account.username!=nil) {
+        [info setObject:account.username forKey:@"username"];
+    }
     
     if (account.credential.credentialType==SOAccountCredentialTypeOAuth2) {
         if (account.credential.oauthToken!=nil && account.credential.scope!=nil) {
@@ -94,6 +102,7 @@ NSString * const SOOAuth1RedirectURI = @"com.socialaccounts.oauth1.redirect_uri"
     } else if (account.credential.credentialType==SOAccountCredentialTypeSession) {
         [info setObject:[NSNumber numberWithInteger:SOAccountCredentialTypeSession] forKey:@"credential.type"];
         [info setObject:account.credential.sessionKey forKey:@"credential.sessionKey"];
+        [info setObject:account.credential.authToken forKey:@"credential.authToken"];
         [info setObject:account.credential.csrfToken forKey:@"credential.csrfToken"];
     }
     
@@ -108,7 +117,7 @@ NSString * const SOOAuth1RedirectURI = @"com.socialaccounts.oauth1.redirect_uri"
     // find if the account already in the database. if so, we'll remove the old copy
     for (SOAccount* localAccount in self.accounts) {
         if ([localAccount.identifier isEqualToString:account.identifier]) {
-            [accounts removeObject:localAccount];
+            [accounts removeObject:localAccount.identifier];
         }
     }
     
@@ -129,8 +138,14 @@ NSString * const SOOAuth1RedirectURI = @"com.socialaccounts.oauth1.redirect_uri"
     if (accounts==nil) {
         accounts = [[NSMutableArray alloc] init];
     }
+
+    // find if the account already in the database. if so, we'll remove the old copy
+    for (SOAccount* localAccount in self.accounts) {
+        if ([localAccount.identifier isEqualToString:account.identifier]) {
+            [accounts removeObject:localAccount.identifier];
+        }
+    }
     
-    [accounts removeObject:account];
     [self setArray:accounts forKey:@"Accounts"];
 
     if (self.saveAccountHandler) {
@@ -188,6 +203,11 @@ NSString * const SOOAuth1RedirectURI = @"com.socialaccounts.oauth1.redirect_uri"
     accountType = [[SOAccountType alloc] init];
     accountType.identifier = SOAccountTypeIdentifierFoursquare;
     accountType.accountTypeDescription = @"Foursquare";
+    [array addObject:accountType];
+
+    accountType = [[SOAccountType alloc] init];
+    accountType.identifier = SOAccountTypeIdentifierVoto;
+    accountType.accountTypeDescription = @"Voto";
     [array addObject:accountType];
     
     accountType = [[SOAccountType alloc] init];

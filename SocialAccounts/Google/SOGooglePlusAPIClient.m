@@ -56,8 +56,6 @@ static NSString * const kAFGooglePlusAPIBaseURLString = @"https://www.googleapis
         AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:urlRequest success:success failure:failure];
         [self enqueueHTTPRequestOperation:operation];
     }];
-    
-    
 }
 
 

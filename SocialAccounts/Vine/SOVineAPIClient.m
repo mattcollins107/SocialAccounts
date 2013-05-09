@@ -91,7 +91,7 @@ static NSString * const kAFVineAPIBaseURLString = @"https://api.vineapp.com/";
 {
 
     NSMutableURLRequest* request = [urlRequest mutableCopy];
-    [request setValue:@"com.vine.iphone/1.0.7 (unknown, iPhone OS 5.1.1, iPhone, Scale/2.000000)" forHTTPHeaderField:@"User-Agent"];
+    [request setValue:@"com.vine.iphone/1.1.0 (unknown, iPhone OS 5.1.1, iPhone, Scale/2.000000)" forHTTPHeaderField:@"User-Agent"];
     
     AFHTTPRequestOperation* operation = [super HTTPRequestOperationWithRequest:request success:success failure:failure];
     

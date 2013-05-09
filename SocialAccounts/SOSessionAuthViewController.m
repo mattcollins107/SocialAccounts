@@ -31,6 +31,7 @@
     
     return self;
 }
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -59,7 +60,7 @@
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.activityIndicator];
     
-    self.webView = [[UIWebView alloc] initWithFrame:self.view.frame];
+    self.webView = [[UIWebView alloc] initWithFrame:self.view.bounds];
     [self.view addSubview:self.webView];
     self.webView.delegate = self;
     
