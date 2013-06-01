@@ -33,8 +33,6 @@ typedef void(^SOAccountStoreSaveCompletionHandler)(BOOL success, NSError *error)
 
 @protocol SOBaseAuthController <NSObject>
 
-@property (nonatomic, copy) void (^popViewBlock)(void);
-@property (nonatomic, copy) NSString *initialHTMLString;
 
 - (void)dismissModalViewControllerAnimated:(BOOL)animated;
 
