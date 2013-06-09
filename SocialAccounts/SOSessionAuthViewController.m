@@ -50,7 +50,7 @@
 
     self.title = [NSString stringWithFormat:NSLocalizedString(@"Login to %@", @""), self.accountType.accountTypeDescription];
     
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(pushIndexView)];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismiss:)];
     
     CGRect frame = CGRectMake(0.0, 0.0, 25.0, 25.0);
     self.activityIndicator = [[UIActivityIndicatorView alloc] initWithFrame:frame];
@@ -82,14 +82,13 @@
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
     
-    [self pushIndexView];
+    [self dismiss:nil];
 }
 
 
-- (void)pushIndexView {
+- (void)dismiss:(id)sender {
     [self dismissModalViewControllerAnimated:YES];
 }
-
 
 
 - (void)dealloc {

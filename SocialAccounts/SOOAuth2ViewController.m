@@ -35,7 +35,7 @@
     
     self.title = [NSString stringWithFormat:NSLocalizedString(@"Login to %@", @""), self.accountType.accountTypeDescription];
     
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(pushIndexView)];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismiss:)];
     
     self.webView.scalesPageToFit = YES;
 
@@ -69,7 +69,7 @@
     [self.activityIndicator stopAnimating];
 }
 
-- (void)pushIndexView {
+- (void)dismiss:(id)sender {
     [self dismissModalViewControllerAnimated:YES];
 }
 

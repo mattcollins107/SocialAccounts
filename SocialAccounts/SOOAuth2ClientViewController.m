@@ -53,10 +53,6 @@
             url = [request.URL.absoluteString substringToIndex:length];
         }
         
-   //     NSLog(@"%@ - %@", url, self.redirectURI.absoluteString);
-
-        
-        
         if ([url isEqualToString:self.redirectURI.absoluteString]) {
             NSDictionary* result = [self URLQueryParametersWithURL:request.URL];
             
