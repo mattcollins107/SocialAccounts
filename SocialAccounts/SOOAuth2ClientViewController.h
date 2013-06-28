@@ -27,5 +27,3 @@
 @property (nonatomic, strong) NSURL* redirectURI;
 
 @end
-
-

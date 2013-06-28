@@ -25,7 +25,7 @@
         _userId = [NSString stringWithFormat:@"%@", [dictionary objectForKey:@"id"]];
         _username = [dictionary objectForKey:@"screen_name"];
         _fullname = [dictionary objectForKey:@"name"];
-        _profilePicture = [NSString stringWithFormat:@"https://api.twitter.com/1/users/profile_image/%@", [dictionary objectForKey:@"screen_name"]];
+        _profilePicture = [dictionary objectForKey:@"profile_image_url"];
     }
     
     return self;
