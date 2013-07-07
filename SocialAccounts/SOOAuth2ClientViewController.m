@@ -83,16 +83,16 @@
     for (NSString *parameter in parameters)
     {
         NSArray *parts = [parameter componentsSeparatedByString:@"="];
-        NSString *key = [parts objectAtIndex:0];
+        NSString *key = parts[0];
         if ([parts count] > 1)
         {
-            id value = [parts objectAtIndex:1];
+            id value = parts[1];
             BOOL arrayValue = [key hasSuffix:@"[]"];
             if (arrayValue)
             {
                 key = [key substringToIndex:[key length] - 2];
             }
-            id existingValue = [result objectForKey:key];
+            id existingValue = result[key];
             if ([existingValue isKindOfClass:[NSArray class]])
             {
                 value = [existingValue arrayByAddingObject:value];
@@ -102,7 +102,7 @@
                 value = existingValue;
             }
             
-            [result setObject:value forKey:key];
+            result[key] = value;
         }
     }
     return result;

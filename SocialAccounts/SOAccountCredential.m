@@ -85,7 +85,7 @@
         return @{@"session_key": self.sessionKey, @"auth_token" : self.authToken, @"csrf_token" : self.csrfToken};
     }
     
-    return [NSDictionary dictionary];
+    return @{};
 }
 
 @end

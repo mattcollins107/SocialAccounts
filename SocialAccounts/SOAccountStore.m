@@ -39,25 +39,25 @@ NSString * const SOOAuth1RedirectURI = @"com.socialaccounts.oauth1.redirect_uri"
 - (SOAccount *)accountWithIdentifier:(NSString *)identifier {
     NSDictionary* info = [self getDictionaryForKey:identifier];
     
-    SOAccountType* type = [self accountTypeWithAccountTypeIdentifier:[info objectForKey:@"type"]];
+    SOAccountType* type = [self accountTypeWithAccountTypeIdentifier:info[@"type"]];
     SOAccount* account = [[SOAccount alloc] initWithAccountType:type];
-    account.username = [info objectForKey:@"username"];
-    account.userId = [info objectForKey:@"user_id"];
+    account.username = info[@"username"];
+    account.userId = info[@"user_id"];
     
     SOAccountCredential* credential;
     
-    SOAccountCredentialType credentialType = [[info objectForKey:@"credential.type"] integerValue];
+    SOAccountCredentialType credentialType = [info[@"credential.type"] integerValue];
     
     if (credentialType==SOAccountCredentialTypeOAuth2) {
-        credential = [[SOAccountCredential alloc] initWithOAuth2Token:[info objectForKey:@"credential.oauthToken"] refreshToken:nil expiryDate:nil];
-        credential.scope = [info objectForKey:@"credential.scope"];
-        credential.refreshToken = [info objectForKey:@"credential.refreshToken"];
-        credential.expiryDate = [info objectForKey:@"credential.expiryDate"];
+        credential = [[SOAccountCredential alloc] initWithOAuth2Token:info[@"credential.oauthToken"] refreshToken:nil expiryDate:nil];
+        credential.scope = info[@"credential.scope"];
+        credential.refreshToken = info[@"credential.refreshToken"];
+        credential.expiryDate = info[@"credential.expiryDate"];
         
     } else if (credentialType==SOAccountCredentialTypeOAuth1) {
-        credential = [[SOAccountCredential alloc] initWithOAuthToken:[info objectForKey:@"credential.oauthToken"] tokenSecret:[info objectForKey:@"credential.oauthTokenSecret"]];
+        credential = [[SOAccountCredential alloc] initWithOAuthToken:info[@"credential.oauthToken"] tokenSecret:info[@"credential.oauthTokenSecret"]];
     } else if (credentialType==SOAccountCredentialTypeSession) {
-        credential = [[SOAccountCredential alloc] initWithSessionKey:[info objectForKey:@"credential.sessionKey"] authToken:[info objectForKey:@"credential.authToken"] CSRFToken:[info objectForKey:@"credential.csrfToken"]];
+        credential = [[SOAccountCredential alloc] initWithSessionKey:info[@"credential.sessionKey"] authToken:info[@"credential.authToken"] CSRFToken:info[@"credential.csrfToken"]];
     }
     
     account.credential = credential;
@@ -69,41 +69,41 @@ NSString * const SOOAuth1RedirectURI = @"com.socialaccounts.oauth1.redirect_uri"
     self.saveAccountHandler = completionHandler;
     
     NSMutableDictionary* info = [[NSMutableDictionary alloc] init];
-    [info setObject:account.accountType.identifier forKey:@"type"];
+    info[@"type"] = account.accountType.identifier;
     
     if (account.userId!=nil) {
-        [info setObject:account.userId forKey:@"user_id"];
+        info[@"user_id"] = account.userId;
     }
     
     if (account.username!=nil) {
-        [info setObject:account.username forKey:@"username"];
+        info[@"username"] = account.username;
     }
     
     if (account.credential.credentialType==SOAccountCredentialTypeOAuth2) {
         if (account.credential.oauthToken!=nil && account.credential.scope!=nil) {
-            [info setObject:[NSNumber numberWithInteger:SOAccountCredentialTypeOAuth2] forKey:@"credential.type"];
-            [info setObject:account.credential.oauthToken forKey:@"credential.oauthToken"];
-            [info setObject:account.credential.scope forKey:@"credential.scope"];
+            info[@"credential.type"] = @(SOAccountCredentialTypeOAuth2);
+            info[@"credential.oauthToken"] = account.credential.oauthToken;
+            info[@"credential.scope"] = account.credential.scope;
             
             if (account.credential.refreshToken!=nil) {
-                [info setObject:account.credential.refreshToken forKey:@"credential.refreshToken"];
+                info[@"credential.refreshToken"] = account.credential.refreshToken;
             }
             
             if (account.credential.expiryDate!=nil) {
-                [info setObject:account.credential.expiryDate forKey:@"credential.expiryDate"];
+                info[@"credential.expiryDate"] = account.credential.expiryDate;
             }
         }
     } else if (account.credential.credentialType==SOAccountCredentialTypeOAuth1) {
         if (account.credential.oauth1Token!=nil && account.credential.oauth1Secret!=nil) {
-            [info setObject:[NSNumber numberWithInteger:SOAccountCredentialTypeOAuth1] forKey:@"credential.type"];
-            [info setObject:account.credential.oauth1Token forKey:@"credential.oauthToken"];
-            [info setObject:account.credential.oauth1Secret forKey:@"credential.oauthTokenSecret"];
+            info[@"credential.type"] = @(SOAccountCredentialTypeOAuth1);
+            info[@"credential.oauthToken"] = account.credential.oauth1Token;
+            info[@"credential.oauthTokenSecret"] = account.credential.oauth1Secret;
         }
     } else if (account.credential.credentialType==SOAccountCredentialTypeSession) {
-        [info setObject:[NSNumber numberWithInteger:SOAccountCredentialTypeSession] forKey:@"credential.type"];
-        [info setObject:account.credential.sessionKey forKey:@"credential.sessionKey"];
-        [info setObject:account.credential.authToken forKey:@"credential.authToken"];
-        [info setObject:account.credential.csrfToken forKey:@"credential.csrfToken"];
+        info[@"credential.type"] = @(SOAccountCredentialTypeSession);
+        info[@"credential.sessionKey"] = account.credential.sessionKey;
+        info[@"credential.authToken"] = account.credential.authToken;
+        info[@"credential.csrfToken"] = account.credential.csrfToken;
     }
     
     [self setDictionary:info forKey:account.identifier];
@@ -255,7 +255,7 @@ NSString * const SOOAuth1RedirectURI = @"com.socialaccounts.oauth1.redirect_uri"
 }
 
 - (void)clearStore {
-    [self setArray:[NSArray array] forKey:@"Accounts"];
+    [self setArray:@[] forKey:@"Accounts"];
 }
 
 - (BOOL)setDictionary:(NSDictionary*)dictionary forKey:(NSString*)key
@@ -273,18 +273,18 @@ NSString * const SOOAuth1RedirectURI = @"com.socialaccounts.oauth1.redirect_uri"
     NSString* error = nil;
 	NSData *data = [NSPropertyListSerialization dataFromPropertyList:dictionary format:NSPropertyListXMLFormat_v1_0 errorDescription:&error];
 	
-	[existsQueryDictionary setObject:(__bridge id)kSecClassGenericPassword forKey:(__bridge id)kSecClass];
+	existsQueryDictionary[(__bridge id)kSecClass] = (__bridge id)kSecClassGenericPassword;
 	
 	// Add the keys to the search dict
-	[existsQueryDictionary setObject:@"service" forKey:(__bridge id)kSecAttrService];
-	[existsQueryDictionary setObject:key forKey:(__bridge id)kSecAttrAccount];
+	existsQueryDictionary[(__bridge id)kSecAttrService] = @"service";
+	existsQueryDictionary[(__bridge id)kSecAttrAccount] = key;
     
     OSStatus res = SecItemCopyMatching((__bridge CFDictionaryRef) existsQueryDictionary, NULL);
     
 	if (res == errSecItemNotFound) {
 		if (dictionary != nil) {
 			NSMutableDictionary *addDict = existsQueryDictionary;
-			[addDict setObject:data forKey:(__bridge id)kSecValueData];
+			addDict[(__bridge id)kSecValueData] = data;
             
 			res = SecItemAdd((__bridge CFDictionaryRef)addDict, NULL);
 			NSAssert1(res == errSecSuccess, @"Recieved %ld from SecItemAdd!", res);
@@ -292,7 +292,7 @@ NSString * const SOOAuth1RedirectURI = @"com.socialaccounts.oauth1.redirect_uri"
 	} else if (res == errSecSuccess) {
 		// Modify an existing one
 		// Actually pull it now of the keychain at this point.
-		NSDictionary *attributeDict = [NSDictionary dictionaryWithObject:data forKey:(__bridge id)kSecValueData];
+		NSDictionary *attributeDict = @{(__bridge id)kSecValueData: data};
 		res = SecItemUpdate((__bridge CFDictionaryRef)existsQueryDictionary, (__bridge CFDictionaryRef)attributeDict);
 		NSAssert1(res == errSecSuccess, @"SecItemUpdated returned %ld!", res);
 	} else {
@@ -306,16 +306,16 @@ NSString * const SOOAuth1RedirectURI = @"com.socialaccounts.oauth1.redirect_uri"
 	key = [NSString stringWithFormat:@"%@ - %@", @"SocialAccounts", key];
 
 	NSMutableDictionary *existsQueryDictionary = [NSMutableDictionary dictionary];
-	[existsQueryDictionary setObject:(__bridge id)kSecClassGenericPassword forKey:(__bridge id)kSecClass];
+	existsQueryDictionary[(__bridge id)kSecClass] = (__bridge id)kSecClassGenericPassword;
 	
 	// Add the keys to the search dict
-	[existsQueryDictionary setObject:@"service" forKey:(__bridge id)kSecAttrService];
-	[existsQueryDictionary setObject:key forKey:(__bridge id)kSecAttrAccount];
+	existsQueryDictionary[(__bridge id)kSecAttrService] = @"service";
+	existsQueryDictionary[(__bridge id)kSecAttrAccount] = key;
 	
 	// We want the data back!
 	CFTypeRef data = nil;
 	
-	[existsQueryDictionary setObject:(id)kCFBooleanTrue forKey:(__bridge id)kSecReturnData];
+	existsQueryDictionary[(__bridge id)kSecReturnData] = (id)kCFBooleanTrue;
     
 	OSStatus res = SecItemCopyMatching((__bridge CFDictionaryRef)existsQueryDictionary, &data);
     
@@ -348,18 +348,18 @@ NSString * const SOOAuth1RedirectURI = @"com.socialaccounts.oauth1.redirect_uri"
     NSString* error = nil;
 	NSData *data = [NSPropertyListSerialization dataFromPropertyList:array format:NSPropertyListXMLFormat_v1_0 errorDescription:&error];
 	
-	[existsQueryDictionary setObject:(__bridge id)kSecClassGenericPassword forKey:(__bridge id)kSecClass];
+	existsQueryDictionary[(__bridge id)kSecClass] = (__bridge id)kSecClassGenericPassword;
 	
 	// Add the keys to the search dict
-	[existsQueryDictionary setObject:@"service" forKey:(__bridge id)kSecAttrService];
-	[existsQueryDictionary setObject:key forKey:(__bridge id)kSecAttrAccount];
+	existsQueryDictionary[(__bridge id)kSecAttrService] = @"service";
+	existsQueryDictionary[(__bridge id)kSecAttrAccount] = key;
     
     OSStatus res = SecItemCopyMatching((__bridge CFDictionaryRef) existsQueryDictionary, NULL);
     
 	if (res == errSecItemNotFound) {
 		if (array != nil) {
 			NSMutableDictionary *addDict = existsQueryDictionary;
-			[addDict setObject:data forKey:(__bridge id)kSecValueData];
+			addDict[(__bridge id)kSecValueData] = data;
             
 			res = SecItemAdd((__bridge CFDictionaryRef)addDict, NULL);
 			NSAssert1(res == errSecSuccess, @"Recieved %ld from SecItemAdd!", res);
@@ -367,7 +367,7 @@ NSString * const SOOAuth1RedirectURI = @"com.socialaccounts.oauth1.redirect_uri"
 	} else if (res == errSecSuccess) {
 		// Modify an existing one
 		// Actually pull it now of the keychain at this point.
-		NSDictionary *attributeDict = [NSDictionary dictionaryWithObject:data forKey:(__bridge id)kSecValueData];
+		NSDictionary *attributeDict = @{(__bridge id)kSecValueData: data};
 		res = SecItemUpdate((__bridge CFDictionaryRef)existsQueryDictionary, (__bridge CFDictionaryRef)attributeDict);
 		NSAssert1(res == errSecSuccess, @"SecItemUpdated returned %ld!", res);
 	} else {
@@ -381,16 +381,16 @@ NSString * const SOOAuth1RedirectURI = @"com.socialaccounts.oauth1.redirect_uri"
 	key = [NSString stringWithFormat:@"%@ - %@", @"SocialAccounts", key];
     
 	NSMutableDictionary *existsQueryDictionary = [NSMutableDictionary dictionary];
-	[existsQueryDictionary setObject:(__bridge id)kSecClassGenericPassword forKey:(__bridge id)kSecClass];
+	existsQueryDictionary[(__bridge id)kSecClass] = (__bridge id)kSecClassGenericPassword;
 	
 	// Add the keys to the search dict
-	[existsQueryDictionary setObject:@"service" forKey:(__bridge id)kSecAttrService];
-	[existsQueryDictionary setObject:key forKey:(__bridge id)kSecAttrAccount];
+	existsQueryDictionary[(__bridge id)kSecAttrService] = @"service";
+	existsQueryDictionary[(__bridge id)kSecAttrAccount] = key;
 	
 	// We want the data back!
 	CFTypeRef data = nil;
 	
-	[existsQueryDictionary setObject:(id)kCFBooleanTrue forKey:(__bridge id)kSecReturnData];
+	existsQueryDictionary[(__bridge id)kSecReturnData] = (id)kCFBooleanTrue;
     
 	OSStatus res = SecItemCopyMatching((__bridge CFDictionaryRef)existsQueryDictionary, &data);
     
