@@ -199,6 +199,16 @@ NSString * const SOOAuth1RedirectURI = @"com.socialaccounts.oauth1.redirect_uri"
     accountType.identifier = SOAccountTypeIdentifierTumblr;
     accountType.accountTypeDescription = @"Tumblr";
     [array addObject:accountType];
+
+    accountType = [[SOAccountType alloc] init];
+    accountType.identifier = SOAccountTypeIdentifierLinkedIn;
+    accountType.accountTypeDescription = @"LinkedIn";
+    [array addObject:accountType];
+    
+    accountType = [[SOAccountType alloc] init];
+    accountType.identifier = SOAccountTypeIdentifierAppNet;
+    accountType.accountTypeDescription = @"App.Net";
+    [array addObject:accountType];
     
     accountType = [[SOAccountType alloc] init];
     accountType.identifier = SOAccountTypeIdentifierFoursquare;

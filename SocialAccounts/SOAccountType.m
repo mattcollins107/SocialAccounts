@@ -20,6 +20,7 @@ NSString * const SOAccountTypeIdentifierTwitter = @"com.apple.twitter";
 NSString * const SOAccountTypeIdentifierInstagram = @"com.apple.instagram";
 NSString * const SOAccountTypeIdentifier500px = @"com.apple.500px";
 NSString * const SOAccountTypeIdentifierTumblr = @"com.apple.tumblr";
+NSString * const SOAccountTypeIdentifierLinkedIn = @"com.apple.linkedin";
 NSString * const SOAccountTypeIdentifierPinterest = @"com.apple.pinterest";
 NSString * const SOAccountTypeIdentifierFacebook = @"com.apple.facebook";
 NSString * const SOAccountTypeIdentifierFoursquare = @"com.apple.foursquare";
@@ -28,6 +29,7 @@ NSString * const SOAccountTypeIdentifierGithub = @"com.apple.github";
 NSString * const SOAccountTypeIdentifierVine = @"com.apple.vine";
 NSString * const SOAccountTypeIdentifierGooglePlus = @"com.apple.googleplus";
 NSString * const SOAccountTypeIdentifierVoto = @"com.apple.voto";
+NSString * const SOAccountTypeIdentifierAppNet = @"com.apple.appnet";
 
 @implementation SOAccountType
 

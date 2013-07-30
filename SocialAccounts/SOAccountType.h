@@ -24,6 +24,7 @@ ACCOUNTS_EXTERN NSString * const SOAccountTypeIdentifierTwitter;
 ACCOUNTS_EXTERN NSString * const SOAccountTypeIdentifierInstagram;
 ACCOUNTS_EXTERN NSString * const SOAccountTypeIdentifier500px;
 ACCOUNTS_EXTERN NSString * const SOAccountTypeIdentifierTumblr;
+ACCOUNTS_EXTERN NSString * const SOAccountTypeIdentifierLinkedIn;
 ACCOUNTS_EXTERN NSString * const SOAccountTypeIdentifierPinterest;
 ACCOUNTS_EXTERN NSString * const SOAccountTypeIdentifierFacebook;
 ACCOUNTS_EXTERN NSString * const SOAccountTypeIdentifierFoursquare;
@@ -32,6 +33,7 @@ ACCOUNTS_EXTERN NSString * const SOAccountTypeIdentifierGithub;
 ACCOUNTS_EXTERN NSString * const SOAccountTypeIdentifierVine;
 ACCOUNTS_EXTERN NSString * const SOAccountTypeIdentifierGooglePlus;
 ACCOUNTS_EXTERN NSString * const SOAccountTypeIdentifierVoto;
+ACCOUNTS_EXTERN NSString * const SOAccountTypeIdentifierAppNet;
 
 
 @interface SOAccountType : ACAccountType

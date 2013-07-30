@@ -46,6 +46,9 @@
     #import "SOTumblrUser.h"
     #import "SOTumblrBlog.h"
 
+    #import "SOAppNetAPIClient.h"
+    #import "SOAppNetUser.h"
+
     #import "SOFiveHundredspxAPIClient.h"
     #import "SOFiveHundredspxUser.h"
 
@@ -63,6 +66,9 @@
 
     #import "SOGooglePlusAPIClient.h"
     #import "SOGooglePlusUser.h"
+
+    #import "SOLinkedInAPIClient.h"
+    #import "SOLinkedInUser.h"
 
     #import "SOVotoAPIClient.h"
     #import "SOVotoUser.h"

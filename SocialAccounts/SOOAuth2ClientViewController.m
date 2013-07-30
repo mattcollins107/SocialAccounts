@@ -56,6 +56,8 @@
         if ([url isEqualToString:self.redirectURI.absoluteString]) {
             NSDictionary* result = [self URLQueryParametersWithURL:request.URL];
             
+            NSLog(@"got %@", [result description]);
+            
             completionBlock_(result, nil);
             
             [self dismissModalViewControllerAnimated:YES];
