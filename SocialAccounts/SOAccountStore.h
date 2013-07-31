@@ -36,6 +36,7 @@ typedef void(^SOAccountStoreSaveCompletionHandler)(BOOL success, NSError *error)
 @property (nonatomic, strong) UIActivityIndicatorView* activityIndicator;
 
 - (void)dismissModalViewControllerAnimated:(BOOL)animated;
+- (void)dismiss:(id)sender;
 
 @end
 
