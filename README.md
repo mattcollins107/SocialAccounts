@@ -1,5 +1,8 @@
 # SocialAccounts
 
+![](http://cocoapod-badges.herokuapp.com/v/SocialAccounts/badge.png) &nbsp; ![](http://cocoapod-badges.herokuapp.com/p/SocialAccounts/badge.png)
+
+
 SocialAccounts is an iOS framework that provides an easy way to manage social network accounts
 
 ## Requirements
