@@ -18,11 +18,11 @@
 
 @implementation SOOAuth2ClientViewController
 
-+ (id)controllerWithAuthUri:(NSString*)authUri redirectURI:(NSString*)uri completionHandler:(void (^)(NSDictionary* info, NSError *error))handler {
++ (instancetype)controllerWithAuthUri:(NSString *)authUri redirectURI:(NSString *)uri completionHandler:(void (^)(NSDictionary* info, NSError *error))handler {
     return [[self alloc] initWithAuthUri:(NSString*)authUri redirectURI:uri completionHandler:handler];
 }
 
-- (id)initWithAuthUri:(NSString*)authUri redirectURI:(NSString*)uri completionHandler:(void (^)(NSDictionary* info, NSError *error))handler {
+- (instancetype)initWithAuthUri:(NSString *)authUri redirectURI:(NSString *)uri completionHandler:(void (^)(NSDictionary * info, NSError *error))handler {
     
     self = [self initWithNibName:nil bundle:nil];
     if (self) {
@@ -79,38 +79,30 @@
 }
 
 
-- (NSDictionary *)URLQueryParametersWithURL:(NSURL*)url
-{
+- (NSDictionary *)URLQueryParametersWithURL:(NSURL *)url {
     NSString *queryString = @"";
     
     NSRange fragmentStart = [url.absoluteString rangeOfString:@"#"];
-    if (fragmentStart.location != NSNotFound)
-    {
+    if (fragmentStart.location != NSNotFound) {
         queryString = [url.absoluteString substringFromIndex:fragmentStart.location + 1];
     }
     
-    
     NSMutableDictionary *result = [NSMutableDictionary dictionary];
     NSArray *parameters = [queryString componentsSeparatedByString:@"&"];
-    for (NSString *parameter in parameters)
-    {
+    for (NSString *parameter in parameters) {
         NSArray *parts = [parameter componentsSeparatedByString:@"="];
         NSString *key = parts[0];
-        if ([parts count] > 1)
-        {
+        if ([parts count] > 1) {
             id value = parts[1];
             BOOL arrayValue = [key hasSuffix:@"[]"];
-            if (arrayValue)
-            {
+            if (arrayValue) {
                 key = [key substringToIndex:[key length] - 2];
             }
+            
             id existingValue = result[key];
-            if ([existingValue isKindOfClass:[NSArray class]])
-            {
+            if ([existingValue isKindOfClass:[NSArray class]]) {
                 value = [existingValue arrayByAddingObject:value];
-            }
-            else if (existingValue)
-            {
+            } else if (existingValue) {
                 value = existingValue;
             }
             

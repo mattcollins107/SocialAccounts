@@ -25,9 +25,9 @@ typedef enum {
 
 @interface SOAccountCredential : ACAccountCredential
 
-- (id)initWithSessionKey:(NSString*)sessionKey CSRFToken:(NSString*)csrfToken;
+- (instancetype)initWithSessionKey:(NSString *)sessionKey CSRFToken:(NSString *)csrfToken;
 
-- (id)initWithSessionKey:(NSString*)sessionKey authToken:(NSString*)authToken CSRFToken:(NSString*)csrfToken;
+- (instancetype)initWithSessionKey:(NSString *)sessionKey authToken:(NSString *)authToken CSRFToken:(NSString *)csrfToken;
 
 
 @property (nonatomic, assign) SOAccountCredentialType credentialType;

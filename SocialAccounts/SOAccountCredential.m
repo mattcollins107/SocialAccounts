@@ -18,7 +18,7 @@
 
 @implementation SOAccountCredential
 
-- (id)init {
+- (instancetype)init {
     self = [super init];
 
     self.sessionKey = @"";
@@ -28,7 +28,7 @@
     return self;
 }
 
-- (id)initWithOAuth2Token:(NSString *)token
+- (instancetype)initWithOAuth2Token:(NSString *)token
              refreshToken:(NSString *)refreshToken
                expiryDate:(NSDate *)expiryDate {
     self = [self init];
@@ -42,7 +42,7 @@
     return self;
 }
 
-- (id)initWithOAuthToken:(NSString *)token tokenSecret:(NSString *)secret {
+- (instancetype)initWithOAuthToken:(NSString *)token tokenSecret:(NSString *)secret {
     self = [self init];
 
     self.oauth1Token = token;
@@ -53,7 +53,7 @@
     return self;
 }
 
-- (id)initWithSessionKey:(NSString*)sessionKey CSRFToken:(NSString*)csrfToken {
+- (instancetype)initWithSessionKey:(NSString *)sessionKey CSRFToken:(NSString *)csrfToken {
     self = [self init];
 
     self.sessionKey = sessionKey;
@@ -72,7 +72,7 @@
 }
 
 
-- (NSDictionary*)info {
+- (NSDictionary *)info {
     if (self.credentialType==SOAccountCredentialTypeOAuth2) {
         return @{@"access_token": self.oauthToken, @"scope" : self.scope };
     } else if (self.credentialType==SOAccountCredentialTypeOAuth1 && self.oauth1Token!=nil && self.oauth1Secret!=nil) {

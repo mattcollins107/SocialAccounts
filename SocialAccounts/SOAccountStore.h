@@ -33,7 +33,7 @@ typedef void(^SOAccountStoreSaveCompletionHandler)(BOOL success, NSError *error)
 
 @protocol SOBaseAuthController <NSObject>
 
-@property (nonatomic, strong) UIActivityIndicatorView* activityIndicator;
+@property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
 
 - (void)dismissModalViewControllerAnimated:(BOOL)animated;
 - (void)dismiss:(id)sender;

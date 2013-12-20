@@ -20,10 +20,10 @@
 
 @interface SOOAuth2ClientViewController : SOSessionAuthViewController
 
-+ (id)controllerWithAuthUri:(NSString*)authUri redirectURI:(NSString*)uri completionHandler:(void (^)(NSDictionary* info, NSError *error))handler;
++ (instancetype)controllerWithAuthUri:(NSString *)authUri redirectURI:(NSString *)uri completionHandler:(void (^)(NSDictionary *info, NSError *error))handler;
 
 
-@property (nonatomic, strong) NSString* authUri;
-@property (nonatomic, strong) NSURL* redirectURI;
+@property (nonatomic, strong) NSString *authUri;
+@property (nonatomic, strong) NSURL *redirectURI;
 
 @end

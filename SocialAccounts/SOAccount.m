@@ -18,7 +18,7 @@
 
 @implementation SOAccount
 
-- (id)initWithAccountType:(SOAccountType *)type {
+- (instancetype)initWithAccountType:(SOAccountType *)type {
     self = [super init];
     
     if (self) {
@@ -28,7 +28,7 @@
     return self;
 }
 
-- (NSString*)identifier {
+- (NSString *)identifier {
     if (self.userId) {
         return [NSString stringWithFormat:@"%@-%@", self.accountType.identifier, self.userId];
     }

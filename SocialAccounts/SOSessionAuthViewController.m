@@ -18,11 +18,11 @@
 
 @implementation SOSessionAuthViewController
 
-+ (id)controllerWithCompletionHandler:(void (^)(NSDictionary* info, NSError *error))handler {
++ (instancetype)controllerWithCompletionHandler:(void (^)(NSDictionary* info, NSError *error))handler {
     return [[self alloc] initWithCompletionHandler:handler];
 }
 
-- (id)initWithCompletionHandler:(void (^)(NSDictionary* info, NSError *error))handler {
+- (instancetype)initWithCompletionHandler:(void (^)(NSDictionary* info, NSError *error))handler {
     
     self = [self initWithNibName:nil bundle:nil];
     if (self) {

@@ -21,12 +21,12 @@
     void (^completionBlock_)(NSDictionary *, NSError *);
 }
 
-@property (nonatomic, strong) UIActivityIndicatorView* activityIndicator;
-@property (nonatomic, strong) SOAccountType* accountType;
-@property (nonatomic, strong) UIWebView* webView;
-@property (nonatomic, strong) NSURL* loginUrl;
+@property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
+@property (nonatomic, strong) SOAccountType *accountType;
+@property (nonatomic, strong) UIWebView *webView;
+@property (nonatomic, strong) NSURL *loginUrl;
 @property (nonatomic, copy) NSString *initialHTMLString;
 
-+ (id)controllerWithCompletionHandler:(void (^)(NSDictionary* info, NSError *error))handler;
++ (instancetype)controllerWithCompletionHandler:(void (^)(NSDictionary* info, NSError *error))handler;
 
 @end

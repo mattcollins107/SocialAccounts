@@ -33,11 +33,11 @@ NSString * const SOAccountTypeIdentifierAppNet = @"com.apple.appnet";
 
 @implementation SOAccountType
 
-- (UIImage*)logo {
+- (UIImage *)logo {
     return [UIImage imageNamed:[NSString stringWithFormat:@"SocialAccounts.bundle/%@.logo.png", self.identifier]];
 }
 
-- (UIImage*)icon {
+- (UIImage *)icon {
     return [UIImage imageNamed:[NSString stringWithFormat:@"SocialAccounts.bundle/%@.icon.png", self.identifier]];
 }
 

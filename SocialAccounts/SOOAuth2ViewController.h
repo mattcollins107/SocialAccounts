@@ -20,7 +20,7 @@
 
 @interface SOOAuth2ViewController : GTMOAuth2ViewControllerTouch <SOBaseAuthController>
 
-@property (nonatomic, strong) UIActivityIndicatorView* activityIndicator;
-@property (nonatomic, strong) SOAccountType* accountType;
+@property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
+@property (nonatomic, strong) SOAccountType *accountType;
 
 @end

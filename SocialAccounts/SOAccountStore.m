@@ -37,7 +37,7 @@ NSString * const SOOAuth1RedirectURI = @"com.socialaccounts.oauth1.redirect_uri"
 @implementation SOAccountStore
 
 - (SOAccount *)accountWithIdentifier:(NSString *)identifier {
-    NSDictionary* info = [self getDictionaryForKey:identifier];
+    NSDictionary *info = [self getDictionaryForKey:identifier];
     
     SOAccountType* type = [self accountTypeWithAccountTypeIdentifier:info[@"type"]];
     SOAccount* account = [[SOAccount alloc] initWithAccountType:type];
@@ -167,10 +167,10 @@ NSString * const SOOAuth1RedirectURI = @"com.socialaccounts.oauth1.redirect_uri"
 }
 
 
-- (NSArray*)accountTypes {
-    NSMutableArray* array = [[NSMutableArray alloc] init];
+- (NSArray *)accountTypes {
+    NSMutableArray *array = [[NSMutableArray alloc] init];
     
-    SOAccountType* accountType = [[SOAccountType alloc] init];
+    SOAccountType *accountType = [[SOAccountType alloc] init];
     accountType.identifier = SOAccountTypeIdentifierInstagram;
     accountType.accountTypeDescription = @"Instagram";
     [array addObject:accountType];
@@ -268,7 +268,7 @@ NSString * const SOOAuth1RedirectURI = @"com.socialaccounts.oauth1.redirect_uri"
     [self setArray:@[] forKey:@"Accounts"];
 }
 
-- (BOOL)setDictionary:(NSDictionary*)dictionary forKey:(NSString*)key
+- (BOOL)setDictionary:(NSDictionary *)dictionary forKey:(NSString *)key
 {
 	if (dictionary == nil || key == nil) {
 		return NO;

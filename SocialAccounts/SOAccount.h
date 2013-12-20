@@ -21,7 +21,7 @@
 @interface SOAccount : NSObject
 
 // Creates a new account object with a specified account type.
-- (id)initWithAccountType:(SOAccountType *)type;
+- (instancetype)initWithAccountType:(SOAccountType *)type;
 
 // This identifier can be used to look up the account using [SOAccountStore accountWithIdentifier:].
 @property (readonly, weak, NS_NONATOMIC_IOSONLY) NSString      *identifier;
