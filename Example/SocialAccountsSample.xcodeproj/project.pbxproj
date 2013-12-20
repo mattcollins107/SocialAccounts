@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		530AF0F1186495760019998A /* SOAppNetAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 530AF0EE186495760019998A /* SOAppNetAPIClient.m */; };
+		530AF0F2186495760019998A /* SOAppNetUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 530AF0F0186495760019998A /* SOAppNetUser.m */; };
+		530AF0F8186495800019998A /* SOLinkedInAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 530AF0F5186495800019998A /* SOLinkedInAPIClient.m */; };
+		530AF0F9186495800019998A /* SOLinkedInUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 530AF0F7186495800019998A /* SOLinkedInUser.m */; };
 		530E0CAF16CB3D9A0048AAEE /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 530E0C9D16CB3D9A0048AAEE /* AFHTTPClient.m */; };
 		530E0CB016CB3D9A0048AAEE /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 530E0C9F16CB3D9A0048AAEE /* AFHTTPRequestOperation.m */; };
 		530E0CB116CB3D9A0048AAEE /* AFImageRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 530E0CA116CB3D9A0048AAEE /* AFImageRequestOperation.m */; };
@@ -78,6 +82,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		530AF0ED186495760019998A /* SOAppNetAPIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOAppNetAPIClient.h; sourceTree = "<group>"; };
+		530AF0EE186495760019998A /* SOAppNetAPIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOAppNetAPIClient.m; sourceTree = "<group>"; };
+		530AF0EF186495760019998A /* SOAppNetUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOAppNetUser.h; sourceTree = "<group>"; };
+		530AF0F0186495760019998A /* SOAppNetUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOAppNetUser.m; sourceTree = "<group>"; };
+		530AF0F4186495800019998A /* SOLinkedInAPIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOLinkedInAPIClient.h; sourceTree = "<group>"; };
+		530AF0F5186495800019998A /* SOLinkedInAPIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOLinkedInAPIClient.m; sourceTree = "<group>"; };
+		530AF0F6186495800019998A /* SOLinkedInUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOLinkedInUser.h; sourceTree = "<group>"; };
+		530AF0F7186495800019998A /* SOLinkedInUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOLinkedInUser.m; sourceTree = "<group>"; };
 		530E0C9C16CB3D9A0048AAEE /* AFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPClient.h; sourceTree = "<group>"; };
 		530E0C9D16CB3D9A0048AAEE /* AFHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPClient.m; sourceTree = "<group>"; };
 		530E0C9E16CB3D9A0048AAEE /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
@@ -224,6 +236,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		530AF0EC186495760019998A /* AppNet */ = {
+			isa = PBXGroup;
+			children = (
+				530AF0ED186495760019998A /* SOAppNetAPIClient.h */,
+				530AF0EE186495760019998A /* SOAppNetAPIClient.m */,
+				530AF0EF186495760019998A /* SOAppNetUser.h */,
+				530AF0F0186495760019998A /* SOAppNetUser.m */,
+			);
+			path = AppNet;
+			sourceTree = "<group>";
+		};
+		530AF0F3186495800019998A /* LinkedIn */ = {
+			isa = PBXGroup;
+			children = (
+				530AF0F4186495800019998A /* SOLinkedInAPIClient.h */,
+				530AF0F5186495800019998A /* SOLinkedInAPIClient.m */,
+				530AF0F6186495800019998A /* SOLinkedInUser.h */,
+				530AF0F7186495800019998A /* SOLinkedInUser.m */,
+			);
+			path = LinkedIn;
+			sourceTree = "<group>";
+		};
 		530E0C5C16CB3CFA0048AAEE /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
@@ -369,6 +403,8 @@
 		53D36F14175A545A00F5BA5A /* SocialAccounts */ = {
 			isa = PBXGroup;
 			children = (
+				530AF0F3186495800019998A /* LinkedIn */,
+				530AF0EC186495760019998A /* AppNet */,
 				53D36F15175A545A00F5BA5A /* Dribbble */,
 				53D36F1A175A545A00F5BA5A /* Facebook */,
 				53D36F1F175A545A00F5BA5A /* FiveHundredspx */,
@@ -613,11 +649,13 @@
 				5340E82716BED59300C53EF5 /* ViewController.m in Sources */,
 				538E653A16BF33C9005B6350 /* GTMOAuthAuthentication.m in Sources */,
 				538E653B16BF33C9005B6350 /* GTMOAuthSignIn.m in Sources */,
+				530AF0F8186495800019998A /* SOLinkedInAPIClient.m in Sources */,
 				538E653C16BF33C9005B6350 /* GTMOAuthViewControllerTouch.m in Sources */,
 				538E653E16BF33C9005B6350 /* GTMOAuth2Authentication.m in Sources */,
 				538E653F16BF33C9005B6350 /* GTMOAuth2SignIn.m in Sources */,
 				538E654016BF33C9005B6350 /* GTMOAuth2ViewControllerTouch.m in Sources */,
 				538E656716BF346B005B6350 /* GTMHTTPFetcher.m in Sources */,
+				530AF0F2186495760019998A /* SOAppNetUser.m in Sources */,
 				538E656816BF346B005B6350 /* GTMHTTPFetcherService.m in Sources */,
 				538E656916BF346B005B6350 /* GTMHTTPFetchHistory.m in Sources */,
 				530E0CAF16CB3D9A0048AAEE /* AFHTTPClient.m in Sources */,
@@ -628,6 +666,7 @@
 				530E0CB416CB3D9A0048AAEE /* AFPropertyListRequestOperation.m in Sources */,
 				530E0CB516CB3D9A0048AAEE /* AFURLConnectionOperation.m in Sources */,
 				530E0CB616CB3D9A0048AAEE /* AFXMLRequestOperation.m in Sources */,
+				530AF0F9186495800019998A /* SOLinkedInUser.m in Sources */,
 				530E0CB716CB3D9A0048AAEE /* UIImageView+AFNetworking.m in Sources */,
 				53D36F66175A545B00F5BA5A /* SODribbbleAPIClient.m in Sources */,
 				53D36F67175A545B00F5BA5A /* SODribbbleUser.m in Sources */,
@@ -662,6 +701,7 @@
 				53D36F85175A545B00F5BA5A /* SOVineUser.m in Sources */,
 				53D36F86175A545B00F5BA5A /* SOVotoAPIClient.m in Sources */,
 				53D36F87175A545B00F5BA5A /* SOVotoUser.m in Sources */,
+				530AF0F1186495760019998A /* SOAppNetAPIClient.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -709,7 +749,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -731,7 +771,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -746,7 +786,7 @@
 				GCC_PREFIX_HEADER = "SocialAccountsSample/SocialAccountsSample-Prefix.pch";
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "$(SRCROOT)/SocialAccountsSample/SocialAccountsSample-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -759,7 +799,7 @@
 				GCC_PREFIX_HEADER = "SocialAccountsSample/SocialAccountsSample-Prefix.pch";
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "$(SRCROOT)/SocialAccountsSample/SocialAccountsSample-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
