@@ -442,11 +442,9 @@ static NSString *const kUserEmailIsVerifiedKey    = @"isVerified";
 #pragma mark -
 
 - (void)setKeysForResponseDictionary:(NSDictionary *)dict {
-    
- //   NSLog(@"keys set ----------------------------\n%@", dict);
-
   NSString *token = [dict objectForKey:kOAuthTokenKey];
   if (token) {
+      [self setHasAccessToken:YES];
     [self setToken:token];
   }
   
@@ -479,8 +477,6 @@ static NSString *const kUserEmailIsVerifiedKey    = @"isVerified";
   if (verified) {
     [self setUserEmailIsVerified:verified];
   }
-    
-  [self setHasAccessToken:YES];
 }
 
 - (void)setKeysForResponseData:(NSData *)data {
@@ -689,7 +685,11 @@ static NSString *const kUserEmailIsVerifiedKey    = @"isVerified";
 }
 
 - (void)stopAuthorization {
- // nothing to do, since OAuth 1 authorization is synchronous
+  // nothing to do, since OAuth 1 authorization is synchronous
+}
+
+- (void)stopAuthorizationForRequest:(NSURLRequest *)request {
+  // nothing to do, since OAuth 1 authorization is synchronous
 }
 
 - (BOOL)isAuthorizingRequest:(NSURLRequest *)request {

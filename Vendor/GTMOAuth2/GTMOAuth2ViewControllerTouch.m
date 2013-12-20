@@ -24,11 +24,12 @@
 
 #if TARGET_OS_IPHONE
 
-#define GTMOAUTH2VIEWCONTROLLERTOUCH_DEFINE_GLOBALS 1
 #import "GTMOAuth2ViewControllerTouch.h"
 
 #import "GTMOAuth2SignIn.h"
 #import "GTMOAuth2Authentication.h"
+
+NSString *const kGTMOAuth2KeychainErrorDomain = @"com.google.GTMOAuthKeychain";
 
 static NSString * const kGTMOAuth2AccountName = @"OAuth";
 static GTMOAuth2Keychain* sDefaultKeychain = nil;
@@ -41,8 +42,6 @@ static GTMOAuth2Keychain* sDefaultKeychain = nil;
 - (void)signIn:(GTMOAuth2SignIn *)signIn
 finishedWithAuth:(GTMOAuth2Authentication *)auth
          error:(NSError *)error;
-- (BOOL)isNavigationBarTranslucent;
-- (void)moveWebViewFromUnderNavigationBar;
 - (void)popView;
 - (void)clearBrowserCookies;
 @end
@@ -70,6 +69,84 @@ finishedWithAuth:(GTMOAuth2Authentication *)auth
 @synthesize popViewBlock = popViewBlock_;
 #endif
 
+#if !GTM_OAUTH2_SKIP_GOOGLE_SUPPORT
++ (id)controllerWithScope:(NSString *)scope
+                 clientID:(NSString *)clientID
+             clientSecret:(NSString *)clientSecret
+         keychainItemName:(NSString *)keychainItemName
+                 delegate:(id)delegate
+         finishedSelector:(SEL)finishedSelector {
+  return [[[self alloc] initWithScope:scope
+                             clientID:clientID
+                         clientSecret:clientSecret
+                     keychainItemName:keychainItemName
+                             delegate:delegate
+                     finishedSelector:finishedSelector] autorelease];
+}
+
+- (id)initWithScope:(NSString *)scope
+           clientID:(NSString *)clientID
+       clientSecret:(NSString *)clientSecret
+   keychainItemName:(NSString *)keychainItemName
+           delegate:(id)delegate
+   finishedSelector:(SEL)finishedSelector {
+  // convenient entry point for Google authentication
+
+  Class signInClass = [[self class] signInClass];
+
+  GTMOAuth2Authentication *auth;
+  auth = [signInClass standardGoogleAuthenticationForScope:scope
+                                                  clientID:clientID
+                                              clientSecret:clientSecret];
+  NSURL *authorizationURL = [signInClass googleAuthorizationURL];
+  return [self initWithAuthentication:auth
+                     authorizationURL:authorizationURL
+                     keychainItemName:keychainItemName
+                             delegate:delegate
+                     finishedSelector:finishedSelector];
+}
+
+#if NS_BLOCKS_AVAILABLE
+
++ (id)controllerWithScope:(NSString *)scope
+                 clientID:(NSString *)clientID
+             clientSecret:(NSString *)clientSecret
+         keychainItemName:(NSString *)keychainItemName
+        completionHandler:(GTMOAuth2ViewControllerCompletionHandler)handler {
+  return [[[self alloc] initWithScope:scope
+                             clientID:clientID
+                         clientSecret:clientSecret
+                     keychainItemName:keychainItemName
+                    completionHandler:handler] autorelease];
+}
+
+- (id)initWithScope:(NSString *)scope
+           clientID:(NSString *)clientID
+       clientSecret:(NSString *)clientSecret
+   keychainItemName:(NSString *)keychainItemName
+  completionHandler:(GTMOAuth2ViewControllerCompletionHandler)handler {
+  // convenient entry point for Google authentication
+
+  Class signInClass = [[self class] signInClass];
+
+  GTMOAuth2Authentication *auth;
+  auth = [signInClass standardGoogleAuthenticationForScope:scope
+                                                  clientID:clientID
+                                              clientSecret:clientSecret];
+  NSURL *authorizationURL = [signInClass googleAuthorizationURL];
+  self = [self initWithAuthentication:auth
+                     authorizationURL:authorizationURL
+                     keychainItemName:keychainItemName
+                             delegate:nil
+                     finishedSelector:NULL];
+  if (self) {
+    completionBlock_ = [handler copy];
+  }
+  return self;
+}
+
+#endif // NS_BLOCKS_AVAILABLE
+#endif // !GTM_OAUTH2_SKIP_GOOGLE_SUPPORT
 
 + (id)controllerWithAuthentication:(GTMOAuth2Authentication *)auth
                   authorizationURL:(NSURL *)authorizationURL
@@ -128,7 +205,7 @@ finishedWithAuth:(GTMOAuth2Authentication *)auth
 + (id)controllerWithAuthentication:(GTMOAuth2Authentication *)auth
                   authorizationURL:(NSURL *)authorizationURL
                   keychainItemName:(NSString *)keychainItemName
-                 completionHandler:(void (^)(GTMOAuth2ViewControllerTouch *viewController, GTMOAuth2Authentication *auth, NSError *error))handler {
+                 completionHandler:(GTMOAuth2ViewControllerCompletionHandler)handler {
   return [[[self alloc] initWithAuthentication:auth
                               authorizationURL:authorizationURL
                               keychainItemName:keychainItemName
@@ -138,7 +215,7 @@ finishedWithAuth:(GTMOAuth2Authentication *)auth
 - (id)initWithAuthentication:(GTMOAuth2Authentication *)auth
             authorizationURL:(NSURL *)authorizationURL
             keychainItemName:(NSString *)keychainItemName
-           completionHandler:(void (^)(GTMOAuth2ViewControllerTouch *viewController, GTMOAuth2Authentication *auth, NSError *error))handler {
+           completionHandler:(GTMOAuth2ViewControllerCompletionHandler)handler {
   // fall back to the non-blocks init
   self = [self initWithAuthentication:auth
                      authorizationURL:authorizationURL
@@ -187,17 +264,48 @@ finishedWithAuth:(GTMOAuth2Authentication *)auth
   return nil;
 }
 
+#if !GTM_OAUTH2_SKIP_GOOGLE_SUPPORT
++ (GTMOAuth2Authentication *)authForGoogleFromKeychainForName:(NSString *)keychainItemName
+                                                     clientID:(NSString *)clientID
+                                                 clientSecret:(NSString *)clientSecret {
+  return [self authForGoogleFromKeychainForName:keychainItemName
+                                       clientID:clientID
+                                   clientSecret:clientSecret
+                                          error:NULL];
+}
+
++ (GTMOAuth2Authentication *)authForGoogleFromKeychainForName:(NSString *)keychainItemName
+                                                     clientID:(NSString *)clientID
+                                                 clientSecret:(NSString *)clientSecret
+                                                        error:(NSError **)error {
+  Class signInClass = [self signInClass];
+  NSURL *tokenURL = [signInClass googleTokenURL];
+  NSString *redirectURI = [signInClass nativeClientRedirectURI];
+
+  GTMOAuth2Authentication *auth;
+  auth = [GTMOAuth2Authentication authenticationWithServiceProvider:kGTMOAuth2ServiceProviderGoogle
+                                                           tokenURL:tokenURL
+                                                        redirectURI:redirectURI
+                                                           clientID:clientID
+                                                       clientSecret:clientSecret];
+  [[self class] authorizeFromKeychainForName:keychainItemName
+                              authentication:auth
+                                       error:error];
+  return auth;
+}
+
+#endif
 
 + (BOOL)authorizeFromKeychainForName:(NSString *)keychainItemName
-                      authentication:(GTMOAuth2Authentication *)newAuth {
+                      authentication:(GTMOAuth2Authentication *)newAuth
+                               error:(NSError **)error {
   newAuth.accessToken = nil;
 
   BOOL didGetTokens = NO;
   GTMOAuth2Keychain *keychain = [GTMOAuth2Keychain defaultKeychain];
   NSString *password = [keychain passwordForService:keychainItemName
                                             account:kGTMOAuth2AccountName
-                                              error:nil];
-    
+                                              error:error];
   if (password != nil) {
     [newAuth setKeysForResponseString:password];
     didGetTokens = YES;
@@ -216,15 +324,24 @@ finishedWithAuth:(GTMOAuth2Authentication *)auth
                      authentication:(GTMOAuth2Authentication *)auth {
   return [self saveParamsToKeychainForName:keychainItemName
                              accessibility:NULL
-                            authentication:auth];
+                            authentication:auth
+                                     error:NULL];
 }
 
 + (BOOL)saveParamsToKeychainForName:(NSString *)keychainItemName
                       accessibility:(CFTypeRef)accessibility
-                     authentication:(GTMOAuth2Authentication *)auth {
+                     authentication:(GTMOAuth2Authentication *)auth
+                              error:(NSError **)error {
   [self removeAuthFromKeychainForName:keychainItemName];
   // don't save unless we have a token that can really authorize requests
-  if (![auth canAuthorize]) return NO;
+  if (![auth canAuthorize]) {
+    if (error) {
+      *error = [NSError errorWithDomain:kGTMOAuth2ErrorDomain
+                                   code:kGTMOAuth2ErrorTokenUnavailable
+                               userInfo:nil];
+    }
+    return NO;
+  }
 
   if (accessibility == NULL
       && &kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly != NULL) {
@@ -238,7 +355,7 @@ finishedWithAuth:(GTMOAuth2Authentication *)auth
                     forService:keychainItemName
                  accessibility:accessibility
                        account:kGTMOAuth2AccountName
-                         error:nil];
+                         error:error];
 }
 
 - (void)loadView {
@@ -269,19 +386,25 @@ finishedWithAuth:(GTMOAuth2Authentication *)auth
 
 
 - (void)viewDidLoad {
+  [self setUpNavigation];
+}
+
+- (void)setUpNavigation {
+  rightBarButtonItem_.customView = navButtonsView_;
+  self.navigationItem.rightBarButtonItem = rightBarButtonItem_;
+    
+    if ([UIDevice currentDevice].systemVersion.floatValue >= 7) {
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
+    
 }
 
 - (void)popView {
-    [self clearBrowserCookies];
-
 #if NS_BLOCKS_AVAILABLE
   void (^popViewBlock)() = self.popViewBlock;
 #else
   id popViewBlock = nil;
 #endif
-    
-    [self dismissModalViewControllerAnimated:YES];
-    return ;
 
   if (popViewBlock || self.navigationController.topViewController == self) {
     if (!self.view.hidden) {
@@ -296,7 +419,9 @@ finishedWithAuth:(GTMOAuth2Authentication *)auth
         self.popViewBlock = nil;
 #endif
       } else {
-        [self.navigationController popViewControllerAnimated:YES];
+        [self dismissViewControllerAnimated:YES completion:^{
+            
+        }];
       }
       self.view.hidden = YES;
     }
@@ -363,6 +488,13 @@ static Class gSignInClass = Nil;
   gSignInClass = theClass;
 }
 
+#pragma mark Token Revocation
+
+#if !GTM_OAUTH2_SKIP_GOOGLE_SUPPORT
++ (void)revokeTokenForGoogleAuthentication:(GTMOAuth2Authentication *)auth {
+  [[self signInClass] revokeTokenForGoogleAuthentication:auth];
+}
+#endif
 
 #pragma mark Browser Cookies
 
@@ -486,7 +618,7 @@ static Class gSignInClass = Nil;
       //
       // Even better is for apps to check the system clock and show some more
       // helpful, localized instructions for users; this is really a fallback.
-      NSString *html = @"<html><body><div align=center><font size='7'>"
+      NSString *const html = @"<html><body><div align=center><font size='7'>"
         @"&#x231A; ?<br><i>System Clock Incorrect</i><br>%@"
         @"</font></div></body></html>";
       NSString *errHTML = [NSString stringWithFormat:html, [NSDate date]];
@@ -495,11 +627,7 @@ static Class gSignInClass = Nil;
     }
   } else {
     // request was nil.
-      [self performSelector:@selector(popView)
-                 withObject:nil
-                 afterDelay:0.5
-                    inModes:[NSArray arrayWithObject:NSRunLoopCommonModes]];
-
+    [self popView];
   }
 }
 
@@ -517,7 +645,8 @@ static Class gSignInClass = Nil;
           CFTypeRef accessibility = self.keychainItemAccessibility;
           [[self class] saveParamsToKeychainForName:keychainItemName
                                       accessibility:accessibility
-                                     authentication:auth];
+                                     authentication:auth
+                                              error:NULL];
         } else {
           // remove the auth params from the keychain
           [[self class] removeAuthFromKeychainForName:keychainItemName];
@@ -552,33 +681,17 @@ static Class gSignInClass = Nil;
   }
 }
 
-- (void)moveWebViewFromUnderNavigationBar {
-  CGRect dontCare;
-  CGRect webFrame = self.view.bounds;
-  UINavigationBar *navigationBar = self.navigationController.navigationBar;
-  CGRectDivide(webFrame, &dontCare, &webFrame,
-    navigationBar.frame.size.height, CGRectMinYEdge);
-  [self.webView setFrame:webFrame];
-}
-
-// isTranslucent is defined in iPhoneOS 3.0 on.
-- (BOOL)isNavigationBarTranslucent {
-  UINavigationBar *navigationBar = [[self navigationController] navigationBar];
-  BOOL isTranslucent =
-    ([navigationBar respondsToSelector:@selector(isTranslucent)] &&
-     [navigationBar isTranslucent]);
-  return isTranslucent;
-}
 
 #pragma mark -
 #pragma mark Protocol implementations
 
 - (void)viewWillAppear:(BOOL)animated {
+  // See the comment on clearBrowserCookies in viewWillDisappear.
+  [self clearBrowserCookies];
+
   if (!isViewShown_) {
     isViewShown_ = YES;
-    if ([self isNavigationBarTranslucent]) {
-      [self moveWebViewFromUnderNavigationBar];
-    }
+
     if (![signIn_ startSigningIn]) {
       // Can't start signing in. We must pop our view.
       // UIWebview needs time to stabilize. Animations need time to complete.
@@ -618,7 +731,8 @@ static Class gSignInClass = Nil;
   }
 
   // prevent the next sign-in from showing in the WebView that the user is
-  // already signed in
+  // already signed in.  It's possible for the WebView to set the cookies even
+  // after this, so we also clear them when the view first appears.
   [self clearBrowserCookies];
 
   [super viewWillDisappear:animated];
@@ -717,34 +831,6 @@ static Class gSignInClass = Nil;
                      inModes:[NSArray arrayWithObject:NSRunLoopCommonModes]];
   }
 }
-
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
-// When running on a device with an OS version < 6, this gets called.
-//
-// Since it is never called in iOS 6 or greater, if your min deployment
-// target is iOS6 or greater, then you don't need to have this method compiled
-// into your app.
-//
-// When running on a device with an OS version 6 or greater, this code is
-// not called. - (NSUInteger)supportedInterfaceOrientations; would be called,
-// if it existed. Since it is absent,
-// Allow the default orientations: All for iPad, all but upside down for iPhone.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-  BOOL value = YES;
-  if (!isInsideShouldAutorotateToInterfaceOrientation_) {
-    isInsideShouldAutorotateToInterfaceOrientation_ = YES;
-    UIViewController *navigationController = [self navigationController];
-    if (navigationController != nil) {
-      value = [navigationController shouldAutorotateToInterfaceOrientation:interfaceOrientation];
-    } else {
-      value = [super shouldAutorotateToInterfaceOrientation:interfaceOrientation];
-    }
-    isInsideShouldAutorotateToInterfaceOrientation_ = NO;
-  }
-  return value;
-}
-#endif
-
 
 @end
 

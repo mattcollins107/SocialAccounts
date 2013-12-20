@@ -86,10 +86,6 @@ finishedWithAuth:(GTMOAuthAuthentication *)auth
 @implementation GTMOAuthViewControllerTouch
 
 @synthesize request = request_;
-@synthesize backButton = backButton_;
-@synthesize forwardButton = forwardButton_;
-@synthesize navButtonsView = navButtonsView_;
-@synthesize rightBarButtonItem = rightBarButtonItem_;
 @synthesize keychainApplicationServiceName = keychainApplicationServiceName_;
 @synthesize initialHTMLString = initialHTMLString_;
 @synthesize browserCookiesURL = browserCookiesURL_;
@@ -241,11 +237,6 @@ finishedWithAuth:(GTMOAuthAuthentication *)auth
 
 - (void)constructView {
 // If the Interface Builder .xib is compiled in to the app, it overrides this code.
-#if GTL_CONSTRUCT_OAUTH_VIEWS_IN_SOURCE_CODE
-  static const int kButtonFontHeight = 26;
-  static const int kButtonHeight = 30;
-  static const int kButtonXMargin = 6;
-  static const int kButtonWidth = 30;
   CGRect webFrame = [[UIScreen mainScreen] applicationFrame];
   UIView *view = [[[UIView  alloc] initWithFrame:webFrame] autorelease];
   [view setAutoresizingMask:UIViewAutoresizingFlexibleLeftMargin |
@@ -266,72 +257,13 @@ finishedWithAuth:(GTMOAuthAuthentication *)auth
   [view addSubview:webView];
   [self setWebView:webView];
   [webView setDelegate:self];
+    
 
-  UIColor *normalColor = [UIColor colorWithWhite:1.0 alpha:1.0];
-  UIColor *dimColor = [UIColor colorWithRed:152./255. green:175./255. blue:243./255. alpha:0.6];
-
-  UIFont *buttonFont = [UIFont boldSystemFontOfSize:kButtonFontHeight];
-  CGRect backButtonFrame = CGRectMake(0, 0, kButtonWidth, kButtonHeight);
-  UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-  [backButton setFrame:backButtonFrame];
-  [backButton oauthCompatibilitySetFont:buttonFont];
-  [backButton setTitleColor:normalColor forState:UIControlStateNormal];
-  [backButton setTitleColor:dimColor forState:UIControlStateDisabled];
-  [backButton oauthCompatibilitySetTitleShadowOffset:CGSizeMake(0, -2)];
-  NSString *backTriangle = [NSString stringWithFormat:@"%C", (unichar)0x25C0];
-  [backButton setTitle:backTriangle forState:UIControlStateNormal];
-  [backButton addTarget:webView
-                 action:@selector(goBack)
-       forControlEvents:UIControlEventTouchUpInside];
-  [backButton setEnabled:NO];
-  [self setBackButton:backButton];
-
-  CGRect forwardButtonFrame =
-    CGRectMake(kButtonWidth+kButtonXMargin, 0, kButtonWidth, kButtonHeight);
-  UIButton *forwardButton = [UIButton buttonWithType:UIButtonTypeCustom];
-  [forwardButton setFrame:forwardButtonFrame];
-  [forwardButton oauthCompatibilitySetFont:buttonFont];
-  [forwardButton setTitleColor:normalColor forState:UIControlStateNormal];
-  [forwardButton setTitleColor:dimColor forState:UIControlStateDisabled];
-  [forwardButton oauthCompatibilitySetTitleShadowOffset:CGSizeMake(0, -2)];
-  NSString *forwardTriangle = [NSString stringWithFormat:@"%C", (unichar)0x25B6];
-  [forwardButton setTitle:forwardTriangle forState:UIControlStateNormal];
-  [forwardButton addTarget:webView
-                    action:@selector(goForward)
-          forControlEvents:UIControlEventTouchUpInside];
-  [forwardButton setEnabled:NO];
-  [self setForwardButton:forwardButton];
-
-  CGRect navFrame =
-    CGRectMake(0, 0, kButtonXMargin + 2*kButtonWidth, kButtonHeight);
-  UIView *navButtonsView = [[[UIView alloc] initWithFrame:navFrame] autorelease];
-  [navButtonsView setBackgroundColor:[UIColor clearColor]];
-  [navButtonsView addSubview:backButton];
-  [navButtonsView addSubview:forwardButton];
-  [self setNavButtonsView:navButtonsView];
-
-  UIBarButtonItem *rightBarButtonItem =
-    [[[UIBarButtonItem alloc] initWithCustomView:navButtonsView] autorelease];
-  [self setRightBarButtonItem:rightBarButtonItem];
-  [[self navigationItem] setRightBarButtonItem:rightBarButtonItem];
-#endif
 }
 
 - (void)loadView {
-  NSString *nibPath = nil;
-  NSBundle *nibBundle = [self nibBundle];
-  if (nibBundle == nil) {
-    nibBundle = [NSBundle mainBundle];
-  }
-  NSString *nibName = [self nibName];
-  if (nibName != nil) {
-    nibPath = [nibBundle pathForResource:nibName ofType:@"nib"];
-  }
-  if (nibPath != nil && [[NSFileManager defaultManager] fileExistsAtPath:nibPath]) {
-    [super loadView];
-  } else {
+
     [self constructView];
-  }
 }
 
 
@@ -520,12 +452,7 @@ finishedWithAuth:(GTMOAuthAuthentication *)auth
 }
 
 - (void)moveWebViewFromUnderNavigationBar {
-  CGRect dontCare;
-  CGRect webFrame = [[self view] bounds];
-  UINavigationBar *navigationBar = [[self navigationController] navigationBar];
-  CGRectDivide(webFrame, &dontCare, &webFrame,
-    [navigationBar frame].size.height, CGRectMinYEdge);
-  [[self webView] setFrame:webFrame];
+
 }
 
 // isTranslucent is defined in iPhoneOS 3.0 on.
@@ -643,22 +570,6 @@ finishedWithAuth:(GTMOAuthAuthentication *)auth
                     kind:kGTMOAuthWebViewFinished];
 
 }
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-  BOOL value = YES;
-  if (!isInsideShouldAutorotateToInterfaceOrientation_) {
-    isInsideShouldAutorotateToInterfaceOrientation_ = YES;
-    UIViewController *navigationController = [self navigationController];
-    if (navigationController != nil) {
-      value = [navigationController shouldAutorotateToInterfaceOrientation:interfaceOrientation];
-    } else {
-      value = [super shouldAutorotateToInterfaceOrientation:interfaceOrientation];
-    }
-    isInsideShouldAutorotateToInterfaceOrientation_ = NO;
-  }
-  return value;
-}
-
 
 @end
 

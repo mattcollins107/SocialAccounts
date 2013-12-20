@@ -65,7 +65,6 @@ _EXTERN NSString* const kGTMOAuthWebViewFinished       _INITIALIZE_AS(@"finished
 _EXTERN NSString* const kGTMOAuthWebViewFailed         _INITIALIZE_AS(@"failed");
 _EXTERN NSString* const kGTMOAuthWebViewCancelled      _INITIALIZE_AS(@"cancelled");
 
-
 _EXTERN NSString* const kGTMOAuthFetchTypeKey      _INITIALIZE_AS(@"FetchType");
 _EXTERN NSString* const kGTMOAuthFetchTypeRequest  _INITIALIZE_AS(@"request");
 _EXTERN NSString* const kGTMOAuthFetchTypeAccess   _INITIALIZE_AS(@"access");
