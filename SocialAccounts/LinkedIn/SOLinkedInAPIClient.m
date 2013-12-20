@@ -15,7 +15,6 @@
 //
 
 #import "SOLinkedInAPIClient.h"
-#import "AFJSONRequestOperation.h"
 
 static NSString * const kAFLinkedInAPIBaseURLString = @"https://api.linkedin.com/v1/";
 
@@ -37,8 +36,7 @@ static NSString * const kAFLinkedInAPIBaseURLString = @"https://api.linkedin.com
         return nil;
     }
     
-    [self registerHTTPOperationClass:[AFJSONRequestOperation class]];
-    [self setDefaultHeader:@"Accept" value:@"application/json"];
+    self.responseSerializer = [AFJSONResponseSerializer serializer];
     
     return self;
 }

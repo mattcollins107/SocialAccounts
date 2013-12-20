@@ -15,17 +15,14 @@
 //
 
 #import "SOFoursquareAPIClient.h"
-#import "AFJSONRequestOperation.h"
-
-static NSString * const kAFFoursquareAPIBaseURLString = @"https://api.foursquare.com/v2/";
 
 @implementation SOFoursquareAPIClient
 
-+ (SOFoursquareAPIClient *)sharedClient {
++ (instancetype)sharedClient {
     static SOFoursquareAPIClient *_sharedClient = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _sharedClient = [[SOFoursquareAPIClient alloc] initWithBaseURL:[NSURL URLWithString:kAFFoursquareAPIBaseURLString]];
+        _sharedClient = [[SOFoursquareAPIClient alloc] initWithBaseURL:[NSURL URLWithString:@"https://api.foursquare.com/v2/"]];
     });
     
     return _sharedClient;
@@ -37,26 +34,56 @@ static NSString * const kAFFoursquareAPIBaseURLString = @"https://api.foursquare
         return nil;
     }
     
-    [self registerHTTPOperationClass:[AFJSONRequestOperation class]];
-    [self setDefaultHeader:@"Accept" value:@"application/json"];
+    self.responseSerializer = [AFJSONResponseSerializer serializer];
     
     
     return self;
 }
 
-
-- (NSMutableURLRequest *)requestWithMethod:(NSString *)method
-                                      path:(NSString *)path
-                                parameters:(NSDictionary *)parameters {
-    
+- (AFHTTPRequestOperation *)GET:(NSString *)URLString
+                     parameters:(NSDictionary *)parameters
+                        success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+                        failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
+{
     NSMutableDictionary* params = [parameters mutableCopy];
-    [params setObject:@"20130310" forKey:@"v"];
+    params[@"v"] = @"20130310";
+
+    NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:@"GET" URLString:[[NSURL URLWithString:URLString relativeToURL:self.baseURL] absoluteString] parameters:params];
+    AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:success failure:failure];
+    [self.operationQueue addOperation:operation];
     
-    NSMutableURLRequest* request = [super requestWithMethod:method path:path parameters:params];
- 
+    return operation;
+}
+
+
+- (AFHTTPRequestOperation *)POST:(NSString *)URLString
+                      parameters:(NSDictionary *)parameters
+                         success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+                         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
+{
+    NSMutableDictionary* params = [parameters mutableCopy];
+    params[@"v"] = @"20130310";
+
+    NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:@"POST" URLString:[[NSURL URLWithString:URLString relativeToURL:self.baseURL] absoluteString] parameters:params];
+    AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:success failure:failure];
+    [self.operationQueue addOperation:operation];
     
+    return operation;
+}
+
+- (AFHTTPRequestOperation *)DELETE:(NSString *)URLString
+                        parameters:(NSDictionary *)parameters
+                           success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+                           failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
+{
+    NSMutableDictionary* params = [parameters mutableCopy];
+    params[@"v"] = @"20130310";
+
+    NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:@"DELETE" URLString:[[NSURL URLWithString:URLString relativeToURL:self.baseURL] absoluteString] parameters:params];
+    AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:success failure:failure];
+    [self.operationQueue addOperation:operation];
     
-    return request;
+    return operation;
 }
 
 

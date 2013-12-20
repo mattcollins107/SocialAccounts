@@ -15,17 +15,14 @@
 //
 
 #import "SOFacebookAPIClient.h"
-#import "AFJSONRequestOperation.h"
-
-static NSString * const kAFFacebookAPIBaseURLString = @"https://graph.facebook.com/";
 
 @implementation SOFacebookAPIClient
 
-+ (SOFacebookAPIClient *)sharedClient {
++ (instancetype)sharedClient {
     static SOFacebookAPIClient *_sharedClient = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _sharedClient = [[SOFacebookAPIClient alloc] initWithBaseURL:[NSURL URLWithString:kAFFacebookAPIBaseURLString]];
+        _sharedClient = [[SOFacebookAPIClient alloc] initWithBaseURL:[NSURL URLWithString:@"https://graph.facebook.com/"]];
     });
     
     return _sharedClient;
@@ -33,13 +30,11 @@ static NSString * const kAFFacebookAPIBaseURLString = @"https://graph.facebook.c
 
 - (id)initWithBaseURL:(NSURL *)url {
     self = [super initWithBaseURL:url];
-    if (!self) {
-        return nil;
+    if (self) {
+        self.responseSerializer = [AFJSONResponseSerializer serializer];
     }
     
-    [self registerHTTPOperationClass:[AFJSONRequestOperation class]];
-    [self setDefaultHeader:@"Accept" value:@"application/json"];
-    
+
     return self;
 }
 

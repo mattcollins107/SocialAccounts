@@ -15,17 +15,14 @@
 //
 
 #import "SOTwitterAPIClient.h"
-#import "AFJSONRequestOperation.h"
-
-static NSString * const kAFTwitterAPIBaseURLString = @"https://api.twitter.com/1.1/";
 
 @implementation SOTwitterAPIClient
 
-+ (SOTwitterAPIClient *)sharedClient {
++ (instancetype)sharedClient {
     static SOTwitterAPIClient *_sharedClient = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _sharedClient = [[SOTwitterAPIClient alloc] initWithBaseURL:[NSURL URLWithString:kAFTwitterAPIBaseURLString]];
+        _sharedClient = [[SOTwitterAPIClient alloc] initWithBaseURL:[NSURL URLWithString:@"https://api.twitter.com/1.1/"]];
     });
     
     return _sharedClient;
@@ -37,40 +34,41 @@ static NSString * const kAFTwitterAPIBaseURLString = @"https://api.twitter.com/1
         return nil;
     }
     
-    [self registerHTTPOperationClass:[AFJSONRequestOperation class]];
-    [self setDefaultHeader:@"Accept" value:@"application/json"];
+    self.responseSerializer = [AFJSONResponseSerializer serializer];
+
     
     return self;
 }
 
-- (void)getPath:(NSString *)path
-           auth:(GTMOAuthAuthentication*)auth
-     parameters:(NSDictionary *)parameters
-        success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
-        failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
+- (AFHTTPRequestOperation *)GET:(NSString *)URLString
+                           auth:(GTMOAuthAuthentication*)auth
+                     parameters:(NSDictionary *)parameters
+                        success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+                        failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
 {
-	NSURLRequest *request = [self requestWithMethod:@"GET" path:path parameters:parameters];
-    NSMutableURLRequest* urlRequest = [request mutableCopy];
+    NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:@"GET" URLString:[[NSURL URLWithString:URLString relativeToURL:self.baseURL] absoluteString] parameters:parameters];
+    [auth authorizeRequest:request];
+
+    AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:success failure:failure];
+    [self.operationQueue addOperation:operation];
     
-    [auth authorizeRequest:urlRequest];
-    
-    AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:urlRequest success:success failure:failure];
-    [self enqueueHTTPRequestOperation:operation];
+    return operation;
 }
 
-- (void)postPath:(NSString *)path
-           auth:(GTMOAuthAuthentication*)auth
-     parameters:(NSDictionary *)parameters
-        success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
-        failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
+
+- (AFHTTPRequestOperation *)POST:(NSString *)URLString
+                            auth:(GTMOAuthAuthentication*)auth
+                      parameters:(NSDictionary *)parameters
+                         success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+                         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
 {
-	NSURLRequest *request = [self requestWithMethod:@"POST" path:path parameters:parameters];
-    NSMutableURLRequest* urlRequest = [request mutableCopy];
+    NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:@"POST" URLString:[[NSURL URLWithString:URLString relativeToURL:self.baseURL] absoluteString] parameters:parameters];
+    [auth authorizeRequest:request];
+
+    AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:success failure:failure];
+    [self.operationQueue addOperation:operation];
     
-    [auth authorizeRequest:urlRequest];
-    
-    AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:urlRequest success:success failure:failure];
-    [self enqueueHTTPRequestOperation:operation];
+    return operation;
 }
 
 

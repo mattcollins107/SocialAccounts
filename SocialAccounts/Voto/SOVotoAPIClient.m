@@ -15,17 +15,14 @@
 //
 
 #import "SOVotoAPIClient.h"
-#import "AFJSONRequestOperation.h"
-
-static NSString * const kAFVotoAPIBaseURLString = @"https://votoapp.com/api/";
 
 @implementation SOVotoAPIClient
 
-+ (SOVotoAPIClient *)sharedClient {
++ (instancetype)sharedClient {
     static SOVotoAPIClient *_sharedClient = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _sharedClient = [[SOVotoAPIClient alloc] initWithBaseURL:[NSURL URLWithString:kAFVotoAPIBaseURLString]];
+        _sharedClient = [[SOVotoAPIClient alloc] initWithBaseURL:[NSURL URLWithString:@"https://votoapp.com/api/"]];
     });
     
     return _sharedClient;
@@ -37,26 +34,46 @@ static NSString * const kAFVotoAPIBaseURLString = @"https://votoapp.com/api/";
         return nil;
     }
     
-    [self registerHTTPOperationClass:[AFJSONRequestOperation class]];
-    [self setDefaultHeader:@"Accept" value:@"application/json"];
+    self.responseSerializer = [AFJSONResponseSerializer serializer];
     
     return self;
 }
 
-- (void)getPath:(NSString *)path
-    accessToken:(NSString*)accessToken
-     parameters:(NSDictionary *)parameters
-        success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
-        failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
+- (AFHTTPRequestOperation *)GET:(NSString *)URLString
+                    accessToken:(NSString*)accessToken
+                     parameters:(NSDictionary *)parameters
+                        success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+                        failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
 {
-	NSURLRequest *request = [self requestWithMethod:@"GET" path:path parameters:parameters];
-    NSMutableURLRequest* urlRequest = [request mutableCopy];
+    
+    NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:@"GET" URLString:[[NSURL URLWithString:URLString relativeToURL:self.baseURL] absoluteString] parameters:parameters];
+
+    NSString *authorization = [NSString stringWithFormat:@"OAuth %@",accessToken];
+    [request setValue:authorization forHTTPHeaderField:@"Authorization"];
+
+    AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:success failure:failure];
+    [self.operationQueue addOperation:operation];
+    
+    return operation;
+}
+
+- (AFHTTPRequestOperation *)POST:(NSString *)URLString
+                    accessToken:(NSString*)accessToken
+                     parameters:(NSDictionary *)parameters
+                        success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+                        failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
+{
+    
+    NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:@"POST" URLString:[[NSURL URLWithString:URLString relativeToURL:self.baseURL] absoluteString] parameters:parameters];
     
     NSString *authorization = [NSString stringWithFormat:@"OAuth %@",accessToken];
-    [urlRequest setValue:authorization forHTTPHeaderField:@"Authorization"];
+    [request setValue:authorization forHTTPHeaderField:@"Authorization"];
     
-    AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:urlRequest success:success failure:failure];
-    [self enqueueHTTPRequestOperation:operation];
+    AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:success failure:failure];
+    [self.operationQueue addOperation:operation];
+    
+    return operation;
 }
+
 
 @end

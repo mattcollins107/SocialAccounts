@@ -14,10 +14,10 @@
 // limitations under the License.
 //
 
-#import "AFHTTPClient.h"
+#import "AFHTTPRequestOperationManager.h"
 
-@interface SOFoursquareAPIClient : AFHTTPClient
+@interface SOFoursquareAPIClient : AFHTTPRequestOperationManager
 
-+ (SOFoursquareAPIClient *)sharedClient;
++ (instancetype)sharedClient;
 
 @end

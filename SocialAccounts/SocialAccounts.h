@@ -55,9 +55,6 @@
     #import "SODribbbleAPIClient.h"
     #import "SODribbbleUser.h"
 
-    #import "SOPinterestAPIClient.h"
-    #import "SOPinterestUser.h"
-
     #import "SOGithubAPIClient.h"
     #import "SOGithubUser.h"
 

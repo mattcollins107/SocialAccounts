@@ -14,9 +14,9 @@
 // limitations under the License.
 //
 
-#import "AFHTTPClient.h"
+#import "AFHTTPRequestOperationManager.h"
 
-@interface SOLinkedInAPIClient : AFHTTPClient
+@interface SOLinkedInAPIClient : AFHTTPRequestOperationManager
 
 + (SOLinkedInAPIClient *)sharedClient;
 

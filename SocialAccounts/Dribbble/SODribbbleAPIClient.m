@@ -15,17 +15,14 @@
 //
 
 #import "SODribbbleAPIClient.h"
-#import "AFJSONRequestOperation.h"
-
-static NSString * const kAFDribbbleAPIBaseURLString = @"http://api.dribbble.com/";
 
 @implementation SODribbbleAPIClient
 
-+ (SODribbbleAPIClient *)sharedClient {
++ (instancetype)sharedClient {
     static SODribbbleAPIClient *_sharedClient = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _sharedClient = [[SODribbbleAPIClient alloc] initWithBaseURL:[NSURL URLWithString:kAFDribbbleAPIBaseURLString]];
+        _sharedClient = [[SODribbbleAPIClient alloc] initWithBaseURL:[NSURL URLWithString:@"http://api.dribbble.com/"]];
     });
     
     return _sharedClient;
@@ -33,120 +30,40 @@ static NSString * const kAFDribbbleAPIBaseURLString = @"http://api.dribbble.com/
 
 - (id)initWithBaseURL:(NSURL *)url {
     self = [super initWithBaseURL:url];
-    if (!self) {
-        return nil;
+    if (self) {
+        self.responseSerializer = [AFJSONResponseSerializer serializer];
     }
         
     return self;
 }
 
 
-- (void)getPath:(NSString *)path
-      sessionId:(NSString *)sessionId
-      authToken:(NSString *)authToken
-     parameters:(NSDictionary *)parameters
-        success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
-        failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
+- (AFHTTPRequestOperation *)GET:(NSString *)URLString
+                      sessionId:(NSString *)sessionId
+                      authToken:(NSString *)authToken
+                     parameters:(NSDictionary *)parameters
+                        success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+                        failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
 {
-	NSURLRequest *request = [self requestWithMethod:@"GET" path:path parameters:parameters];
-    NSMutableURLRequest* urlRequest = [request mutableCopy];
+    NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:@"GET" URLString:[[NSURL URLWithString:URLString relativeToURL:self.baseURL] absoluteString] parameters:parameters];
     
     NSHTTPCookie *sessionCookie = [NSHTTPCookie cookieWithProperties:@{
-                                                  NSHTTPCookieDomain: @".dribbble.com",
-                                                    NSHTTPCookiePath: @"",
-                                                    NSHTTPCookieName: @"_dribbble_session",
-                                                   NSHTTPCookieValue: sessionId}];
+                                                                       NSHTTPCookieDomain: @".dribbble.com",
+                                                                       NSHTTPCookiePath: @"",
+                                                                       NSHTTPCookieName: @"_dribbble_session",
+                                                                       NSHTTPCookieValue: sessionId}];
     
     NSHTTPCookie *authTokenCookie = [NSHTTPCookie cookieWithProperties:@{
-                                                    NSHTTPCookieDomain: @".dribbble.com",
-                                                      NSHTTPCookiePath: @"",
-                                                      NSHTTPCookieName: @"auth_token",
-                                                     NSHTTPCookieValue: authToken}];
-    NSArray* cookies = [NSArray arrayWithObjects: sessionCookie, authTokenCookie, nil];
+                                                                         NSHTTPCookieDomain: @".dribbble.com",
+                                                                         NSHTTPCookiePath: @"",
+                                                                         NSHTTPCookieName: @"auth_token",
+                                                                         NSHTTPCookieValue: authToken}];
+    NSArray* cookies = @[sessionCookie, authTokenCookie];
     NSDictionary* headers = [NSHTTPCookie requestHeaderFieldsWithCookies:cookies];
-    [urlRequest setAllHTTPHeaderFields:headers];
+    [request setAllHTTPHeaderFields:headers];
     
-    AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:urlRequest success:success failure:failure];
-    [self enqueueHTTPRequestOperation:operation];
-}
-
-- (void)postPath:(NSString *)path
-       sessionId:(NSString *)sessionId
-       authToken:(NSString *)authToken
-       csrfToken:(NSString *)csrfToken
-      parameters:(NSDictionary *)parameters
-         success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
-         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
-{
-	NSURLRequest *request = [self requestWithMethod:@"POST" path:path parameters:parameters];
-    NSMutableURLRequest* urlRequest = [request mutableCopy];
-    
-    NSHTTPCookie *sessionCookie = [NSHTTPCookie cookieWithProperties:@{
-                                                  NSHTTPCookieDomain: @".pinterest.com",
-                                                    NSHTTPCookiePath: @"",
-                                                    NSHTTPCookieName: @"_pinterest_sess",
-                                                   NSHTTPCookieValue: sessionId}];
-    
-    NSHTTPCookie *authTokenCookie = [NSHTTPCookie cookieWithProperties:@{
-                                                    NSHTTPCookieDomain: @".pinterest.com",
-                                                      NSHTTPCookiePath: @"",
-                                                      NSHTTPCookieName: @"csrftoken",
-                                                     NSHTTPCookieValue: authToken}];
-    NSArray* cookies = [NSArray arrayWithObjects: sessionCookie, authTokenCookie, nil];
-    NSDictionary* headers = [NSHTTPCookie requestHeaderFieldsWithCookies:cookies];
-    [urlRequest setAllHTTPHeaderFields:headers];
-    
-    [urlRequest setValue:csrfToken forHTTPHeaderField:@"X-CSRFToken"];
-    [urlRequest setValue:@"XMLHttpRequest" forHTTPHeaderField:@"X-Requested-With"];
-    
-    
-    AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:urlRequest success:success failure:failure];
-    [self enqueueHTTPRequestOperation:operation];
-}
-
-- (void)deletePath:(NSString *)path
-       sessionId:(NSString *)sessionId
-         authToken:(NSString *)authToken
-       csrfToken:(NSString *)csrfToken
-      parameters:(NSDictionary *)parameters
-         success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
-         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
-{
-	NSURLRequest *request = [self requestWithMethod:@"DELETE" path:path parameters:parameters];
-    NSMutableURLRequest* urlRequest = [request mutableCopy];
-    
-    NSHTTPCookie *sessionCookie = [NSHTTPCookie cookieWithProperties:@{
-                                                  NSHTTPCookieDomain: @".pinterest.com",
-                                                    NSHTTPCookiePath: @"",
-                                                    NSHTTPCookieName: @"_pinterest_sess",
-                                                   NSHTTPCookieValue: sessionId}];
-    
-    NSHTTPCookie *authTokenCookie = [NSHTTPCookie cookieWithProperties:@{
-                                                    NSHTTPCookieDomain: @".pinterest.com",
-                                                      NSHTTPCookiePath: @"",
-                                                      NSHTTPCookieName: @"csrftoken",
-                                                     NSHTTPCookieValue: authToken}];
-    NSArray* cookies = [NSArray arrayWithObjects: sessionCookie, authTokenCookie, nil];
-    NSDictionary* headers = [NSHTTPCookie requestHeaderFieldsWithCookies:cookies];
-    [urlRequest setAllHTTPHeaderFields:headers];
-    
-    [urlRequest setValue:csrfToken forHTTPHeaderField:@"X-CSRFToken"];
-    [urlRequest setValue:@"XMLHttpRequest" forHTTPHeaderField:@"X-Requested-With"];
-    
-    AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:urlRequest success:success failure:failure];
-    [self enqueueHTTPRequestOperation:operation];
-}
-
-
-- (AFHTTPRequestOperation *)HTTPRequestOperationWithRequest:(NSURLRequest *)urlRequest
-                                                    success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
-                                                    failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
-{
-    
-    NSMutableURLRequest* request = [urlRequest mutableCopy];
-    [request setValue:@"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:20.0) Gecko/20100101 Firefox/20.0" forHTTPHeaderField:@"User-Agent"];
-    
-    AFHTTPRequestOperation* operation = [super HTTPRequestOperationWithRequest:request success:success failure:failure];
+    AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:success failure:failure];
+    [self.operationQueue addOperation:operation];
     
     return operation;
 }

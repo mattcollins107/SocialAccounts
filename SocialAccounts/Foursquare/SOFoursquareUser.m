@@ -22,17 +22,17 @@
 {
     self = [self init];
     if (self) {
-        _userId = [NSString stringWithFormat:@"%@", [dictionary objectForKey:@"id"]];
+        _userId = [NSString stringWithFormat:@"%@", dictionary[@"id"]];
         _username = @"";
         
-        if ([dictionary objectForKey:@"lastName"]==nil) {
-            _fullname = [NSString stringWithFormat:@"%@", [dictionary objectForKey:@"firstName"]];
+        if (dictionary[@"lastName"]==nil) {
+            _fullname = [NSString stringWithFormat:@"%@", dictionary[@"firstName"]];
         } else {
-            _fullname = [NSString stringWithFormat:@"%@ %@", [dictionary objectForKey:@"firstName"], [dictionary objectForKey:@"lastName"]];
+            _fullname = [NSString stringWithFormat:@"%@ %@", dictionary[@"firstName"], dictionary[@"lastName"]];
         }
         
-        if ([dictionary objectForKey:@"photo"]!=nil) {
-            _profilePicture = [NSString stringWithFormat:@"%@30x30%@", [[dictionary objectForKey:@"photo"] objectForKey:@"prefix"], [[dictionary objectForKey:@"photo"] objectForKey:@"suffix"]];
+        if (dictionary[@"photo"]!=nil) {
+            _profilePicture = [NSString stringWithFormat:@"%@30x30%@", dictionary[@"photo"][@"prefix"], dictionary[@"photo"][@"suffix"]];
         } else {
             _profilePicture = @"";
         }

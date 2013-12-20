@@ -15,17 +15,14 @@
 //
 
 #import "SOInstagramAPIClient.h"
-#import "AFJSONRequestOperation.h"
-
-static NSString * const kAFInstagramAPIBaseURLString = @"https://api.instagram.com/v1/";
 
 @implementation SOInstagramAPIClient
 
-+ (SOInstagramAPIClient *)sharedClient {
++ (instancetype)sharedClient {
     static SOInstagramAPIClient *_sharedClient = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _sharedClient = [[SOInstagramAPIClient alloc] initWithBaseURL:[NSURL URLWithString:kAFInstagramAPIBaseURLString]];
+        _sharedClient = [[SOInstagramAPIClient alloc] initWithBaseURL:[NSURL URLWithString:@"https://api.instagram.com/v1/"]];
     });
     
     return _sharedClient;
@@ -33,13 +30,10 @@ static NSString * const kAFInstagramAPIBaseURLString = @"https://api.instagram.c
 
 - (id)initWithBaseURL:(NSURL *)url {
     self = [super initWithBaseURL:url];
-    if (!self) {
-        return nil;
+    if (self) {
+         self.responseSerializer = [AFJSONResponseSerializer serializer];
     }
-    
-    [self registerHTTPOperationClass:[AFJSONRequestOperation class]];
-    [self setDefaultHeader:@"Accept" value:@"application/json"];
-    
+
     return self;
 }
 

@@ -22,10 +22,10 @@
 {
     self = [self init];
     if (self) {
-        _userId = [NSString stringWithFormat:@"%@", [dictionary objectForKey:@"id"]];
-        _username = [dictionary objectForKey:@"username"];
-        _fullname = [dictionary objectForKey:@"fullname"];
-        _profilePicture = [dictionary objectForKey:@"userpic_url"];
+        _userId = [NSString stringWithFormat:@"%@", dictionary[@"id"]];
+        _username = dictionary[@"username"];
+        _fullname = dictionary[@"fullname"];
+        _profilePicture = dictionary[@"userpic_url"];
     }
     
     return self;

@@ -16,17 +16,13 @@
 
 #import "SOTumblrAPIClient.h"
 
-#import "AFJSONRequestOperation.h"
-
-static NSString * const kAFTumblrAPIBaseURLString = @"http://api.tumblr.com/v2/";
-
 @implementation SOTumblrAPIClient
 
-+ (SOTumblrAPIClient *)sharedClient {
++ (instancetype)sharedClient {
     static SOTumblrAPIClient *_sharedClient = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _sharedClient = [[SOTumblrAPIClient alloc] initWithBaseURL:[NSURL URLWithString:kAFTumblrAPIBaseURLString]];
+        _sharedClient = [[SOTumblrAPIClient alloc] initWithBaseURL:[NSURL URLWithString:@"http://api.tumblr.com/v2/"]];
     });
     
     return _sharedClient;
@@ -38,40 +34,42 @@ static NSString * const kAFTumblrAPIBaseURLString = @"http://api.tumblr.com/v2/"
         return nil;
     }
     
-    [self registerHTTPOperationClass:[AFJSONRequestOperation class]];
-    [self setDefaultHeader:@"Accept" value:@"application/json"];
+    self.responseSerializer = [AFJSONResponseSerializer serializer];
     
     return self;
 }
 
-- (void)getPath:(NSString *)path
-           auth:(GTMOAuthAuthentication*)auth
-     parameters:(NSDictionary *)parameters
-        success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
-        failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
+
+- (AFHTTPRequestOperation *)GET:(NSString *)URLString
+                           auth:(GTMOAuthAuthentication*)auth
+                     parameters:(NSDictionary *)parameters
+                        success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+                        failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
 {
-	NSURLRequest *request = [self requestWithMethod:@"GET" path:path parameters:parameters];
-    NSMutableURLRequest* urlRequest = [request mutableCopy];
+    NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:@"GET" URLString:[[NSURL URLWithString:URLString relativeToURL:self.baseURL] absoluteString] parameters:parameters];
+    [auth authorizeRequest:request];
     
-    [auth authorizeRequest:urlRequest];
+    AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:success failure:failure];
+    [self.operationQueue addOperation:operation];
     
-    AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:urlRequest success:success failure:failure];
-    [self enqueueHTTPRequestOperation:operation];
+    return operation;
 }
 
-- (void)postPath:(NSString *)path
-            auth:(GTMOAuthAuthentication*)auth
-      parameters:(NSDictionary *)parameters
-         success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
-         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
+
+- (AFHTTPRequestOperation *)POST:(NSString *)URLString
+                            auth:(GTMOAuthAuthentication*)auth
+                      parameters:(NSDictionary *)parameters
+                         success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+                         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
 {
-	NSURLRequest *request = [self requestWithMethod:@"POST" path:path parameters:parameters];
-    NSMutableURLRequest* urlRequest = [request mutableCopy];
+    NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:@"POST" URLString:[[NSURL URLWithString:URLString relativeToURL:self.baseURL] absoluteString] parameters:parameters];
+    [auth authorizeRequest:request];
     
-    [auth authorizeRequest:urlRequest];
+    AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:success failure:failure];
+    [self.operationQueue addOperation:operation];
     
-    AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:urlRequest success:success failure:failure];
-    [self enqueueHTTPRequestOperation:operation];
+    return operation;
 }
+
 
 @end

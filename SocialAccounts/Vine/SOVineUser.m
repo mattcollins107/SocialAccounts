@@ -22,15 +22,15 @@
 {
     self = [self init];
     if (self) {
-        _userId = [NSString stringWithFormat:@"%@", [dictionary objectForKey:@"userId"]];
-        _username = [dictionary objectForKey:@"username"];
-        NSDictionary* userInfo = [dictionary objectForKey:@"user"];
+        _userId = [NSString stringWithFormat:@"%@", dictionary[@"userId"]];
+        _username = dictionary[@"username"];
+        NSDictionary* userInfo = dictionary[@"user"];
         
-        if ([userInfo objectForKey:@"location"]!=nil && [userInfo objectForKey:@"location"]!=(id)[NSNull null]) {
-            _fullname = [userInfo objectForKey:@"location"];
+        if (userInfo[@"location"]!=nil && userInfo[@"location"]!=(id)[NSNull null]) {
+            _fullname = userInfo[@"location"];
         }
         
-        _profilePicture = [[dictionary objectForKey:@"user"] objectForKey:@"avatarUrl"];
+        _profilePicture = dictionary[@"user"][@"avatarUrl"];
     }
     
     return self;

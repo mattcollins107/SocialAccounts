@@ -14,11 +14,11 @@
 // limitations under the License.
 //
 
-#import "AFHTTPClient.h"
+#import "AFHTTPRequestOperationManager.h"
 
-@interface SOAppNetAPIClient : AFHTTPClient
+@interface SOAppNetAPIClient : AFHTTPRequestOperationManager
 
-+ (SOAppNetAPIClient *)sharedClient;
++ (instancetype)sharedClient;
 
 
 

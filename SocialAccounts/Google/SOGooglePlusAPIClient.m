@@ -15,17 +15,14 @@
 //
 
 #import "SOGooglePlusAPIClient.h"
-#import "AFJSONRequestOperation.h"
-
-static NSString * const kAFGooglePlusAPIBaseURLString = @"https://www.googleapis.com/plus/v1/";
 
 @implementation SOGooglePlusAPIClient
 
-+ (SOGooglePlusAPIClient *)sharedClient {
++ (instancetype)sharedClient {
     static SOGooglePlusAPIClient *_sharedClient = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _sharedClient = [[SOGooglePlusAPIClient alloc] initWithBaseURL:[NSURL URLWithString:kAFGooglePlusAPIBaseURLString]];
+        _sharedClient = [[SOGooglePlusAPIClient alloc] initWithBaseURL:[NSURL URLWithString:@"https://www.googleapis.com/plus/v1/"]];
     });
     
     return _sharedClient;
@@ -33,30 +30,29 @@ static NSString * const kAFGooglePlusAPIBaseURLString = @"https://www.googleapis
 
 - (id)initWithBaseURL:(NSURL *)url {
     self = [super initWithBaseURL:url];
-    if (!self) {
-        return nil;
+    if (self) {
+        self.responseSerializer = [AFJSONResponseSerializer serializer];
     }
-    
-    [self registerHTTPOperationClass:[AFJSONRequestOperation class]];
-    [self setDefaultHeader:@"Accept" value:@"application/json"];
     
     return self;
 }
 
-- (void)getPath:(NSString *)path
-         auth:(GTMOAuth2Authentication*)auth
-     parameters:(NSDictionary *)parameters
-        success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
-        failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
+- (AFHTTPRequestOperation *)GET:(NSString *)URLString
+                           auth:(GTMOAuth2Authentication *)auth
+                     parameters:(NSDictionary *)parameters
+                        success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+                        failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
 {
-	NSURLRequest *request = [self requestWithMethod:@"GET" path:path parameters:parameters];
-    NSMutableURLRequest* urlRequest = [request mutableCopy];
-    
-    [auth authorizeRequest:urlRequest completionHandler:^(NSError *error) {
-        AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:urlRequest success:success failure:failure];
-        [self enqueueHTTPRequestOperation:operation];
-    }];
-}
+    NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:@"GET" URLString:[[NSURL URLWithString:URLString relativeToURL:self.baseURL] absoluteString] parameters:parameters];
+    [auth authorizeRequest:request];
 
+    AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:success failure:failure];
+    [auth authorizeRequest:request completionHandler:^(NSError *error) {
+        [self.operationQueue addOperation:operation];
+    }];
+    
+    
+    return operation;
+}
 
 @end

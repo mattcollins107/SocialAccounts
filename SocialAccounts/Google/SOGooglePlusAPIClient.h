@@ -14,17 +14,18 @@
 // limitations under the License.
 //
 
-#import "AFHTTPClient.h"
+#import "AFHTTPRequestOperationManager.h"
 #import "GTMOAuth2Authentication.h"
 
-@interface SOGooglePlusAPIClient : AFHTTPClient
+@interface SOGooglePlusAPIClient : AFHTTPRequestOperationManager
 
-+ (SOGooglePlusAPIClient *)sharedClient;
++ (instancetype)sharedClient;
 
-- (void)getPath:(NSString *)path
-         auth:(GTMOAuth2Authentication*)auth
-     parameters:(NSDictionary *)parameters
-        success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
-        failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
+- (AFHTTPRequestOperation *)GET:(NSString *)path
+                           auth:(GTMOAuth2Authentication *)auth
+                     parameters:(NSDictionary *)parameters
+                        success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+                        failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
+
 
 @end

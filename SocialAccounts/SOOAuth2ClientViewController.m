@@ -36,8 +36,17 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    NSHTTPCookieStorage *cookieStorage;
+    
+    cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    NSArray *cookies =  [cookieStorage cookies];
+    
+    for (NSHTTPCookie *cookie in cookies) {
+        [cookieStorage deleteCookie:cookie];
+    }
     
     NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.authUri]];
+    
     [self.webView loadRequest:request];
 }
 
@@ -46,25 +55,26 @@
     
     if (request.URL!=nil) {
 
-        NSUInteger length = [self.redirectURI.absoluteString length];
-        
-        NSString* url = nil;
-        if ([request.URL.absoluteString length]>length) {
-            url = [request.URL.absoluteString substringToIndex:length];
-        }
-        
-        if ([url isEqualToString:self.redirectURI.absoluteString]) {
-            NSDictionary* result = [self URLQueryParametersWithURL:request.URL];
+        if ([request.URL.absoluteString hasPrefix:self.redirectURI.absoluteString]) {
             
-            NSLog(@"got %@", [result description]);
+            if ([request.URL.absoluteString rangeOfString:@"error"].location != NSNotFound) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    NSError *error = [[NSError alloc] initWithDomain:@"OAuth2Domain" code:1 userInfo:[[NSMutableDictionary alloc] init]];
+                    completionBlock_(nil, error);
+                });
+            } else {
+                NSDictionary *result = [self URLQueryParametersWithURL:request.URL];
             
-            completionBlock_(result, nil);
-            
-            [self dismissModalViewControllerAnimated:YES];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    completionBlock_(result, nil);
+                    [self dismissModalViewControllerAnimated:YES];
+                });
+            }
             
             return NO;
         }
     }
+    
     return YES;
 }
 

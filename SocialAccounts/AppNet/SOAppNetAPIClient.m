@@ -15,17 +15,14 @@
 //
 
 #import "SOAppNetAPIClient.h"
-#import "AFJSONRequestOperation.h"
-
-static NSString * const kAFAppNetAPIBaseURLString = @"https://alpha-api.app.net/";
 
 @implementation SOAppNetAPIClient
 
-+ (SOAppNetAPIClient *)sharedClient {
++ (instancetype)sharedClient {
     static SOAppNetAPIClient *_sharedClient = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _sharedClient = [[SOAppNetAPIClient alloc] initWithBaseURL:[NSURL URLWithString:kAFAppNetAPIBaseURLString]];
+        _sharedClient = [[SOAppNetAPIClient alloc] initWithBaseURL:[NSURL URLWithString:@"https://alpha-api.app.net/"]];
     });
     
     return _sharedClient;
@@ -33,12 +30,9 @@ static NSString * const kAFAppNetAPIBaseURLString = @"https://alpha-api.app.net/
 
 - (id)initWithBaseURL:(NSURL *)url {
     self = [super initWithBaseURL:url];
-    if (!self) {
-        return nil;
+    if (self) {
+        self.responseSerializer = [AFJSONResponseSerializer serializer];
     }
-    
-    [self registerHTTPOperationClass:[AFJSONRequestOperation class]];
-    [self setDefaultHeader:@"Accept" value:@"application/json"];
     
     return self;
 }

@@ -15,9 +15,6 @@
 //
 
 #import "SOFiveHundredspxAPIClient.h"
-#import "AFJSONRequestOperation.h"
-
-static NSString * const kAFFiveHundredspxAPIBaseURLString = @"https://api.500px.com/v1/";
 
 @implementation SOFiveHundredspxAPIClient
 
@@ -25,7 +22,7 @@ static NSString * const kAFFiveHundredspxAPIBaseURLString = @"https://api.500px.
     static SOFiveHundredspxAPIClient *_sharedClient = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _sharedClient = [[SOFiveHundredspxAPIClient alloc] initWithBaseURL:[NSURL URLWithString:kAFFiveHundredspxAPIBaseURLString]];
+        _sharedClient = [[SOFiveHundredspxAPIClient alloc] initWithBaseURL:[NSURL URLWithString:@"https://api.500px.com/v1/"]];
     });
     
     return _sharedClient;
@@ -33,14 +30,59 @@ static NSString * const kAFFiveHundredspxAPIBaseURLString = @"https://api.500px.
 
 - (id)initWithBaseURL:(NSURL *)url {
     self = [super initWithBaseURL:url];
-    if (!self) {
-        return nil;
+    if (self) {
+        self.responseSerializer = [AFJSONResponseSerializer serializer];
     }
     
-    [self registerHTTPOperationClass:[AFJSONRequestOperation class]];
-    [self setDefaultHeader:@"Accept" value:@"application/json"];
-    
     return self;
+}
+
+
+- (AFHTTPRequestOperation *)GET:(NSString *)URLString
+                           auth:(GTMOAuthAuthentication*)auth
+                     parameters:(NSDictionary *)parameters
+                        success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+                        failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
+{
+    NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:@"GET" URLString:[[NSURL URLWithString:URLString relativeToURL:self.baseURL] absoluteString] parameters:parameters];
+    [auth authorizeRequest:request];
+    
+    AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:success failure:failure];
+    [self.operationQueue addOperation:operation];
+    
+    return operation;
+}
+
+
+- (AFHTTPRequestOperation *)POST:(NSString *)URLString
+                            auth:(GTMOAuthAuthentication*)auth
+                      parameters:(NSDictionary *)parameters
+                         success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+                         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
+{
+    NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:@"POST" URLString:[[NSURL URLWithString:URLString relativeToURL:self.baseURL] absoluteString] parameters:parameters];
+    [auth authorizeRequest:request];
+    
+    AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:success failure:failure];
+    [self.operationQueue addOperation:operation];
+    
+    return operation;
+}
+
+
+- (AFHTTPRequestOperation *)DELETE:(NSString *)URLString
+                            auth:(GTMOAuthAuthentication*)auth
+                      parameters:(NSDictionary *)parameters
+                         success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+                         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
+{
+    NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:@"DELETE" URLString:[[NSURL URLWithString:URLString relativeToURL:self.baseURL] absoluteString] parameters:parameters];
+    [auth authorizeRequest:request];
+    
+    AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:success failure:failure];
+    [self.operationQueue addOperation:operation];
+    
+    return operation;
 }
 
 @end

@@ -14,10 +14,10 @@
 // limitations under the License.
 //
 
-#import "AFHTTPClient.h"
+#import "AFHTTPRequestOperationManager.h"
 
-@interface SOFacebookAPIClient : AFHTTPClient
+@interface SOFacebookAPIClient : AFHTTPRequestOperationManager
 
-+ (SOFacebookAPIClient *)sharedClient;
++ (instancetype)sharedClient;
 
 @end

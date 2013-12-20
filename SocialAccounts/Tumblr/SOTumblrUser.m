@@ -23,13 +23,13 @@
 {
     self = [self init];
     if (self) {
-        _userId = [dictionary objectForKey:@"name"];
-        _username = [dictionary objectForKey:@"name"];
-        _fullname = [dictionary objectForKey:@"name"];
-        _profilePicture = [NSString stringWithFormat:@"http:/api.tumblr.com/v2/blog/%@/avatar", [dictionary objectForKey:@"name"]];
+        _userId = dictionary[@"name"];
+        _username = dictionary[@"name"];
+        _fullname = dictionary[@"name"];
+        _profilePicture = [NSString stringWithFormat:@"http:/api.tumblr.com/v2/blog/%@/avatar", dictionary[@"name"]];
         
         NSMutableArray* blogs = [NSMutableArray array];
-        for (NSDictionary* blogDict in [dictionary objectForKey:@"blogs"]) {
+        for (NSDictionary* blogDict in dictionary[@"blogs"]) {
             [blogs addObject:[[SOTumblrBlog alloc] initWithDictionary:blogDict]];
         }
         

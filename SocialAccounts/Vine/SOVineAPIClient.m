@@ -15,17 +15,14 @@
 //
 
 #import "SOVineAPIClient.h"
-#import "AFJSONRequestOperation.h"
-
-static NSString * const kAFVineAPIBaseURLString = @"https://api.vineapp.com/";
 
 @implementation SOVineAPIClient
 
-+ (SOVineAPIClient *)sharedClient {
++ (instancetype)sharedClient {
     static SOVineAPIClient *_sharedClient = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _sharedClient = [[SOVineAPIClient alloc] initWithBaseURL:[NSURL URLWithString:kAFVineAPIBaseURLString]];
+        _sharedClient = [[SOVineAPIClient alloc] initWithBaseURL:[NSURL URLWithString:@"https://api.vineapp.com/"]];
     });
     
     return _sharedClient;
@@ -33,67 +30,55 @@ static NSString * const kAFVineAPIBaseURLString = @"https://api.vineapp.com/";
 
 - (id)initWithBaseURL:(NSURL *)url {
     self = [super initWithBaseURL:url];
-    if (!self) {
-        return nil;
+    if (self) {
+        self.responseSerializer = [AFJSONResponseSerializer serializer];
+
     }
     
-    [self registerHTTPOperationClass:[AFJSONRequestOperation class]];
-    [self setDefaultHeader:@"Accept" value:@"application/json"];
-        
     return self;
 }
 
-- (void)getPath:(NSString *)path
-     sessionId:(NSString *)sessionId
-     parameters:(NSDictionary *)parameters
-        success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
-        failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
+- (AFHTTPRequestOperation *)GET:(NSString *)URLString
+                      sessionId:(NSString *)sessionId
+                     parameters:(NSDictionary *)parameters
+                        success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+                        failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
 {
-	NSURLRequest *request = [self requestWithMethod:@"GET" path:path parameters:parameters];
-    NSMutableURLRequest* urlRequest = [request mutableCopy];
-    [urlRequest setValue:sessionId forHTTPHeaderField:@"vine-session-id"];
-
-    AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:urlRequest success:success failure:failure];
-    [self enqueueHTTPRequestOperation:operation];
-}
-
-- (void)postPath:(NSString *)path
-       sessionId:(NSString *)sessionId
-      parameters:(NSDictionary *)parameters
-         success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
-         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
-{
-	NSURLRequest *request = [self requestWithMethod:@"POST" path:path parameters:parameters];
-    NSMutableURLRequest* urlRequest = [request mutableCopy];
-    [urlRequest setValue:sessionId forHTTPHeaderField:@"vine-session-id"];
-    
-    AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:urlRequest success:success failure:failure];
-    [self enqueueHTTPRequestOperation:operation];
-}
-
-- (void)deletePath:(NSString *)path
-         sessionId:(NSString *)sessionId
-        parameters:(NSDictionary *)parameters
-           success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
-           failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
-{
-	NSURLRequest *request = [self requestWithMethod:@"DELETE" path:path parameters:parameters];
-    NSMutableURLRequest* urlRequest = [request mutableCopy];
-    [urlRequest setValue:sessionId forHTTPHeaderField:@"vine-session-id"];
-    
-    AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:urlRequest success:success failure:failure];
-    [self enqueueHTTPRequestOperation:operation];
-}
-
-- (AFHTTPRequestOperation *)HTTPRequestOperationWithRequest:(NSURLRequest *)urlRequest
-                                                    success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
-                                                    failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
-{
-
-    NSMutableURLRequest* request = [urlRequest mutableCopy];
+    NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:@"GET" URLString:[[NSURL URLWithString:URLString relativeToURL:self.baseURL] absoluteString] parameters:parameters];
+    [request setValue:sessionId forHTTPHeaderField:@"vine-session-id"];
     [request setValue:@"com.vine.iphone/1.1.1 (unknown, iPhone OS 5.1.1, iPhone, Scale/2.000000)" forHTTPHeaderField:@"User-Agent"];
+    AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:success failure:failure];
+    [self.operationQueue addOperation:operation];
     
-    AFHTTPRequestOperation* operation = [super HTTPRequestOperationWithRequest:request success:success failure:failure];
+    return operation;
+}
+
+- (AFHTTPRequestOperation *)POST:(NSString *)URLString
+                       sessionId:(NSString *)sessionId
+                      parameters:(NSDictionary *)parameters
+                         success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+                         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
+{
+    NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:@"POST" URLString:[[NSURL URLWithString:URLString relativeToURL:self.baseURL] absoluteString] parameters:parameters];
+    [request setValue:sessionId forHTTPHeaderField:@"vine-session-id"];
+    [request setValue:@"com.vine.iphone/1.1.1 (unknown, iPhone OS 5.1.1, iPhone, Scale/2.000000)" forHTTPHeaderField:@"User-Agent"];
+    AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:success failure:failure];
+    [self.operationQueue addOperation:operation];
+    
+    return operation;
+}
+
+- (AFHTTPRequestOperation *)DELETE:(NSString *)URLString
+                         sessionId:(NSString *)sessionId
+                        parameters:(NSDictionary *)parameters
+                           success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+                           failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
+{
+    NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:@"DELETE" URLString:[[NSURL URLWithString:URLString relativeToURL:self.baseURL] absoluteString] parameters:parameters];
+    [request setValue:sessionId forHTTPHeaderField:@"vine-session-id"];
+    [request setValue:@"com.vine.iphone/1.1.1 (unknown, iPhone OS 5.1.1, iPhone, Scale/2.000000)" forHTTPHeaderField:@"User-Agent"];
+    AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:success failure:failure];
+    [self.operationQueue addOperation:operation];
     
     return operation;
 }

@@ -41,11 +41,9 @@
     NSArray *cookies =  [cookieStorage cookies];
     
     for (NSHTTPCookie *cookie in cookies) {
-        NSLog(@"%@ - %@", cookie.name, cookie.value);
         [cookieStorage deleteCookie:cookie];
     }
     
-    self.initialHTMLString = @"<html><body bgcolor=white><div align=center style='font-family:Arial'>Loading sign-in page...</div></body></html>";
     self.webView.scalesPageToFit = YES;
 
     self.title = [NSString stringWithFormat:NSLocalizedString(@"Login to %@", @""), self.accountType.accountTypeDescription];
@@ -56,7 +54,7 @@
     self.activityIndicator = [[UIActivityIndicatorView alloc] initWithFrame:frame];
     [self.activityIndicator sizeToFit];
     self.activityIndicator.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin |UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin);
-    self.activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
+    self.activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhite;
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.activityIndicator];
     
@@ -64,10 +62,9 @@
     [self.view addSubview:self.webView];
     self.webView.delegate = self;
     
-    
     // the app may prefer some html other than blank white to be displayed
     // before the sign-in web page loads
-    NSString *html = self.initialHTMLString;
+    NSString *html = @"<html><body bgcolor=white><div align=center style='font-family:Arial'>Loading sign-in page...</div></body></html>";
     if ([html length] > 0) {
         [[self webView] loadHTMLString:html baseURL:nil];
     }
@@ -80,18 +77,15 @@
     
 }
 
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
-    
-    [self dismiss:nil];
-}
-
-
 - (void)dismiss:(id)sender {
+    dispatch_async(dispatch_get_main_queue(), ^{
     [self dismissModalViewControllerAnimated:YES];
+    });
 }
 
 
 - (void)dealloc {
+    self.webView.delegate = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -104,9 +98,5 @@
     [self.activityIndicator stopAnimating];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
 
 @end

@@ -14,10 +14,29 @@
 // limitations under the License.
 //
 
-#import "AFHTTPClient.h"
+#import "AFHTTPRequestOperationManager.h"
+#import "GTMOAuthAuthentication.h"
 
-@interface SOFiveHundredspxAPIClient : AFHTTPClient
+@interface SOFiveHundredspxAPIClient : AFHTTPRequestOperationManager
 
-+ (SOFiveHundredspxAPIClient *)sharedClient;
++ (instancetype)sharedClient;
+
+- (AFHTTPRequestOperation *)GET:(NSString *)path
+                           auth:(GTMOAuthAuthentication*)auth
+                     parameters:(NSDictionary *)parameters
+                        success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+                        failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
+
+- (AFHTTPRequestOperation *)POST:(NSString *)URLString
+                            auth:(GTMOAuthAuthentication*)auth
+                      parameters:(NSDictionary *)parameters
+                         success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+                         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
+
+- (AFHTTPRequestOperation *)DELETE:(NSString *)URLString
+                            auth:(GTMOAuthAuthentication*)auth
+                      parameters:(NSDictionary *)parameters
+                         success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+                         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
 
 @end

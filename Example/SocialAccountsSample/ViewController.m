@@ -127,7 +127,7 @@
 {
     SOAccountStore* store = [[SOAccountStore alloc] init];
 
-    [[SOInstagramAPIClient sharedClient] getPath:@"users/self" parameters:@{@"access_token" : self.auth.accessToken} success:^(AFHTTPRequestOperation *operation, NSDictionary* response) {
+    [[SOInstagramAPIClient sharedClient] GET:@"users/self" parameters:@{@"access_token" : self.auth.accessToken} success:^(AFHTTPRequestOperation *operation, NSDictionary* response) {
         NSDictionary* profile = [response valueForKeyPath:@"data"];
         
         SOAccountType* accountType = [store accountTypeWithAccountTypeIdentifier:SOAccountTypeIdentifierInstagram];

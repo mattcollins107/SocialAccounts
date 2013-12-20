@@ -14,16 +14,22 @@
 // limitations under the License.
 //
 
-#import "AFHTTPClient.h"
+#import "AFHTTPRequestOperationManager.h"
 
-@interface SOVotoAPIClient : AFHTTPClient
+@interface SOVotoAPIClient : AFHTTPRequestOperationManager
 
-+ (SOVotoAPIClient *)sharedClient;
++ (instancetype)sharedClient;
 
-- (void)getPath:(NSString *)path
-           accessToken:(NSString*)accessToken
-     parameters:(NSDictionary *)parameters
-        success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
-        failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
+- (AFHTTPRequestOperation *)GET:(NSString *)URLString
+                    accessToken:(NSString*)accessToken
+                     parameters:(NSDictionary *)parameters
+                        success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+                        failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
+
+- (AFHTTPRequestOperation *)POST:(NSString *)URLString
+                    accessToken:(NSString*)accessToken
+                     parameters:(NSDictionary *)parameters
+                        success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+                        failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
 
 @end

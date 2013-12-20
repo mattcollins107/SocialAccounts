@@ -14,26 +14,26 @@
 // limitations under the License.
 //
 
-#import "AFHTTPClient.h"
+#import "AFHTTPRequestOperationManager.h"
 
-@interface SOVineAPIClient : AFHTTPClient
+@interface SOVineAPIClient : AFHTTPRequestOperationManager
 
-+ (SOVineAPIClient *)sharedClient;
++ (instancetype)sharedClient;
 
-- (void)getPath:(NSString *)path
+- (AFHTTPRequestOperation *)GET:(NSString *)path
       sessionId:(NSString *)sessionId
      parameters:(NSDictionary *)parameters
         success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
 
-- (void)postPath:(NSString *)path
+- (AFHTTPRequestOperation *)POST:(NSString *)path
        sessionId:(NSString *)sessionId
       parameters:(NSDictionary *)parameters
          success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
          failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
 
 
-- (void)deletePath:(NSString *)path
+- (AFHTTPRequestOperation *)DELETE:(NSString *)path
          sessionId:(NSString *)sessionId
         parameters:(NSDictionary *)parameters
            success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success

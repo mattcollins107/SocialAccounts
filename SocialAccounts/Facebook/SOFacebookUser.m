@@ -22,10 +22,10 @@
 {
     self = [self init];
     if (self) {
-        _userId = [NSString stringWithFormat:@"%@", [dictionary objectForKey:@"id"]];
+        _userId = [NSString stringWithFormat:@"%@", dictionary[@"id"]];
         _username = @"";
-        _fullname = [dictionary objectForKey:@"name"];
-        _profilePicture = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture", [dictionary objectForKey:@"id"]];
+        _fullname = dictionary[@"name"];
+        _profilePicture = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture", dictionary[@"id"]];
     }
     
     return self;

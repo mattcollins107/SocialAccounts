@@ -15,17 +15,14 @@
 //
 
 #import "SOGithubAPIClient.h"
-#import "AFJSONRequestOperation.h"
-
-static NSString * const kAFGithubAPIBaseURLString = @"https://api.github.com/";
 
 @implementation SOGithubAPIClient
 
-+ (SOGithubAPIClient *)sharedClient {
++ (instancetype)sharedClient {
     static SOGithubAPIClient *_sharedClient = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _sharedClient = [[SOGithubAPIClient alloc] initWithBaseURL:[NSURL URLWithString:kAFGithubAPIBaseURLString]];
+        _sharedClient = [[SOGithubAPIClient alloc] initWithBaseURL:[NSURL URLWithString:@"https://api.github.com/"]];
     });
     
     return _sharedClient;
@@ -37,9 +34,8 @@ static NSString * const kAFGithubAPIBaseURLString = @"https://api.github.com/";
         return nil;
     }
     
-    [self registerHTTPOperationClass:[AFJSONRequestOperation class]];
-    [self setDefaultHeader:@"Accept" value:@"application/json"];
-        
+    self.responseSerializer = [AFJSONResponseSerializer serializer];
+    
     return self;
 }
 

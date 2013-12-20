@@ -14,11 +14,11 @@
 // limitations under the License.
 //
 
-#import "AFHTTPClient.h"
+#import "AFHTTPRequestOperationManager.h"
 
-@interface SOInstagramAPIClient : AFHTTPClient
+@interface SOInstagramAPIClient : AFHTTPRequestOperationManager
 
-+ (SOInstagramAPIClient *)sharedClient;
++ (instancetype)sharedClient;
 
 
 
